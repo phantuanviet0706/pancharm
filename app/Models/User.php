@@ -12,15 +12,20 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public $ROLE_USER = 1;
+    public $ROLE_ADMIN = 2;
+    public $ROLE_SUPER_ADMIN = 3;
+
+    public $STATUS_ACTIVE = 1;
+    public $STATUS_INACTIVE = 0;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'username', 'password', 'email', 'fullname', 'avatar', 'address', 'phone', 'role'
     ];
 
     /**
@@ -30,7 +35,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'token',
     ];
 
     /**
@@ -41,5 +46,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+    ];
+
+    protected $attributes = [
+        "status" => $this::$STATUS_ACTIVE,
+        "soft_delete" => 0
     ];
 }
