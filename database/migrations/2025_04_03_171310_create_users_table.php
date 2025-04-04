@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('phone', 35)->nullable();
             $table->smallInteger('status')->default(1);
             $table->integer('role')->default(1);
-            $table->text('token');
+            $table->text('token')->nullable();
             $table->smallInteger('soft_delete')->default(0);
             $table->timestamps();
         });

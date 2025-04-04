@@ -16,8 +16,8 @@ class User extends Authenticatable
     public $ROLE_ADMIN = 2;
     public $ROLE_SUPER_ADMIN = 3;
 
-    public $STATUS_ACTIVE = 1;
-    public $STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
 
     /**
      * The attributes that are mass assignable.
@@ -49,7 +49,7 @@ class User extends Authenticatable
     ];
 
     protected $attributes = [
-        "status" => $this::$STATUS_ACTIVE,
+        "status" => self::STATUS_ACTIVE,
         "soft_delete" => 0
     ];
 }

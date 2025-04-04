@@ -10,7 +10,7 @@
 
         public function rules() {
             return [
-                'usernamename' => 'required|string|max:255|unique:users,username',
+                'username' => 'required|string|max:255|unique:users,username',
                 'password' => 'required|string|min:8',
                 'email' => 'required|email|max:255|unique:users,email',
                 'fullname' => 'nullable|string|max:100',
