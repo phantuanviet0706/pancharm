@@ -10,6 +10,43 @@
             $data['token'] = Str::random(60);
             return User::create($data);
         }
+
+		public function update(array $data, int $id) {
+			$user = User::find($id);
+			if ($user) {
+				if (isset($data['password'])) {
+					$data['password'] = bcrypt($data['password']);
+				}
+				$user->update($data);
+				return $user;
+			}
+			return null;
+		}
+
+		public function delete(int $id) {
+			$user = User::find($id);
+			if ($user) {
+				$user->delete();
+				return true;
+			}
+			return false;
+		}
+
+		public function getAll() {
+			
+		}
+
+		public function getById(int $id) {
+
+		}
+
+		public function getByEmail(string $email) {
+			
+		}
+
+		public function getByUsername(string $username) {
+			
+		}
     }
 
 ?>
