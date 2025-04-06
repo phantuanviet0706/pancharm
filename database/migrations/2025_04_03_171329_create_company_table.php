@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->text('avatar')->nullable();
-            $table->string('taxcode', 63);
+            $table->string('taxcode', 63)->nullable();
             $table->text('bank_attachment')->nullable();
             $table->timestamps();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company');
+        Schema::dropIfExists('companies');
     }
 };

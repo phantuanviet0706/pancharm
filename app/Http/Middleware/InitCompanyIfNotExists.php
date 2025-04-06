@@ -16,14 +16,13 @@ class InitCompanyIfNotExists
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // dd(Company::exists());
-        // if (!Company::exists()) {
-        //     Company::firstOrCreate(
-        //         [
-        //             'name' => 'Pancharm',
-        //         ]
-        //     );
-        // }
+        if (!Company::exists()) {
+            Company::firstOrCreate(
+                [
+                    'name' => 'Pancharm',
+                ]
+            );
+        }
         return $next($request);
     }
 }
