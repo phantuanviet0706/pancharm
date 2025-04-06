@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('person_in_charge')->nullable();
             $table->unsignedBigInteger('company_id');
             $table->foreign('person_in_charge')->references('id')->on('users');
-            $table->foreign('company_id')->references('id')->on('company');
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
     }

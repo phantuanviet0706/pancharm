@@ -2,7 +2,8 @@
 	namespace App\Http\Controllers;
 
 	use App\Http\Controllers\Controller;
-	use App\Http\Requests\CompanyRequest;
+use App\Http\Requests\CompanyInfoRequest;
+use App\Http\Requests\CompanyRequest;
 	use App\Services\CompanyService;
 	use Illuminate\Http\JsonResponse;
 
@@ -15,10 +16,10 @@
 			$this->company_service = $company_service;
 		}
 
-		public function store(CompanyRequest $request)
+		public function store(CompanyInfoRequest $request)
 		{
-			$company = $this->company_service->createCompany($request->validated());
-			return response()->json(['data' => $company, "message" => "Company created successfully"], JsonResponse::HTTP_CREATED);
+			$company_info = $this->company_service->createCompanyInfo($request->validated());
+			return response()->json(['data' => $company_info, "message" => "Company Info created successfully"], JsonResponse::HTTP_CREATED);
 		}
 	}
 ?>

@@ -1,7 +1,9 @@
 <?php
 	namespace App\Http\Requests;
 
-	class CompanyRequest extends FormRequest
+	use Illuminate\Foundation\Http\FormRequest;
+
+	class CompanyInfoRequest extends FormRequest
 	{
 		public function authorize()
 		{
