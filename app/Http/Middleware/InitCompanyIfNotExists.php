@@ -17,11 +17,7 @@ class InitCompanyIfNotExists
     public function handle(Request $request, Closure $next): Response
     {
         if (!Company::exists()) {
-            Company::firstOrCreate(
-                [
-                    'name' => 'Pancharm',
-                ]
-            );
+            Company::initNewCompany();
         }
         return $next($request);
     }
