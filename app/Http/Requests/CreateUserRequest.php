@@ -18,14 +18,14 @@
             return [];
         }
 
-        public function validatedResolved() {
+        public function prepareForValidation() {
             // Validate username
             $username = $this->input('username');
             if (Helper::isEmpty($username)) {
                 return Helper::thrownExceptionValidator('username', Translator::trans("Please fill username"));
             }
 
-            if (Helper::isLimitContent($username)) {
+            if (!Helper::isLimitContent($username)) {
                 return Helper::thrownExceptionValidator("username", Translator::trans("Username must be less than 255 characters"));
             }
 
@@ -41,7 +41,7 @@
             if (Helper::isEmpty($password)) {
                 return Helper::thrownExceptionValidator('password', Translator::trans('Please fill password'));
             }
-            if (Helper::isLimitContent($password, 8, 0)) {
+            if (!Helper::isLimitContent($password, 8, 0)) {
                 return Helper::thrownExceptionValidator('password', Translator::trans('Password must be at least 8 characters'));
             }
             if (!preg_match(self::$PATTERN_CHECK_PASSWORD, $password)) {
@@ -56,7 +56,7 @@
             if (!Helper::isEmail($email)) {
                 return Helper::thrownExceptionValidator('email', Translator::trans('Invalid email format'));
             }
-            if (Helper::isLimitContent($email)) {
+            if (!Helper::isLimitContent($email)) {
                 return Helper::thrownExceptionValidator('email', Translator::trans('Email must be less than 255 characters'));
             }
 
@@ -69,7 +69,7 @@
             
             // Validate fullname
             $fullname = $this->input('fullname');
-            if (!Helper::isEmpty($fullname) && Helper::isLimitContent($fullname, 0, 100)) {
+            if (!Helper::isEmpty($fullname) && !Helper::isLimitContent($fullname, 0, 100)) {
                 return Helper::thrownExceptionValidator('fullname', Translator::trans('User fullname must be less than 100 characters'));
             }
 
@@ -79,10 +79,10 @@
             // Validate phone
             $phone = $this->input('phone');
             if (!Helper::isEmpty($phone)) {
-                if (Helper::isLimitContent($phone, 0, 35)) {
+                if (!Helper::isLimitContent($phone, 0, 35)) {
                     return Helper::thrownExceptionValidator('phone', Translator::trans('Phone number must be less than 35 characters'));
                 }
-                if (Helper::isPhone($phone)) {
+                if (!Helper::isPhone($phone)) {
                     return Helper::thrownExceptionValidator('phone', Translator::trans('Invalid phone number format'));
                 }
             }

@@ -18,7 +18,7 @@
             return [];
         }
 
-        public function validateResolved() {
+        public function prepareForValidation() {
             $username = $this->input('username');
             if (Helper::isEmpty($username)) {
 				return Helper::thrownExceptionValidator("username",Translator::trans("Please fill username"));

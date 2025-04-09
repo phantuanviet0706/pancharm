@@ -19,8 +19,8 @@
             return [];
         }
 
-        public function validatedResolved() {
-            $user_id = $this->input('id');
+        public function prepareForValidation() {
+            $user_id = $this->route('id');
             $user = User::find($user_id);
             if (!$user) {
                 return Helper::thrownExceptionValidator('user', Translator::trans('Invalid user, please check and try again'));
@@ -59,6 +59,7 @@
                 [
                     'old_password'=> $old_password,
                     'new_password'=> $new_password,
+                    'password' => Hash::make($new_password)
                 ]
             );
         }

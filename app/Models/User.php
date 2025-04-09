@@ -12,9 +12,9 @@
 	{
 		use HasApiTokens, HasFactory, Notifiable;
 
-		public $ROLE_USER = 1;
-		public $ROLE_ADMIN = 2;
-		public $ROLE_SUPER_ADMIN = 3;
+		public static $ROLE_USER = 1;
+		public static $ROLE_ADMIN = 2;
+		public static $ROLE_SUPER_ADMIN = 3;
 
 		const STATUS_ACTIVE = 1;
 		const STATUS_INACTIVE = 0;
