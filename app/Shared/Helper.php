@@ -2,8 +2,8 @@
 
     namespace App\Shared;
 
-use Illuminate\Validation\ValidationException;
-use Str;
+    use Illuminate\Validation\ValidationException;
+    use Str;
 
     class Helper {
         public static $FAILED_CODE = 0;
@@ -77,6 +77,21 @@ use Str;
             throw ValidationException::withMessages([
                 $field => $msg
             ]);
+        }
+
+        public static function isLimitContent($str, $limit_from = 0, $limit_to = 255) {
+            $str_len = Str::length($str);
+            if ($limit_to == 0 && $str_len < $limit_from) {
+                return false;
+            }
+            if ($str_len < $limit_from || $str_len > $limit_to) {
+                return false;
+            }
+            return true;
+        }
+
+        public static function inset($var, ...$values) {
+            return in_array($var, $values);
         }
     }
 

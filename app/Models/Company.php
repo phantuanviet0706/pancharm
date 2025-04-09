@@ -1,8 +1,8 @@
 <?php
 	namespace APP\Models;
 
-use App\Shared\Helper;
-use Illuminate\Database\Eloquent\Model;
+	use App\Shared\Helper;
+	use Illuminate\Database\Eloquent\Model;
 
 	class Company extends Model
 	{

@@ -4,8 +4,8 @@
 	use Illuminate\Http\Request;
 
     interface UserRepositoryInterface {
-        public function create(array $data);
-		public function update(array $data, int $id);
+        public function create(Request $data);
+		public function update(Request $data, int $id);
 		public function delete(int $id);
 		public function getAll();
 		public function getById(int $id);

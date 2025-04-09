@@ -1,13 +1,13 @@
 <?php
     namespace App\Http\Requests;
 
-use App\Models\User;
-use App\Shared\Helper;
-use App\Shared\Translator;
-use Illuminate\Auth\Events\Validated;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+    use App\Models\User;
+    use App\Shared\Helper;
+    use App\Shared\Translator;
+    use Illuminate\Auth\Events\Validated;
+    use Illuminate\Foundation\Http\FormRequest;
+    use Illuminate\Support\Facades\Hash;
+    use Illuminate\Validation\ValidationException;
 
     class LoginRequest extends FormRequest {
         public function authorize() {

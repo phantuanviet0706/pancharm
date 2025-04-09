@@ -20,6 +20,10 @@
         return $request->user();
     });
 
+    // User routes
     Route::post('/add.user', [UserController::class, 'store']);
+    Route::post('/update.user/{id}', [UserController::class, 'updateBasicInfo']);
+    Route::post('/update.password/{id}', [UserController::class, 'updatePassword']);
+    Route::post('/delete.user/{id}', [UserController::class, 'delete']);
 
 ?>

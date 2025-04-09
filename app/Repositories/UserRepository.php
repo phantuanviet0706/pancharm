@@ -1,26 +1,26 @@
 <?php
     namespace App\Repositories;
+
     use App\Interfaces\UserRepositoryInterface;
     use App\Models\User;
 	use App\Shared\Helper;
 	use App\Shared\Translator;
 	use Illuminate\Http\Request;
 	use Illuminate\Support\Facades\Hash;
-use Str;
+	use Str;
 
     class UserRepository implements UserRepositoryInterface {
-        public function create(array $request) {
-            $request['password'] = Hash::make($request['password']);
-			return User::create($request);
+        public function create(Request $request) {
+            $request->merge([
+				'password' => Hash::make($request->input('password'))
+			]);
+			return User::create($request->all());
         }
 
-		public function update(array $data, int $id) {
+		public function update(Request $request, int $id) {
 			$user = User::find($id);
 			if ($user) {
-				if (isset($data['password'])) {
-					$data['password'] = bcrypt($data['password']);
-				}
-				$user->update($data);
+				$user->update($request->all());
 				return $user;
 			}
 			return null;

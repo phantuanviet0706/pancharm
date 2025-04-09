@@ -2,7 +2,7 @@
     namespace App\Services;
 
     use App\Interfaces\UserRepositoryInterface;
-use Illuminate\Http\Request;
+    use Illuminate\Http\Request;
 
     class UserService
     {
@@ -13,15 +13,16 @@ use Illuminate\Http\Request;
             $this->user_repo = $user_repo;
         }
 
-        public function createUser(array $data)
+        public function createUser(Request $data)
         {
             return $this->user_repo->create($data);
         }
 
-        public function updateUser(array $data, int $id)
+        public function updateUser(Request $data, int $id)
         {
             return $this->user_repo->update($data, $id);
         }
+
         public function deleteUser(int $id)
         {
             return $this->user_repo->delete($id);
