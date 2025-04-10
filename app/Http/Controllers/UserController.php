@@ -7,7 +7,8 @@
     use App\Http\Requests\UpdateUserPasswordRequest;
     use App\Http\Requests\UpdateUserRequest;
     use App\Services\UserService;
-    use Illuminate\Http\JsonResponse;
+use App\Shared\Translator;
+use Illuminate\Http\JsonResponse;
 
     class UserController extends Controller {
         protected $user_service;
@@ -46,8 +47,35 @@
         }
 
         public function login(LoginRequest $request) {
-            $code = $this->user_service->login($request);
-            return response()->json(["data"=> $code], JsonResponse::HTTP_REQUEST_TIMEOUT);
+            if ($request->user()) {
+                return response()->json([
+                    "message" => Translator::trans("Login successfully (1)"),
+                    "data" => $request->user()
+                ], JsonResponse::HTTP_OK);
+            }
+            $res = $this->user_service->login($request);
+            if ($res->code == 0) {
+                return response()->json([
+                    "message" => $res->message
+                ], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            return response()->json([
+                "message" => $res->message,
+                "data" => $res->data
+            ], JsonResponse::HTTP_OK);
+        }
+
+        public function logout(int $id) {
+            $res = $this->user_service->logout($id);
+            if ($res->code == 0) {
+                return response()->json([
+                    "message" => $res->message
+                ], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            return response()->json([
+                "message" => $res->message,
+                "data" => $res->data
+            ], JsonResponse::HTTP_OK);
         }
     }
 ?>

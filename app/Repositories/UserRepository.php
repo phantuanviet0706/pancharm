@@ -75,6 +75,20 @@
 				"token_type" => "Bearer",
 			]);
 		}
+
+		public function logout(int $id) {
+			$user = User::where("id", $id)->first();
+			if (!$user) {
+				return Helper::release(Translator::trans("Invalid user, please check and try again"));
+			}
+
+			$res = $user->currentAccessToken()->delete();
+			if (!$res) {
+				return Helper::release(Translator::trans("Logout failed, please check and try again"));
+			}
+
+			return Helper::release(Translator::trans("Logout successfully"), Helper::$SUCCESS_CODE);
+		}
     }
 
 ?>

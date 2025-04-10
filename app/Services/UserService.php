@@ -48,5 +48,9 @@
         {
             return $this->user_repo->login($request);
         }
+
+        public function logout(int $id) {
+            return $this->user_repo->logout($id);
+        }
     }
 ?>

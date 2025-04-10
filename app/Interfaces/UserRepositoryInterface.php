@@ -12,6 +12,7 @@
 		public function getByEmail(string $email);
 		public function getByUsername(string $username);
 		public function login(Request $request);
+		public function logout(int $id);
     }
 
 ?>

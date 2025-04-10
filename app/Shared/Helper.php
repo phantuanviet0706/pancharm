@@ -63,6 +63,7 @@
                 return (object) [
                     'code' => $code,
                     'message' => $msg,
+                    "data" => $data
                 ];
             }
 
