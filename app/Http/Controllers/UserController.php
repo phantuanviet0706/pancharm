@@ -2,13 +2,13 @@
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
-    use App\Http\Requests\LoginRequest;
-    use App\Http\Requests\CreateUserRequest;
-    use App\Http\Requests\UpdateUserPasswordRequest;
-    use App\Http\Requests\UpdateUserRequest;
+    use App\Http\Requests\User\LoginRequest;
+    use App\Http\Requests\User\CreateUserRequest;
+    use App\Http\Requests\User\UpdateUserPasswordRequest;
+    use App\Http\Requests\User\UpdateUserRequest;
     use App\Services\UserService;
-use App\Shared\Translator;
-use Illuminate\Http\JsonResponse;
+    use App\Shared\Translator;
+    use Illuminate\Http\JsonResponse;
 
     class UserController extends Controller {
         protected $user_service;

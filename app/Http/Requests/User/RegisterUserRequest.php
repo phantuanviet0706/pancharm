@@ -1,12 +1,12 @@
 <?php
-    namespace App\Http\Requests;
+    namespace App\Http\Requests\User;
 
     use App\Models\User;
     use App\Shared\Helper;
     use App\Shared\Translator;
     use Illuminate\Foundation\Http\FormRequest;
 
-    class CreateUserRequest extends FormRequest {
+    class RegisterUserRequest extends FormRequest {
         private static $PATTERN_CHECK_PASSWORD = '/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\'":\\\\|,.<>\/?]).+$/';
         private static $PATTERN_CHECK_EMAIL = '/^[\w\.-]+@[\w\.-]+\.\w{2,}$/';
 
