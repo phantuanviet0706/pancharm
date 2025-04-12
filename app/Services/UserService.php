@@ -49,8 +49,14 @@
             return $this->user_repo->login($request);
         }
 
-        public function logout(int $id) {
+        public function logout(int $id) 
+        {
             return $this->user_repo->logout($id);
+        }
+
+        public function register(Request $request)
+        {
+            return $this->user_repo->register($request);
         }
     }
 ?>

@@ -16,8 +16,10 @@
 		public static $ROLE_ADMIN = 2;
 		public static $ROLE_SUPER_ADMIN = 3;
 
-		const STATUS_ACTIVE = 1;
-		const STATUS_INACTIVE = 0;
+		public static $STATUS_ACTIVE = 1;
+		public static $STATUS_INACTIVE = 0;
+		public static $STATUS_PENDING_VERIFICATION = 2;
+
 
 		/**
 		 * The attributes that are mass assignable.
@@ -48,9 +50,18 @@
 		];
 
 		protected $attributes = [
-			"status" => self::STATUS_ACTIVE,
+			"status" => 1,
 			"soft_delete" => 0
 		];
+
+		protected static function boot()
+		{
+			parent::boot();
+
+			static::creating(function ($model) {
+				$model->status = $model->status ?? self::$STATUS_ACTIVE;
+			});
+		}
 	}
 
 ?>

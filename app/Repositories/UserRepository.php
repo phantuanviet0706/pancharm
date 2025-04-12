@@ -6,6 +6,7 @@
 	use App\Shared\Helper;
 	use App\Shared\Translator;
 	use Illuminate\Http\Request;
+	use Illuminate\Support\Facades\DB;
 	use Illuminate\Support\Facades\Hash;
 	use Str;
 
@@ -13,43 +14,72 @@
 		/**
 		 * Create a new user in admin page
 		 * @param \Illuminate\Http\Request $request
-		 * @return User|\Illuminate\Database\Eloquent\Model
+		 * @return object
 		 */
         public function create(Request $request) {
             $request->merge([
 				'password' => Hash::make($request->input('password'))
 			]);
-			return User::create($request->all());
+			DB::beginTransaction();
+			$user = User::create($request->all());
+			if (!$user || !$user->wasRecentlyCreated) {
+				DB::rollBack();
+				return Helper::release(Translator::trans("Cannot create user, please check and try again"));
+			}
+
+			DB::commit();
+			return Helper::release(Translator::trans("Successfully Created"), Helper::$SUCCESS_CODE, (object) [
+				"user" => $user
+			]);
         }
 
 		/**
 		 * Update user information
 		 * @param \Illuminate\Http\Request $request
 		 * @param int $id
-		 * @return \Illuminate\Database\Eloquent\Builder<User>|null
+		 * @return object
 		 */
 		public function update(Request $request, int $id) {
 			$user = User::find($id);
-			if ($user) {
-				$user->update($request->all());
-				return $user;
+			if (!$user) {
+				return Helper::release(Translator::trans("Invalid user, please check and try again"));
 			}
-			return null;
+			
+			DB::beginTransaction();
+			$updated = $user->update($request->all());
+			if (!$updated) {
+				DB::rollBack();
+				return Helper::release(Translator::trans("Cannot update user, please check and try again"));
+			}
+
+			DB::commit();
+			return Helper::release(Translator::trans("Successfully Updated"), Helper::$SUCCESS_CODE, (object) [
+				"user" => $user->fresh()
+			]);
 		}
 
 		/**
 		 * Delete an user (Make soft delete because there's reference info in other tables)
 		 * @param int $id
-		 * @return bool
+		 * @return object
 		 */
 		public function delete(int $id) {
 			$user = User::find($id)->first();
-			if ($user) {
-				$user->soft_delete = 1;
-				$user->save();
-				return true;
+			if (!$user) {
+				return Helper::release(Translator::trans("Invalid user, please check and try again"));
 			}
-			return false;
+
+			DB::beginTransaction();
+			$user->soft_delete = 1;
+			$updated = $user->save();
+			if (!$updated) {
+				DB::rollBack();
+				return Helper::release(Translator::trans("Cannot delete user, please check and try again"));
+			}
+			DB::commit();
+			return Helper::release(Translator::trans("Successfully Deleted"), Helper::$SUCCESS_CODE, (object) [
+				"user" => $user->fresh()
+			]);
 		}
 
 		/**
@@ -141,7 +171,22 @@
 		 * @return object
 		 */
 		public function register(Request $request) {
-			
+			$request->merge([
+				'password' => Hash::make($request->input('password')),
+				'status' => User::$STATUS_PENDING_VERIFICATION
+			]);
+
+			DB::beginTransaction();
+			$user = User::create($request->all());
+			if (!$user || !$user->wasRecentlyCreated) {
+				DB::rollBack();
+				return Helper::release(Translator::trans("Cannot create user, please check and try again"));
+			}
+
+			DB::commit();
+			return Helper::release(Translator::trans("Create user successfully"), Helper::$SUCCESS_CODE, (object) [
+				"user" => $user->fresh(),
+			]);
 		}
     }
 

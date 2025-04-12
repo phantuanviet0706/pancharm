@@ -82,8 +82,9 @@
 
         public static function isLimitContent($str, $limit_from = 0, $limit_to = 255) {
             $str_len = Str::length($str);
-            if ($limit_to == 0 && $str_len < $limit_from) {
-                return false;
+            if ($limit_to == 0) {
+                if ($str_len < $limit_from) return false;
+                return true;
             }
             if ($str_len < $limit_from || $str_len > $limit_to) {
                 return false;

@@ -4,8 +4,10 @@
     use App\Http\Controllers\Controller;
     use App\Http\Requests\User\LoginRequest;
     use App\Http\Requests\User\CreateUserRequest;
+    use App\Http\Requests\User\RegisterUserRequest;
     use App\Http\Requests\User\UpdateUserPasswordRequest;
     use App\Http\Requests\User\UpdateUserRequest;
+    use App\Notifications\VerifyEmailNotification;
     use App\Services\UserService;
     use App\Shared\Translator;
     use Illuminate\Http\JsonResponse;
@@ -18,32 +20,55 @@
         }
 
         public function store(CreateUserRequest $request) {
-            $user = $this->user_service->createUser($request);
-            return response()->json(['data' => $user, "message" => "User created successfully"], JsonResponse::HTTP_CREATED);
+            $res = $this->user_service->createUser($request);
+            if ($res->code == 0) {
+                return response()->json([
+                    "message" => $res->message
+                ], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            return response()->json([
+                "message" => $res->message,
+                "data" => $res->data
+            ], JsonResponse::HTTP_OK);
         }
 
         public function updateBasicInfo(UpdateUserRequest $request, $id) {
-            $user = $this->user_service->updateUser($request, $id);
-            if ($user) {
-                return response()->json(['data' => $user, "message" => "User updated successfully"], JsonResponse::HTTP_OK);
+            $res = $this->user_service->updateUser($request, $id);
+            if ($res->code == 0) {
+                return response()->json([
+                    "message" => $res->message
+                ], JsonResponse::HTTP_BAD_REQUEST);
             }
-            return response()->json(['message' => "Invalid data"], JsonResponse::HTTP_BAD_REQUEST);
+            return response()->json([
+                "message" => $res->message,
+                "data" => $res->data
+            ], JsonResponse::HTTP_OK);
         }
 
         public function updatePassword(UpdateUserPasswordRequest $request, $id) {
-            $user = $this->user_service->updateUser($request, $id);
-            if ($user) {
-                return response()->json(['data' => $user, "message" => "Update password successfully"], JsonResponse::HTTP_OK);
+            $res = $this->user_service->updateUser($request, $id);
+            if ($res->code == 0) {
+                return response()->json([
+                    "message" => $res->message
+                ], JsonResponse::HTTP_BAD_REQUEST);
             }
-            return response()->json(['message' => "Invalid data"], JsonResponse::HTTP_BAD_REQUEST);
+            return response()->json([
+                "message" => $res->message,
+                "data" => $res->data
+            ], JsonResponse::HTTP_OK);
         }
 
         public function delete($id) {
-            $is_deleted = $this->user_service->deleteUser($id);
-            if ($is_deleted) {
-                return response()->json(['message' => "User deleted successfully"], JsonResponse::HTTP_OK);
+            $res = $this->user_service->deleteUser($id);
+            if ($res->code == 0) {
+                return response()->json([
+                    "message" => $res->message
+                ], JsonResponse::HTTP_BAD_REQUEST);
             }
-            return response()->json(['message' => "Invalid data"], JsonResponse::HTTP_BAD_REQUEST);
+            return response()->json([
+                "message" => $res->message,
+                "data" => $res->data
+            ], JsonResponse::HTTP_OK);
         }
 
         public function login(LoginRequest $request) {
@@ -72,6 +97,24 @@
                     "message" => $res->message
                 ], JsonResponse::HTTP_BAD_REQUEST);
             }
+            return response()->json([
+                "message" => $res->message,
+                "data" => $res->data
+            ], JsonResponse::HTTP_OK);
+        }
+
+        public function register(RegisterUserRequest $request) {
+            $res = $this->user_service->register($request);
+            if ($res->code == 0) {
+                return response()->json([
+                    "message" => $res->message
+                ], JsonResponse::HTTP_BAD_REQUEST);
+            }
+
+            // $user = $res->data;
+            // if ($user) {
+            //     $user->notify(new VerifyEmailNotification());
+            // }
             return response()->json([
                 "message" => $res->message,
                 "data" => $res->data
