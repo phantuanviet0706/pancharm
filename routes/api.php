@@ -1,5 +1,6 @@
 <?php
 
+    use App\Http\Controllers\CompanyController;
     use App\Http\Controllers\UserController;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Route;
@@ -21,9 +22,19 @@
     });
 
     // User routes
-    Route::post('/add.user', [UserController::class, 'store']);
-    Route::post('/update.user/{id}', [UserController::class, 'updateBasicInfo']);
-    Route::post('/update.password/{id}', [UserController::class, 'updatePassword']);
-    Route::post('/delete.user/{id}', [UserController::class, 'delete']);
-
+    Route::prefix("user")->group(function() {
+        Route::post('/add.user', [UserController::class, 'store']);
+        Route::post('/update.user/{id}', [UserController::class, 'updateBasicInfo']);
+        Route::post('/update.password/{id}', [UserController::class, 'updatePassword']);
+        Route::post('/delete.user/{id}', [UserController::class, 'delete']);
+    });
+    
+    Route::prefix("company")->group(function() {
+        Route::post('/update.company', [CompanyController::class, 'updateCompanyBasicInfo']);
+        // Route::get('/get.all.companies', [CompanyController::class, 'getAllCompanies']);
+        // Route::get('/get.company.by.id/{id}', [CompanyController::class, 'getCompanyById']);
+        // Route::get('/get.company.by.user.id/{userId}', [CompanyController::class, 'getCompanyByUserId']);
+        // Route::post('/create.company.info', [CompanyController::class, 'createCompanyInfo']);
+        // Route::post('/update.company.info/{id}', [CompanyController::class, 'updateCompanyInfo']);
+    });
 ?>

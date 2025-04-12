@@ -1,8 +1,10 @@
 <?php
 	namespace App\Interfaces;
 
+	use Illuminate\Http\Request;
+
 	interface CompanyRepositoryInterface {
-		public function update(array $data, int $id);
+		public function update(Request $request);
 		public function getAll();
 		public function getById(int $id);
 		public function getByUserId(int $userId);

@@ -2,6 +2,7 @@
 	namespace App\Services;
 
 	use App\Interfaces\CompanyRepositoryInterface;
+use Illuminate\Http\Request;
 
 	class CompanyService
 	{
@@ -12,19 +13,14 @@
 			$this->company_repo = $company_repo;
 		}
 
-		public function createCompany(array $data)
+		/**
+		 * Update Company basic information
+		 * @param 
+		 * @param int $id
+		 */
+		public function updateCompany(Request $request)
 		{
-			return $this->company_repo->create($data);
-		}
-
-		public function updateCompany(array $data, int $id)
-		{
-			return $this->company_repo->update($data, $id);
-		}
-
-		public function deleteCompany(int $id)
-		{
-			return $this->company_repo->delete($id);
+			return $this->company_repo->update($request);
 		}
 
 		public function getAllCompanies()
