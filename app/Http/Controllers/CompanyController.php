@@ -2,8 +2,8 @@
 	namespace App\Http\Controllers;
 
 	use App\Http\Controllers\Controller;
-	use App\Http\Requests\CompanyInfoRequest;
-	use App\Http\Requests\CompanyRequest;
+	use App\Http\Requests\Company\CompanyInfoRequest;
+	use App\Http\Requests\Company\CompanyRequest;
 	use App\Services\CompanyService;
 	use Illuminate\Http\JsonResponse;
 
