@@ -23,9 +23,9 @@ use Illuminate\Http\Request;
 			return $this->company_repo->update($request);
 		}
 
-		public function getAllCompanies()
+		public function getAllCompanies(int $id)
 		{
-			return $this->company_repo->getAll();
+			return $this->company_repo->getAll($id);
 		}
 
 		public function getCompanyById(int $id)
@@ -61,11 +61,6 @@ use Illuminate\Http\Request;
 		public function deleteCompanyInfo(int $id)
 		{
 			return $this->company_repo->deleteCompanyInfo($id);
-		}
-
-		public function getCompanyInfoByCompanyId(int $companyId)
-		{
-			return $this->company_repo->getCompanyInfoByCompanyId($companyId);
 		}
 	}
 ?>

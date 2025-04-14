@@ -41,20 +41,45 @@
 
 		/**
 		 * @desc Create a new company info
-		 * @param array $data
-		 * @return CompanyInfo
+		 * @param \Illuminate\Http\Request $request
+		 * @return object
 		 */
-		public function createCompanyInfo(array $data) {
-			return CompanyInfo::create($data);
+		public function createCompanyInfo(Request $request) {
+			DB::beginTransaction();
+			$company_info = CompanyInfo::create($request->all());
+			if (!$company_info || !$company_info->wasRecentlyCreated) {
+				DB::rollBack();
+				return Helper::release(Translator::trans("Cannot create company info, please check and try again"));
+			}
+
+			DB::commit();
+			return Helper::release(Translator::trans("Successfully Created"), Helper::$SUCCESS_CODE, (object) [
+				"company_info" => $company_info
+			]);
 		}
 		
 		/**
-		 * @inheritDoc
+		 * @desc Update a company info
+		 * @param \Illuminate\Http\Request $request
+		 * @return object
 		 */
-		public function updateCompanyInfo(array $data, int $id) {
+		public function updateCompanyInfo(Request $request, int $id) {
 			$company_info = CompanyInfo::find($id);
-			$company_info->update($data);
-			return $company_info;
+			if (!$company_info) {
+				return Helper::release(Translator::trans("Invalid company info, please check and try again"));
+			}
+
+			DB::beginTransaction();
+			$updated = $company_info->update($request->all());
+			if (!$updated) {
+				DB::rollBack();
+				return Helper::release(Translator::trans("Cannot update company info, please check and try again"));
+			}
+
+			DB::commit();
+			return Helper::release(Translator::trans("Successfully Updated"), Helper::$SUCCESS_CODE, (object) [
+				"company_info" => $company_info->fresh()
+			]);
 		}
 		
 		/**
@@ -65,17 +90,33 @@
 		*/
 		public function deleteCompanyInfo(int $id) {
 			$company_info = CompanyInfo::where('id', $id)->first();
-			if ($company_info) {
-				$company_info->delete();
-				return $company_info;
+			if (!$company_info) {
+				return Helper::release(Translator::trans('Invalid company info, please check and try again'));
 			}
-			return false;
+
+			DB::beginTransaction();
+			$updated = $company_info->delete();
+			if (!$updated) {
+				DB::rollBack();
+				return Helper::release(Translator::trans('Cannot delete company info, please check and try again'));
+			}
+
+			DB::commit();
+			return Helper::release(Translator::trans("Successfully Deleted"), Helper::$SUCCESS_CODE, (object) [
+				"company_info" => $company_info
+			]);
 		}
 		
 		/**
-		 * @inheritDoc
+		 * @desc Get all company info by company id
+		 * @param int $id
+		 * @return object
 		 */
-		public function getAll() {
+		public function getAll(int $id) {
+			$company_infos = CompanyInfo::where("company_id", $id)->all();
+			return Helper::release(Translator::trans("Get data successfully"), Helper::$SUCCESS_CODE, (object) [
+				"company_infos" => $company_infos
+			]);
 		}
 		
 		/**
@@ -88,12 +129,6 @@
 		 * @inheritDoc
 		 */
 		public function getByUserId(int $userId) {
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function getCompanyInfoByCompanyId(int $companyId) {
 		}
 		
 		/**
