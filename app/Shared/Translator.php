@@ -37,6 +37,12 @@
             "Logout failed, please check and try again" => "Đăng xuất không thành công, vui lòng kiểm tra và thử lại",
             "Logout successfully" => "Đăng xuất thành công",
             "User has been deleted" => "Người dùng đã bị xóa",
+            "Please enter your current password" => "Vui lòng nhập mật khẩu hiện tại",
+            "The input password does not match with the current password, please check and try again" => "Mật khẩu không khớp với mật khẩu hiện tại, vui lòng kiểm tra và thử lại",
+            "Please enter a new password" => "Vui lòng nhập mật khẩu mới",
+            "New password must contain at least one uppercase letter, one number, and one special character" => "Mật khẩu mới phải chứa ít nhất một chữ cái viết hoa, một số và một ký tự đặc biệt",
+            "Please confirm your new password" => "Vui lòng xác nhận mật khẩu mới",
+            "Confirm password does not match new password" => "Mật khẩu xác nhận không khớp với mật khẩu mới",
         ];
 
         protected static $dictionary = [
