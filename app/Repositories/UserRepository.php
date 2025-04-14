@@ -99,11 +99,11 @@
 		 * @return object|User|\Illuminate\Database\Eloquent\Model|null
 		 */
 		public function getById(int $id) {
-			$user = User::where($id)->where('soft_delete', 0)->first();
+			$user = User::where("id", $id)->where('soft_delete', 0)->first();
 			if (!$user) {
 				return Helper::release(Translator::trans('Invalid user, please check and try again'));
 			}
-			if ($user->soft_delete == 0) {
+			if ($user->soft_delete == 1) {
 				return Helper::release(Translator::trans('User has been deleted'));
 			}
 			return Helper::release(Translator::trans('Get data successfully'), Helper::$SUCCESS_CODE, (object) [
@@ -121,7 +121,7 @@
 			if (!$user) {
 				return Helper::release(Translator::trans('Invalid user, please check and try again'));
 			}
-			if ($user->soft_delete == 0) {
+			if ($user->soft_delete == 1) {
 				return Helper::release(Translator::trans('User has been deleted'));
 			}
 			return Helper::release(Translator::trans('Get data successfully'), Helper::$SUCCESS_CODE, (object) [
@@ -139,7 +139,7 @@
 			if (!$user) {
 				return Helper::release(Translator::trans('Invalid user, please check and try again'));
 			}
-			if ($user->soft_delete == 0) {
+			if ($user->soft_delete == 1) {
 				return Helper::release(Translator::trans('User has been deleted'));
 			}
 			return Helper::release(Translator::trans('Get data successfully'), Helper::$SUCCESS_CODE, (object) [

@@ -34,7 +34,7 @@
         // Route::get('/get.all.companies', [CompanyController::class, 'getAllCompanies']);
         // Route::get('/get.company.by.id/{id}', [CompanyController::class, 'getCompanyById']);
         // Route::get('/get.company.by.user.id/{userId}', [CompanyController::class, 'getCompanyByUserId']);
-        // Route::post('/create.company.info', [CompanyController::class, 'createCompanyInfo']);
+        Route::post('/create.company.info', [CompanyController::class, 'storeCompanyInfo']);
         // Route::post('/update.company.info/{id}', [CompanyController::class, 'updateCompanyInfo']);
     });
 ?>

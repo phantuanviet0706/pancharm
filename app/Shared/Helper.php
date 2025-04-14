@@ -68,7 +68,7 @@
             }
 
             return (object) [
-                'code' => 1,
+                'code' => 0,
                 'message' => $msg ?? Translator::trans("The system occurs an error, please try again"),
                 "data" => $data
             ];

@@ -13,6 +13,7 @@
 		public function createCompanyInfo(Request $request);
 		public function updateCompanyInfo(Request $request, int $id);
 		public function deleteCompanyInfo(int $id);
+		public function getDefaultCompany();
 	}
 
 ?>

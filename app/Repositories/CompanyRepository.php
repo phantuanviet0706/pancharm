@@ -123,6 +123,14 @@
 		 * @inheritDoc
 		 */
 		public function getById(int $id) {
+			$company = Company::findOrFail($id);
+			if (!$company) {
+				return Helper::release(Translator::trans("Invalid company, please check and try again"));
+			}
+
+			return Helper::release(Translator::trans("Get data successfully"), Helper::$SUCCESS_CODE, (object) [
+				"company" => $company
+			]);
 		}
 		
 		/**
@@ -141,6 +149,14 @@
 		 * @inheritDoc
 		 */
 		public function getCompanyInfoByUserId(int $userId) {
+		}
+
+		public function getDefaultCompany()
+		{
+			$company = Company::initNewCompany();
+			return Helper::release(Translator::trans("Get data successfully"), Helper::$SUCCESS_CODE, (object) [
+				"company" => $company
+			]);
 		}
 	}
 ?>

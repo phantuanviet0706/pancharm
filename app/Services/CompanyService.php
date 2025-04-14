@@ -2,6 +2,7 @@
 	namespace App\Services;
 
 	use App\Interfaces\CompanyRepositoryInterface;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 	class CompanyService
@@ -48,9 +49,9 @@ use Illuminate\Http\Request;
 			return $this->company_repo->getCompanyInfoByUserId($userId);
 		}
 
-		public function createCompanyInfo(array $data)
+		public function createCompanyInfo(Request $request)
 		{
-			return $this->company_repo->createCompanyInfo($data);
+			return $this->company_repo->createCompanyInfo($request);
 		}
 
 		public function updateCompanyInfo(array $data, int $id)
@@ -61,6 +62,11 @@ use Illuminate\Http\Request;
 		public function deleteCompanyInfo(int $id)
 		{
 			return $this->company_repo->deleteCompanyInfo($id);
+		}
+
+		public function getDefaultCompany() 
+		{
+			return $this->company_repo->getDefaultCompany();
 		}
 	}
 ?>
