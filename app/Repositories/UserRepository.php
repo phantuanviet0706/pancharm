@@ -87,7 +87,10 @@
 		 * @return \Illuminate\Database\Eloquent\Collection<int, User>
 		 */
 		public function getAll() {
-			return User::latest()->all()->where('soft_delete', 0);
+			$users = User::latest()->all()->where('soft_delete', 0);
+			return Helper::release(Translator::trans('Get data successfully'), Helper::$SUCCESS_CODE, (object) [
+				"users" => $users
+			]);
 		}
 
 		/**
@@ -96,7 +99,16 @@
 		 * @return object|User|\Illuminate\Database\Eloquent\Model|null
 		 */
 		public function getById(int $id) {
-			return User::where($id)->where('soft_delete', 0)->first();
+			$user = User::where($id)->where('soft_delete', 0)->first();
+			if (!$user) {
+				return Helper::release(Translator::trans('Invalid user, please check and try again'));
+			}
+			if ($user->soft_delete == 0) {
+				return Helper::release(Translator::trans('User has been deleted'));
+			}
+			return Helper::release(Translator::trans('Get data successfully'), Helper::$SUCCESS_CODE, (object) [
+				'user'=> $user
+			]);
 		}
 
 		/**
@@ -105,7 +117,16 @@
 		 * @return object|User|\Illuminate\Database\Eloquent\Model|null
 		 */
 		public function getByEmail(string $email) {
-			return User::where('email', $email)->where('soft_delete', 0)->first();
+			$user = User::where('email', $email)->where('soft_delete', 0)->first();
+			if (!$user) {
+				return Helper::release(Translator::trans('Invalid user, please check and try again'));
+			}
+			if ($user->soft_delete == 0) {
+				return Helper::release(Translator::trans('User has been deleted'));
+			}
+			return Helper::release(Translator::trans('Get data successfully'), Helper::$SUCCESS_CODE, (object) [
+				'user'=> $user
+			]);
 		}
 
 		/**
@@ -114,7 +135,16 @@
 		 * @return object|User|\Illuminate\Database\Eloquent\Model|null
 		 */
 		public function getByUsername(string $username) {
-			return User::where('username', $username)->where('soft_delete', 0)->first();
+			$user = User::where('username', $username)->where('soft_delete', 0)->first();
+			if (!$user) {
+				return Helper::release(Translator::trans('Invalid user, please check and try again'));
+			}
+			if ($user->soft_delete == 0) {
+				return Helper::release(Translator::trans('User has been deleted'));
+			}
+			return Helper::release(Translator::trans('Get data successfully'), Helper::$SUCCESS_CODE, (object) [
+				'user'=> $user
+			]);
 		}
 
 		/**
@@ -184,7 +214,7 @@
 			}
 
 			DB::commit();
-			return Helper::release(Translator::trans("Create user successfully"), Helper::$SUCCESS_CODE, (object) [
+			return Helper::release(Translator::trans("Successfully Created"), Helper::$SUCCESS_CODE, (object) [
 				"user" => $user->fresh(),
 			]);
 		}

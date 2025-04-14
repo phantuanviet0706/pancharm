@@ -19,6 +19,11 @@
             $this->user_service = $user_service;
         }
 
+        /**
+         * Create a new User (in admin management)
+         * @param \App\Http\Requests\User\CreateUserRequest $request
+         * @return JsonResponse|mixed
+         */
         public function store(CreateUserRequest $request) {
             $res = $this->user_service->createUser($request);
             if ($res->code == 0) {
@@ -32,6 +37,12 @@
             ], JsonResponse::HTTP_OK);
         }
 
+        /**
+         * Update basic info for user (for every users)
+         * @param \App\Http\Requests\User\UpdateUserRequest $request
+         * @param mixed $id
+         * @return JsonResponse|mixed
+         */
         public function updateBasicInfo(UpdateUserRequest $request, $id) {
             $res = $this->user_service->updateUser($request, $id);
             if ($res->code == 0) {
@@ -45,6 +56,12 @@
             ], JsonResponse::HTTP_OK);
         }
 
+        /**
+         * Update password for user (for every users)
+         * @param \App\Http\Requests\User\UpdateUserPasswordRequest $request
+         * @param mixed $id
+         * @return JsonResponse|mixed
+         */
         public function updatePassword(UpdateUserPasswordRequest $request, $id) {
             $res = $this->user_service->updateUser($request, $id);
             if ($res->code == 0) {
@@ -58,6 +75,11 @@
             ], JsonResponse::HTTP_OK);
         }
 
+        /**
+         * Delete an user (soft delete user)
+         * @param mixed $id
+         * @return JsonResponse|mixed
+         */
         public function delete($id) {
             $res = $this->user_service->deleteUser($id);
             if ($res->code == 0) {
@@ -71,6 +93,11 @@
             ], JsonResponse::HTTP_OK);
         }
 
+        /**
+         * Login
+         * @param \App\Http\Requests\User\LoginRequest $request
+         * @return JsonResponse|mixed
+         */
         public function login(LoginRequest $request) {
             if ($request->user()) {
                 return response()->json([
@@ -90,6 +117,11 @@
             ], JsonResponse::HTTP_OK);
         }
 
+        /**
+         * Logout
+         * @param int $id
+         * @return JsonResponse|mixed
+         */
         public function logout(int $id) {
             $res = $this->user_service->logout($id);
             if ($res->code == 0) {
@@ -103,6 +135,11 @@
             ], JsonResponse::HTTP_OK);
         }
 
+        /**
+         * Register an user (for new user)
+         * @param \App\Http\Requests\User\RegisterUserRequest $request
+         * @return JsonResponse|mixed
+         */
         public function register(RegisterUserRequest $request) {
             $res = $this->user_service->register($request);
             if ($res->code == 0) {

@@ -29,6 +29,14 @@
             "Phone number must be less than 35 characters" => "Số điện thoại phải ít hơn 35 ký tự",
             "Invalid phone number format" => "Định dạng số điện thoại không hợp lệ",
             "Invalid user role" => "Vai trò người dùng không hợp lệ",
+            "Cannot create user, please check and try again" => "Không thể tạo người dùng, vui lòng kiểm tra và thử lại",
+            "Successfully Created" => "Đã tạo thành công",
+            "Cannot update user, please check and try again" => "Không thể cập nhật người dùng, vui lòng kiểm tra và thử lại",
+            "Cannot delete user, please check and try again" => "Không thể xóa người dùng, vui lòng kiểm tra và thử lại",
+            "Successfully Deleted" => "Đã xóa thành công",
+            "Logout failed, please check and try again" => "Đăng xuất không thành công, vui lòng kiểm tra và thử lại",
+            "Logout successfully" => "Đăng xuất thành công",
+            "User has been deleted" => "Người dùng đã bị xóa",
         ];
 
         protected static $dictionary = [
