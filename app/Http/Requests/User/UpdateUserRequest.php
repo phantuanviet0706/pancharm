@@ -1,64 +1,67 @@
 <?php
-    namespace App\Http\Requests\User;
 
-    use App\Models\User;
-    use App\Shared\Helper;
-    use App\Shared\Translator;
-    use Illuminate\Foundation\Http\FormRequest;
+namespace App\Http\Requests\User;
 
-    class UpdateUserRequest extends FormRequest {
-        private static $PATTERN_CHECK_PASSWORD = '/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\'":\\\\|,.<>\/?]).+$/';
-        private static $PATTERN_CHECK_EMAIL = '/^[\w\.-]+@[\w\.-]+\.\w{2,}$/';
+use App\Models\User;
+use App\Shared\Helper;
+use App\Shared\Translator;
+use Illuminate\Foundation\Http\FormRequest;
 
-        public function authorize() {
-            return true;
-        }
+class UpdateUserRequest extends FormRequest
+{
+    private static $PATTERN_CHECK_PASSWORD = '/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\'":\\\\|,.<>\/?]).+$/';
+    private static $PATTERN_CHECK_EMAIL = '/^[\w\.-]+@[\w\.-]+\.\w{2,}$/';
 
-        public function rules() {
-            return [];
-        }
-
-        public function prepareForValidation() {
-            // Validate fullname
-            $fullname = $this->input('fullname');
-            if (!Helper::isEmpty($fullname) && !Helper::isLimitContent($fullname, 0, 100)) {
-                return Helper::thrownExceptionValidator('fullname', Translator::trans('User fullname must be less than 100 characters'));
-            }
-
-            $avatar = $this->input('avatar');
-            $address = $this->input('address');
-
-            // Validate phone
-            $phone = $this->input('phone');
-            if (!Helper::isEmpty($phone)) {
-                if (!Helper::isLimitContent($phone, 0, 35)) {
-                    return Helper::thrownExceptionValidator('phone', Translator::trans('Phone number must be less than 35 characters'));
-                }
-                if (!Helper::isPhone($phone)) {
-                    return Helper::thrownExceptionValidator('phone', Translator::trans('Invalid phone number format'));
-                }
-            }
-
-            $params = [
-                'fullname' => $fullname,
-                'avatar' => $avatar,
-                'address' => $address,
-                'phone' => $phone,
-            ];
-
-            // Validate user role
-            $role = $this->input('role');
-            if (!Helper::isEmpty($role)) {
-                if (!Helper::inset($role, User::$ROLE_USER, User::$ROLE_ADMIN, User::$ROLE_SUPER_ADMIN)) {
-                    return Helper::thrownExceptionValidator('role', Translator::trans('Invalid user role'));
-                }
-                $params['role'] = $role;
-            }
-
-            $this->merge(
-                $params
-            );
-        }
+    public function authorize()
+    {
+        return true;
     }
 
-?>
+    public function rules()
+    {
+        return [];
+    }
+
+    public function prepareForValidation()
+    {
+        // Validate fullname
+        $fullname = $this->input('fullname');
+        if (!Helper::isEmpty($fullname) && !Helper::isLimitContent($fullname, 0, 100)) {
+            return Helper::thrownExceptionValidator('fullname', Translator::trans('User fullname must be less than 100 characters'));
+        }
+
+        $avatar = $this->input('avatar');
+        $address = $this->input('address');
+
+        // Validate phone
+        $phone = $this->input('phone');
+        if (!Helper::isEmpty($phone)) {
+            if (!Helper::isLimitContent($phone, 0, 35)) {
+                return Helper::thrownExceptionValidator('phone', Translator::trans('Phone number must be less than 35 characters'));
+            }
+            if (!Helper::isPhone($phone)) {
+                return Helper::thrownExceptionValidator('phone', Translator::trans('Invalid phone number format'));
+            }
+        }
+
+        $params = [
+            'fullname' => $fullname,
+            'avatar' => $avatar,
+            'address' => $address,
+            'phone' => $phone,
+        ];
+
+        // Validate user role
+        $role = $this->input('role');
+        if (!Helper::isEmpty($role)) {
+            if (!Helper::inset($role, User::$ROLE_USER, User::$ROLE_ADMIN, User::$ROLE_SUPER_ADMIN)) {
+                return Helper::thrownExceptionValidator('role', Translator::trans('Invalid user role'));
+            }
+            $params['role'] = $role;
+        }
+
+        $this->merge(
+            $params
+        );
+    }
+}
