@@ -106,9 +106,9 @@ class Helper
         return in_array($var, $values);
     }
 
-    public static function generateSlug($prefix, $object)
+    public static function generateSlug($prefix, $id)
     {
-        $number_str = strval($object->id);
+        $number_str = strval($id);
         $padding_length = max(0, 9 - strlen($number_str));
         $padding = str_repeat('0', $padding_length) . $number_str;
         return $prefix . $padding;

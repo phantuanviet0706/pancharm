@@ -24,12 +24,12 @@ class CategoryRepository implements CategoryRepositoryInterface
             return Helper::release(Translator::trans("Cannot create category, please check and try again"));
         }
 
-        if (Helper::isEmpty($category->slug)) {
-            $category->slug = Helper::generateSlug(Category::$DB_SHORT, $category->id);
-            $category->save();
+        $slug = $request->input("slug");
+        if (Helper::isEmpty($slug)) {
+            $slug = Helper::generateSlug(Category::$DB_SHORT, $category->id);
         }
         $updated = $category->update([
-            "slug" => $category->slug
+            "slug" => $slug
         ]);
         if (!$updated) {
             DB::rollBack();
