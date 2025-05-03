@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug', 63)->nullable()->unique();
             $table->integer('parent_id')->nullable();
-            $table->integer('soft_delete')->default(0);
+            $table->smallInteger('soft_delete')->default(0);
             $table->timestamps();
         });
     }

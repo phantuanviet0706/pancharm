@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,4 +43,13 @@ Route::prefix("company")->group(function () {
 Route::prefix("category")->group(function () {
     Route::post('/create', [CategoryController::class, 'storeCategory']);
     Route::post('/update/{id}', [CategoryController::class, 'updateCategory']);
+});
+
+Route::prefix("product")->group(function () {
+    Route::post('/create', [ProductController::class, 'storeProduct']);
+    // Route::post('/update/{id}', [ProductController::class, 'updateProduct']);
+    // Route::post('/delete/{id}', [ProductController::class, 'deleteProduct']);
+    // Route::get('/get.all.products', [ProductController::class, 'getAllProducts']);
+    // Route::get('/get.product.by.id/{id}', [ProductController::class, 'getProductById']);
+    // Route::get('/get.product.by.category.id/{categoryId}', [ProductController::class, 'getProductByCategoryId']);
 });

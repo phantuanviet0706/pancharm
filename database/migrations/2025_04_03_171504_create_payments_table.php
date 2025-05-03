@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->string('payment_method', 63);
             $table->float('amount');
-            $table->integer('status');
+            $table->integer('status')->default(1);
             $table->integer('paid_at');
             $table->string('transaction_code', 100);
             $table->string('resource_path');

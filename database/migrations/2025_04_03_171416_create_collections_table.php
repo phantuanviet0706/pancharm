@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug', 63)->unique();
-            $table->integer('status');
+            $table->string('slug', 63)->unique()->nullable();
+            $table->integer('status')->default(1);
             $table->text('description')->nullable();
+            $table->smallInteger('soft_deleted')->default(0);
             $table->timestamps();
         });
     }
