@@ -26,6 +26,7 @@ public enum ErrorCode {
 	USER_NOT_FOUND(1003, "User not found", HttpStatus.NOT_FOUND),
 
 	COMPANY_NOT_FOUND(1004, "Company not found", HttpStatus.NOT_FOUND),
+	COMPANY_INFO_NOT_FOUND(1004, "Cannot found company info", HttpStatus.NOT_FOUND),
 
 	UPDATE_ERROR(1998, "Cannot update object, please check and try again", HttpStatus.BAD_REQUEST),
 	UNAUTHENTICATED(1999, "Unauthenticated", HttpStatus.UNAUTHORIZED),

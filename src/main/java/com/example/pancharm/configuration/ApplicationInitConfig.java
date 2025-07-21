@@ -42,8 +42,7 @@ public class ApplicationInitConfig {
 	static String SUPER_ADMIN_PASSWORD = "admin";
 
 	@NonFinal
-	@Value("${spring.application.name}")
-	static String COMPANY_NAME;
+	static String COMPANY_NAME = "Pancharm";
 
 	@Bean
 	@ConditionalOnProperty(
