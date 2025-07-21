@@ -1,5 +1,6 @@
 package com.example.pancharm.entity;
 
+import com.example.pancharm.constant.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -28,17 +29,23 @@ public class Products extends BaseEntity {
 
 	int quantity;
 
-	int unit_price;
+	@Column(name = "unit_price")
+	int unitPrice;
 
 	@Column(length = 10)
 	String color;
 
-	int status;
+	@Builder.Default
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	ProductStatus status = ProductStatus.ACTIVE;
 
 	@Column(columnDefinition = "TEXT")
 	String description;
 
-	short soft_deleted;
+	@Builder.Default
+	@Column(name = "soft_deleted")
+	short softDeleted = 0;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")

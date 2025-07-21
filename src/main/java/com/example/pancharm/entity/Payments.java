@@ -1,9 +1,12 @@
 package com.example.pancharm.entity;
 
+import com.example.pancharm.constant.PaymentMethodStatus;
+import com.example.pancharm.constant.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 
 @Getter
 @Setter
@@ -18,19 +21,26 @@ public class Payments extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	@Column(length = 63)
-	String payment_method;
+	@Builder.Default
+	@Enumerated(EnumType.STRING)
+	@Column(name = "payment_method", length = 63, nullable = false)
+	PaymentMethodStatus paymentMethod = PaymentMethodStatus.CASH;
 
 	float amount;
 
-	int status;
+	@Builder.Default
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	PaymentStatus status = PaymentStatus.PENDING;
 
-	int paid_at;
+	@Column(name = "paid_at")
+	int paidAt;
 
-	@Column(length = 100)
-	String transaction_code;
+	@Column(name = "transaction_code", length = 100)
+	String transactionCode;
 
-	String resource_path;
+	@Column(name = "resource_path")
+	String resourcePath;
 
 	@OneToOne
 	@JoinColumn(name = "order_id", unique = true)

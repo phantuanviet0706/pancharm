@@ -21,6 +21,7 @@ public class Collections extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
+	@Column(unique = true)
 	String name;
 
 	@Column(length = 63)

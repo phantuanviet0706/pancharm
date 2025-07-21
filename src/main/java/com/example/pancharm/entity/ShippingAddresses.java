@@ -18,8 +18,8 @@ public class ShippingAddresses extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	@Column(length = 100)
-	String recipient_name;
+	@Column(name = "recipient_name", length = 100)
+	String recipientName;
 
 	@Column(columnDefinition = "TEXT")
 	String address;
@@ -33,13 +33,15 @@ public class ShippingAddresses extends BaseEntity {
 	@Column(length = 100)
 	String province;
 
-	@Column(length = 35)
-	String phone_number;
+	@Column(name = "phone_number", length = 35)
+	String phoneNumber;
 
-	@Column(length = 100)
-	String zip_code;
+	@Column(name = "zip_code", length = 100)
+	String zipCode;
 
-	short is_default;
+	@Builder.Default
+	@Column(name = "is_default")
+	short isDefault = 0;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)

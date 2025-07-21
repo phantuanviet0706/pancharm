@@ -20,6 +20,7 @@ public class Company extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
+	@Column(unique = true)
 	String name;
 
 	String address;
@@ -27,11 +28,14 @@ public class Company extends BaseEntity {
 	@Column(columnDefinition = "TEXT")
 	String avatar;
 
-	@Column(length = 63)
+	@Column(length = 63, unique = true)
 	String taxcode;
 
+	@Column(name = "bank_attachment", columnDefinition = "TEXT")
+	String bankAttachment;
+
 	@Column(columnDefinition = "TEXT")
-	String bank_attachment;
+	String config;
 
 	@OneToMany(
 			mappedBy = "company",
@@ -39,5 +43,5 @@ public class Company extends BaseEntity {
 			orphanRemoval = true,
 			fetch = FetchType.LAZY
 	)
-	Set<CompanyInfos> company_info;
+	Set<CompanyInfos> companyInfos;
 }

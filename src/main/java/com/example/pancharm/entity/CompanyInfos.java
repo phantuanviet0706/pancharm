@@ -27,7 +27,7 @@ public class CompanyInfos extends BaseEntity{
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "person_in_charge", nullable = false)
-	Users person_in_charge;
+	Users personInCharge;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id", nullable = false)

@@ -1,5 +1,6 @@
 package com.example.pancharm.entity;
 
+import com.example.pancharm.constant.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,9 +21,13 @@ public class Orders extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	int status;
+	@Builder.Default
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	OrderStatus status = OrderStatus.CREATED;
 
-	float total_price;
+	@Column(name = "total_price")
+	float totalPrice;
 
 	@Column(columnDefinition = "TEXT")
 	String description;
@@ -32,10 +37,10 @@ public class Orders extends BaseEntity {
 	Users user;
 
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-	Set<ShippingAddresses> shipping_addresses;
+	Set<ShippingAddresses> shippingAddresses;
 
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-	Set<OrderItems>  order_items;
+	Set<OrderItems>  orderItems;
 
 	@OneToOne(mappedBy = "order")
 	Payments payment;

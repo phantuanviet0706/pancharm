@@ -1,5 +1,6 @@
 package com.example.pancharm.entity;
 
+import com.example.pancharm.constant.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,11 +22,12 @@ public class Users extends BaseEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	@Column(length = 63)
+	@Column(length = 63, unique = true)
 	String username;
 
 	String password;
 
+	@Column(unique = true)
 	String email;
 
 	@Column(length = 100)
@@ -42,18 +44,21 @@ public class Users extends BaseEntity{
 	@Column(length = 63)
 	String phone;
 
-	short status;
+	@Builder.Default
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	UserStatus status = UserStatus.PENDING;
 
-	String role;
-
-	short soft_deleted;
+	@Builder.Default
+	@Column(name = "soft_deleted")
+	short softDeleted = 0;
 
 	@ManyToMany
 	Set<Roles> roles;
 
-	@OneToMany(mappedBy = "person_in_charge", fetch = FetchType.LAZY)
-	Set<CompanyInfos> company_infos;
+	@OneToMany(mappedBy = "personInCharge", fetch = FetchType.LAZY)
+	Set<CompanyInfos> companyInfos;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	Set<ShippingAddresses> shipping_addresses;
+	Set<ShippingAddresses> shippingAddresses;
 }

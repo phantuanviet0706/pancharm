@@ -20,7 +20,9 @@ public class CollectionImages extends BaseEntity {
 
 	String path;
 
-	short is_default;
+	@Builder.Default
+	@Column(name = "is_default")
+	short isDefault = 0;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "collection_id", nullable = false)

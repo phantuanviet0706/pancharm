@@ -18,7 +18,9 @@ public class OrderItems extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	float unit_price;
+	@Column(name = "unit_price")
+	float unitPrice;
+
 	int quantity;
 
 	@ManyToOne(fetch = FetchType.LAZY)
