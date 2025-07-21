@@ -35,10 +35,11 @@ public class ApplicationInitConfig {
 	PasswordEncoder passwordEncoder;
 
 	@NonFinal
-	static final String SUPER_ADMIN_USERNAME = "admin";
+	@Value("${appInfo.masterUsername}")
+	static String SUPER_ADMIN_USERNAME = "admin";
 
 	@NonFinal
-	static final String SUPER_ADMIN_PASSWORD = "admin";
+	static String SUPER_ADMIN_PASSWORD = "admin";
 
 	@NonFinal
 	@Value("${spring.application.name}")

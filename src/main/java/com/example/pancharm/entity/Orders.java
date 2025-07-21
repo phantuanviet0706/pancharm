@@ -24,7 +24,7 @@ public class Orders extends BaseEntity {
 	@Builder.Default
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false)
-	OrderStatus status = OrderStatus.CREATED;
+	OrderStatus status = OrderStatus.DRAFTING;
 
 	@Column(name = "total_price")
 	float totalPrice;
