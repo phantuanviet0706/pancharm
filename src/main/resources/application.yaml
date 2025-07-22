@@ -43,4 +43,6 @@ appInfo:
   masterUsername: "admin"
 
 sendgrid:
+#  api-key: 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
+  api-key: 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
   from-email: phantuanviet0706@gmail.com
