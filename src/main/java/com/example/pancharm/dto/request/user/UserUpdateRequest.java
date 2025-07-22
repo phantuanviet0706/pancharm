@@ -1,6 +1,10 @@
 package com.example.pancharm.dto.request.user;
 
+import com.example.pancharm.validator.annotation.DobConstraint;
+import com.example.pancharm.validator.annotation.PhoneConstraint;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,7 +21,9 @@ import java.util.Set;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-	@Size(min = 8, message = "Password must be at least 8 characters")
+	@NotNull(message = "PASSWORD_EMPTY")
+	@Size(min = 8, message = "PASSWORD_SIZE_ERROR")
+	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$", message = "PASSWORD_PATTERN_ERROR")
 	String password;
 
 	@Email
@@ -25,12 +31,14 @@ public class UserUpdateRequest {
 
 	String fullname;
 
+	@DobConstraint(min = 18, message = "INVALID_DOB")
 	LocalDate dob;
 
 	String avatar;
 
 	String address;
 
+	@PhoneConstraint
 	String phone;
 
 	Set<String> roles;

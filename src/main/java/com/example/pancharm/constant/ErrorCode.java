@@ -29,6 +29,12 @@ public enum ErrorCode {
 	USER_EMAIL_EXISTED(1003, "This email has already registered, please check and try again", HttpStatus.BAD_REQUEST),
 	INVALID_TOKEN(1003, "Invalid token", HttpStatus.BAD_REQUEST),
 	TOKEN_EXPIRED(1003, "Token is expired", HttpStatus.BAD_REQUEST),
+	USERNAME_SIZE_ERROR(1003, "Username must be at least {min} characters", HttpStatus.BAD_REQUEST),
+	USERNAME_PATTERN_ERROR(1003, "Username can contain only letters and numbers",  HttpStatus.BAD_REQUEST),
+	USERNAME_EMPTY(1003, "Username cannot be empty", HttpStatus.BAD_REQUEST),
+	PASSWORD_EMPTY(1003, "Password cannot be empty", HttpStatus.BAD_REQUEST),
+	PASSWORD_SIZE_ERROR(1003, "Password must be at least {min} characters", HttpStatus.BAD_REQUEST),
+	PASSWORD_PATTERN_ERROR(1003, "Password must include an uppercase letter, a lowercase letter, a digit, and a special character", HttpStatus.BAD_REQUEST),
 
 	COMPANY_NOT_FOUND(1004, "Company not found", HttpStatus.NOT_FOUND),
 	COMPANY_INFO_NOT_FOUND(1004, "Cannot found company info", HttpStatus.NOT_FOUND),
