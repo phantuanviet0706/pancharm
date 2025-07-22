@@ -19,8 +19,10 @@ public enum ErrorCode {
 
 	PERMISSION_EXISTED(1001, "Permission already exists", HttpStatus.BAD_REQUEST),
 	PERMISSION_NOT_FOUND(1001, "Permission not found", HttpStatus.NOT_FOUND),
+
 	ROLE_EXISTED(1002, "Role already exists", HttpStatus.BAD_REQUEST),
 	ROLE_NOT_FOUND(1002, "Role not found", HttpStatus.NOT_FOUND),
+	ROLE_DELETION_DENIED(1003, "This role cannot be deleted", HttpStatus.BAD_REQUEST),
 
 	USER_EXISTED(1003, "User already exists", HttpStatus.BAD_REQUEST),
 	USER_NOT_FOUND(1003, "User not found", HttpStatus.NOT_FOUND),

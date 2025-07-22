@@ -1,5 +1,6 @@
 package com.example.pancharm.dto.request.user;
 
+import com.example.pancharm.validator.annotation.DobConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -26,6 +27,7 @@ public class UserCreationRequest {
 
 	String fullname;
 
+	@DobConstraint(min = 18, message = "INVALID_DOB")
 	LocalDate dob;
 
 	String avatar;

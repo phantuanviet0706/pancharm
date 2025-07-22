@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.security.Permission;
@@ -24,6 +25,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 public class RoleService {
 	RoleRepository roleRepository;
 	RoleMapper roleMapper;
@@ -75,6 +77,10 @@ public class RoleService {
 	}
 
 	public void deleteRole(int roleId) {
+		if (!roleRepository.existsById(String.valueOf(roleId))) {
+			return;
+		}
+
 		roleRepository.deleteById(String.valueOf(roleId));
 	}
 

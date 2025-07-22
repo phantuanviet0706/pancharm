@@ -2,12 +2,15 @@ package com.example.pancharm.exception;
 
 import com.example.pancharm.dto.response.ApiResponse;
 import com.example.pancharm.constant.ErrorCode;
+import jakarta.validation.ConstraintViolation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.nio.file.AccessDeniedException;
+import java.util.Map;
+import java.util.Objects;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -62,5 +65,44 @@ public class GlobalExceptionHandler {
 						.message(errorCode.getMessage())
 						.build()
 		);
+	}
+
+	@ExceptionHandler(value = MethodArgumentNotValidException.class)
+	ResponseEntity<ApiResponse> handlingMethodException(MethodArgumentNotValidException exception) {
+		String enumKey = exception.getFieldError().getDefaultMessage();
+
+		ErrorCode errorCode = ErrorCode.INVALID_KEY;
+		Map<String, Object> attributes = null;
+
+		try {
+			errorCode = ErrorCode.valueOf(enumKey);
+
+			var constraintViolation = exception.getBindingResult()
+					.getAllErrors().getFirst().unwrap(ConstraintViolation.class);
+
+			attributes = constraintViolation.getConstraintDescriptor().getAttributes();
+		} catch (IllegalArgumentException e) {
+
+		}
+
+		ApiResponse apiResponse = new ApiResponse();
+
+		apiResponse.setCode(errorCode.getCode());
+		apiResponse.setMessage(Objects.nonNull(attributes)
+				? mapAttribute(errorCode.getMessage(), attributes)
+				: errorCode.getMessage());
+
+		return ResponseEntity.status(errorCode.getStatusCode()).body(apiResponse);
+	}
+
+	private String mapAttribute(String message, Map<String, Object> attributes) {
+		for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
+
+			message = message.replace("{" + key + "}", String.valueOf(value));
+		}
+
+		return message;
 	}
 }

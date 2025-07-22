@@ -60,6 +60,9 @@ public class PermissionService {
 	}
 
 	public void deletePermission(int permissionId) {
+		if (!permissionRepository.existsById(String.valueOf(permissionId))) {
+			return;
+		}
 		permissionRepository.deleteById(String.valueOf(permissionId));
 	}
 }

@@ -30,10 +30,27 @@ public class RegisterService {
 	static String verificationLink;
 
 	@NonFinal
-	static String subjectVerification = "Verify your account";
+	static String subjectVerification = "Welcome to Pancharm – Verify Your Email to Begin Your Journey \uD83C\uDF3F";
 
 	@NonFinal
-	static String bodyVerification = "Please click this link to verify your account: <a href='" + "https://facebook.com" + "'>Verify</a>";
+	static String bodyVerification = "<html>\n" +
+			"<body style=\"font-family: Arial, sans-serif; line-height: 1.6;\">\n" +
+			"    <h2>Welcome to Pancharm \uD83C\uDF38</h2>\n" +
+			"    <p>Thank you for joining the Pancharm community.</p>\n" +
+			"    <p>Your journey towards balance, energy, and inner peace begins here. To complete your registration, please verify your email address:</p>\n" +
+			"    <p style=\"margin: 24px 0;\">\n" +
+			"        <a href=\""
+			+ verificationLink +
+			"\" style=\"padding: 12px 20px; background-color: #8B5CF6; color: white; text-decoration: none; border-radius: 6px;\">Verify My Email</a>\n" +
+			"    </p>\n" +
+			"    <p>If you didn't sign up for Pancharm, you can safely ignore this message.</p>\n" +
+			"    <br>\n" +
+			"    <p>Warm wishes,</p>\n" +
+			"    <p><strong>Pancharm Team</strong></p>\n" +
+			"    <hr>\n" +
+			"    <p style=\"font-size: 12px; color: #777;\">Follow us for more updates: <a href=\"https://www.facebook.com/pancharm.official\">facebook.com/pancharm.official</a></p>\n" +
+			"</body>\n" +
+			"</html>";
 
 	public RegisterResponse register(@RequestBody RegisterRequest registerRequest) {
 		if (userRepository.existsByUsername(registerRequest.getUsername())) {

@@ -53,6 +53,9 @@ public class CompanyInfoService {
 	}
 
 	public void deleteCompanyInfo(int companyInfoId){
+		if (!companyInfoRepository.existsById(String.valueOf(companyInfoId))) {
+			return;
+		}
 		companyInfoRepository.deleteById(String.valueOf(companyInfoId));
 	}
 
