@@ -2,11 +2,14 @@ package com.example.pancharm.service;
 
 import com.example.pancharm.dto.request.auth.AuthenticationRequest;
 import com.example.pancharm.dto.request.auth.IntrospectRequest;
+import com.example.pancharm.dto.request.auth.LogoutRequest;
 import com.example.pancharm.dto.response.AuthenticationResponse;
 import com.example.pancharm.dto.response.IntrospectResponse;
 import com.example.pancharm.constant.ErrorCode;
+import com.example.pancharm.entity.InvalidatedToken;
 import com.example.pancharm.entity.Users;
 import com.example.pancharm.exception.AppException;
+import com.example.pancharm.repository.InvalidatedTokenRepository;
 import com.example.pancharm.repository.UserRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -18,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,35 +32,31 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
 	UserRepository userRepository;
+	InvalidatedTokenRepository invalidatedTokenRepository;
 
 	@NonFinal
 	@Value("${jwt.signerKey}")
 	protected String SIGNER_KEY;
 
-	public IntrospectResponse introspect(IntrospectRequest request) {
+	public IntrospectResponse introspect(IntrospectRequest request) throws ParseException, JOSEException {
 		var token = request.getToken();
-
+		boolean isValid = true;
 		try {
-			JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
-
-			SignedJWT signedJWT = SignedJWT.parse(token);
-
-			Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-
-			var verified = signedJWT.verify(verifier);
-
-			return IntrospectResponse.builder()
-					.valid(verified && expiryTime.after(new Date()))
-					.build();
-		} catch (JOSEException | ParseException e) {
-			throw new RuntimeException(e);
+			verifyToken(token);
+		} catch (AppException e) {
+			isValid = false;
 		}
+
+		return IntrospectResponse.builder()
+				.valid(isValid)
+				.build();
 	}
 
 	public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -77,6 +77,50 @@ public class AuthenticationService {
 				.build();
 	}
 
+	public void logout(LogoutRequest request) throws ParseException, JOSEException {
+		var signedToken = verifyToken(request.getToken());
+
+		try {
+			String jit = signedToken.getJWTClaimsSet()
+					.getJWTID();
+
+			Date expiryTime = signedToken.getJWTClaimsSet()
+					.getExpirationTime();
+
+			InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+					.id(jit)
+					.expiryTime(expiryTime)
+					.build();
+
+			invalidatedTokenRepository.save(invalidatedToken);
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		} catch (DataIntegrityViolationException exception) {
+			throw new AppException(ErrorCode.UPDATE_ERROR);
+		}
+	}
+
+	private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
+		JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+
+		SignedJWT signedJWT = SignedJWT.parse(token);
+
+		Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+		var verified = signedJWT.verify(verifier);
+
+		if (!(verified && expiryTime.after(new Date()))) {
+			throw new AppException(ErrorCode.UNAUTHENTICATED);
+		}
+
+		if (invalidatedTokenRepository
+				.existsById(signedJWT.getJWTClaimsSet().getJWTID())) {
+			throw new AppException(ErrorCode.UNAUTHENTICATED);
+		}
+
+		return signedJWT;
+	}
+
 	private String generateToken(Users user) {
 		JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
@@ -88,6 +132,7 @@ public class AuthenticationService {
 						Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
 				))
 				.claim("scope", buildScope(user))
+				.jwtID(UUID.randomUUID().toString())
 				.build();
 
 		Payload payload = new Payload(jwtClaimsSet.toJSONObject());
