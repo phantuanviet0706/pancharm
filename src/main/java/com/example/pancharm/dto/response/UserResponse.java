@@ -1,6 +1,7 @@
 package com.example.pancharm.dto.response;
 
 import com.example.pancharm.constant.UserStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
 	String id;
 	String username;
@@ -24,6 +26,6 @@ public class UserResponse {
 	UserStatus status;
 	short softDeleted;
 	Set<RoleResponse> roles;
-//	Set<CompanyInfos> companyInfos;
+	Set<CompanyInfoResponse> companyInfos;
 //	Set<ShippingAddresses>  shippingAddresses;
 }

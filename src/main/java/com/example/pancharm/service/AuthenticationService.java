@@ -1,7 +1,7 @@
 package com.example.pancharm.service;
 
-import com.example.pancharm.dto.request.AuthenticationRequest;
-import com.example.pancharm.dto.request.IntrospectRequest;
+import com.example.pancharm.dto.request.auth.AuthenticationRequest;
+import com.example.pancharm.dto.request.auth.IntrospectRequest;
 import com.example.pancharm.dto.response.AuthenticationResponse;
 import com.example.pancharm.dto.response.IntrospectResponse;
 import com.example.pancharm.constant.ErrorCode;

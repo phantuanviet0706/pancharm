@@ -1,4 +1,4 @@
-package com.example.pancharm.dto.request;
+package com.example.pancharm.dto.request.auth;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationRequest {
+public class RegisterRequest {
+	String firstName;
+	String lastName;
 	String username;
+	String email;
+	String phoneNumber;
 	String password;
 }

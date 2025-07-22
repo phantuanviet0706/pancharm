@@ -31,6 +31,9 @@ public class Categories extends BaseEntity {
 	@JoinColumn(name = "parent_id")
 	Categories parent;
 
+	@Column(columnDefinition = "TEXT")
+	String config;
+
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
 	Set<Categories> children = new HashSet<>();
 

@@ -26,8 +26,23 @@ spring:
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
 
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: phantuanviet0706@gmail.com
+    password: fnxt valw sxzk gsiy
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
 jwt:
   signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
 
 appInfo:
   masterUsername: "admin"
+
+sendgrid:
+#  api-key: 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
+  api-key: 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
+  from-email: phantuanviet0706@gmail.com
