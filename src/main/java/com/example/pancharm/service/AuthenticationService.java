@@ -3,6 +3,7 @@ package com.example.pancharm.service;
 import com.example.pancharm.dto.request.auth.AuthenticationRequest;
 import com.example.pancharm.dto.request.auth.IntrospectRequest;
 import com.example.pancharm.dto.request.auth.LogoutRequest;
+import com.example.pancharm.dto.request.auth.RefreshRequest;
 import com.example.pancharm.dto.response.AuthenticationResponse;
 import com.example.pancharm.dto.response.IntrospectResponse;
 import com.example.pancharm.constant.ErrorCode;
@@ -20,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +36,7 @@ import java.util.Date;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -45,11 +48,19 @@ public class AuthenticationService {
 	@Value("${jwt.signerKey}")
 	protected String SIGNER_KEY;
 
+	@NonFinal
+	@Value("${jwt.valid-duration}")
+	protected Long VALID_DURATION;
+
+	@NonFinal
+	@Value("${jwt.refreshable-duration}")
+	protected Long REFRESHABLE_DURATION;
+
 	public IntrospectResponse introspect(IntrospectRequest request) throws ParseException, JOSEException {
 		var token = request.getToken();
 		boolean isValid = true;
 		try {
-			verifyToken(token);
+			verifyToken(token, false);
 		} catch (AppException e) {
 			isValid = false;
 		}
@@ -78,9 +89,9 @@ public class AuthenticationService {
 	}
 
 	public void logout(LogoutRequest request) throws ParseException, JOSEException {
-		var signedToken = verifyToken(request.getToken());
-
 		try {
+			var signedToken = verifyToken(request.getToken(), false);
+
 			String jit = signedToken.getJWTClaimsSet()
 					.getJWTID();
 
@@ -93,19 +104,23 @@ public class AuthenticationService {
 					.build();
 
 			invalidatedTokenRepository.save(invalidatedToken);
-		} catch (ParseException e) {
-			throw new RuntimeException(e);
+		} catch (AppException e) {
+			log.info("Token already expired");
 		} catch (DataIntegrityViolationException exception) {
 			throw new AppException(ErrorCode.UPDATE_ERROR);
 		}
 	}
 
-	private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
+	private SignedJWT verifyToken(String token, boolean isRefreshable)
+			throws JOSEException, ParseException {
 		JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
 
 		SignedJWT signedJWT = SignedJWT.parse(token);
 
-		Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+		Date expiryTime = isRefreshable
+				? new Date(signedJWT.getJWTClaimsSet().getIssueTime()
+					.toInstant().plus(REFRESHABLE_DURATION, ChronoUnit.SECONDS).toEpochMilli())
+				: signedJWT.getJWTClaimsSet().getExpirationTime();
 
 		var verified = signedJWT.verify(verifier);
 
@@ -129,10 +144,10 @@ public class AuthenticationService {
 				.issuer("pancharm.vn")
 				.issueTime(new Date())
 				.expirationTime(new Date(
-						Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
+						Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS).toEpochMilli()
 				))
-				.claim("scope", buildScope(user))
 				.jwtID(UUID.randomUUID().toString())
+				.claim("scope", buildScope(user))
 				.build();
 
 		Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -163,5 +178,37 @@ public class AuthenticationService {
 		});
 
 		return joiner.toString();
+	}
+
+	public AuthenticationResponse refreshToken(RefreshRequest request)
+			throws ParseException, JOSEException {
+		var signedToken = verifyToken(request.getToken(), true);
+
+		var jit = signedToken.getJWTClaimsSet().getJWTID();
+		var expiryTime = signedToken.getJWTClaimsSet().getExpirationTime();
+
+		InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+				.id(jit)
+				.expiryTime(expiryTime)
+				.build();
+
+		try {
+			invalidatedTokenRepository.save(invalidatedToken);
+		} catch (DataIntegrityViolationException exception) {
+			throw new AppException(ErrorCode.UPDATE_ERROR);
+		}
+
+		var username = signedToken.getJWTClaimsSet().getSubject();
+
+		var user = userRepository.findByUsername(username).orElseThrow(
+				() -> new AppException(ErrorCode.USER_NOT_FOUND)
+		);
+
+		var token = generateToken(user);
+
+		return AuthenticationResponse.builder()
+				.token(token)
+				.authenticated(true)
+				.build();
 	}
 }

@@ -59,4 +59,11 @@ public class AuthController {
 		authenticationService.logout(request);
 		return ApiResponse.<Void>builder().build();
 	}
+
+	@PostMapping
+	ApiResponse<AuthenticationResponse> refresh(@RequestBody RefreshRequest request) throws ParseException, JOSEException {
+		return ApiResponse.<AuthenticationResponse>builder()
+				.result(authenticationService.refreshToken(request))
+				.build();
+	}
 }

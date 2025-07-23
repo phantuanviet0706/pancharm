@@ -32,7 +32,8 @@ public class SecurityConfig {
 	protected String SIGNER_KEY;
 	private final String[] PUBLIC_GET_ENDPOINTS = {"/"};
 	private final String[] PUBLIC_POST_ENDPOINTS = {
-			"/users", "/auth/login", "/auth/introspect", "/auth/register", "/auth/forgot-password"
+			"/users", "/auth/login", "/auth/introspect", "/auth/register", "/auth/forgot-password",
+			"/auth/logout", "/auth/refresh"
 	};
 
 	@Autowired
