@@ -42,6 +42,9 @@ public class Payments extends BaseEntity {
 	@Column(name = "resource_path")
 	String resourcePath;
 
+	@Column(columnDefinition = "TEXT")
+	String config;
+
 	@OneToOne
 	@JoinColumn(name = "order_id", unique = true)
 	Orders order;

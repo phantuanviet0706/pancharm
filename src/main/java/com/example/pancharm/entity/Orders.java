@@ -32,6 +32,9 @@ public class Orders extends BaseEntity {
 	@Column(columnDefinition = "TEXT")
 	String description;
 
+	@Column(columnDefinition = "TEXT")
+	String config;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	Users user;

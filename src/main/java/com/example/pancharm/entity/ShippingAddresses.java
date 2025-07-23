@@ -43,6 +43,9 @@ public class ShippingAddresses extends BaseEntity {
 	@Column(name = "is_default")
 	short isDefault = 0;
 
+	@Column(columnDefinition = "TEXT")
+	String config;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	Users user;

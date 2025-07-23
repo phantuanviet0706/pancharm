@@ -53,6 +53,9 @@ public class Users extends BaseEntity{
 	@Column(name = "soft_deleted")
 	short softDeleted = 0;
 
+	@Column(columnDefinition = "TEXT")
+	String config;
+
 	@ManyToMany
 	Set<Roles> roles;
 

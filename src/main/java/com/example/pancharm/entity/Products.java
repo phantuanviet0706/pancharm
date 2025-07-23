@@ -47,6 +47,9 @@ public class Products extends BaseEntity {
 	@Column(name = "soft_deleted")
 	short softDeleted = 0;
 
+	@Column(columnDefinition = "TEXT")
+	String config;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
 	Categories category;

@@ -32,6 +32,9 @@ public class Collections extends BaseEntity {
 	@Column(columnDefinition = "TEXT")
 	String description;
 
+	@Column(columnDefinition = "TEXT")
+	String config;
+
 	@OneToMany(mappedBy = "collection", fetch = FetchType.LAZY)
 	Set<CollectionImages> images = new HashSet<>();
 
