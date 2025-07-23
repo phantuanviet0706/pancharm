@@ -4,6 +4,7 @@ import com.example.pancharm.dto.request.role.RoleRequest;
 import com.example.pancharm.dto.response.ApiResponse;
 import com.example.pancharm.dto.response.RoleResponse;
 import com.example.pancharm.service.RoleService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,14 +20,14 @@ public class RoleController {
 	private RoleService roleService;
 
 	@PostMapping
-	public ApiResponse<RoleResponse> createRole(@RequestBody RoleRequest roleRequest) {
+	public ApiResponse<RoleResponse> createRole(@RequestBody @Valid RoleRequest roleRequest) {
 		return ApiResponse.<RoleResponse>builder()
 				.result(roleService.createRole(roleRequest))
 				.build();
 	}
 
 	@PutMapping("/{id}")
-	public ApiResponse<RoleResponse> updateRole(@RequestBody RoleRequest roleRequest, @PathVariable int id) {
+	public ApiResponse<RoleResponse> updateRole(@RequestBody @Valid RoleRequest roleRequest, @PathVariable int id) {
 		return ApiResponse.<RoleResponse>builder()
 				.result(roleService.updateRole(roleRequest, id))
 				.build();

@@ -1,5 +1,6 @@
 package com.example.pancharm.dto.request.company;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CompanyRequest {
+	@NotBlank(message = "COMPANY_NAME_REQUIRED")
 	String name;
 	String address;
 	String avatar;

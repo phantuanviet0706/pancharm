@@ -6,6 +6,7 @@ import com.example.pancharm.service.AuthenticationService;
 import com.example.pancharm.service.ForgotPasswordService;
 import com.example.pancharm.service.RegisterService;
 import com.nimbusds.jose.JOSEException;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -41,14 +42,14 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	ApiResponse<RegisterResponse> register(@RequestBody RegisterRequest request) {
+	ApiResponse<RegisterResponse> register(@RequestBody @Valid RegisterRequest request) {
 		return ApiResponse.<RegisterResponse>builder()
 				.result(registerService.register(request))
 				.build();
 	}
 
 	@PostMapping("/forgot-password")
-	ApiResponse<ForgotPasswordResponse> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+	ApiResponse<ForgotPasswordResponse> forgotPassword(@RequestBody @Valid ForgotPasswordRequest request) {
 		return ApiResponse.<ForgotPasswordResponse>builder()
 				.result(forgotPasswordService.forgotPassword(request))
 				.build();
@@ -60,7 +61,7 @@ public class AuthController {
 		return ApiResponse.<Void>builder().build();
 	}
 
-	@PostMapping
+	@PostMapping("/refresh")
 	ApiResponse<AuthenticationResponse> refresh(@RequestBody RefreshRequest request) throws ParseException, JOSEException {
 		return ApiResponse.<AuthenticationResponse>builder()
 				.result(authenticationService.refreshToken(request))

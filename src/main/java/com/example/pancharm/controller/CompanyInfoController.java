@@ -4,6 +4,7 @@ import com.example.pancharm.dto.request.company.CompanyInfoRequest;
 import com.example.pancharm.dto.response.ApiResponse;
 import com.example.pancharm.dto.response.CompanyInfoResponse;
 import com.example.pancharm.service.CompanyInfoService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,14 +20,14 @@ public class CompanyInfoController {
 	CompanyInfoService companyInfoService;
 
 	@PostMapping
-	public ApiResponse<CompanyInfoResponse> createCompanyInfo(@RequestBody CompanyInfoRequest companyInfoRequest){
+	public ApiResponse<CompanyInfoResponse> createCompanyInfo(@RequestBody @Valid CompanyInfoRequest companyInfoRequest){
 		return ApiResponse.<CompanyInfoResponse>builder()
 				.result(companyInfoService.createCompanyInfo(companyInfoRequest))
 				.build();
 	}
 
 	@PutMapping("/{id}")
-	public ApiResponse<CompanyInfoResponse> updateCompanyInfo(@PathVariable int id, @RequestBody CompanyInfoRequest companyInfoRequest){
+	public ApiResponse<CompanyInfoResponse> updateCompanyInfo(@PathVariable int id, @RequestBody @Valid CompanyInfoRequest companyInfoRequest){
 		return ApiResponse.<CompanyInfoResponse>builder()
 				.result(companyInfoService.updateCompanyInfo(companyInfoRequest, id))
 				.build();

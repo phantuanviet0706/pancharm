@@ -2,6 +2,7 @@ package com.example.pancharm.entity;
 
 import com.example.pancharm.constant.UserStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,11 @@ public class Users extends BaseEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
+	@NotBlank(message = "USERNAME_REQUIRED")
 	@Column(length = 63, unique = true)
 	String username;
 
+	@NotBlank(message = "PASSWORD_REQUIRED")
 	String password;
 
 	@Column(unique = true)

@@ -1,6 +1,7 @@
 package com.example.pancharm.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class Company extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
+	@NotBlank(message = "COMPANY_NAME_REQUIRED")
 	@Column(unique = true)
 	String name;
 
