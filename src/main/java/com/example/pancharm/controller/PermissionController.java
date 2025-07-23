@@ -4,6 +4,7 @@ import com.example.pancharm.dto.request.permission.PermissionRequest;
 import com.example.pancharm.dto.response.ApiResponse;
 import com.example.pancharm.dto.response.PermissionResponse;
 import com.example.pancharm.service.PermissionService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,7 +20,7 @@ public class PermissionController {
 	private PermissionService permissionService;
 
 	@PostMapping
-	public ApiResponse<PermissionResponse> createPermission(@RequestBody PermissionRequest permissionRequest) {
+	public ApiResponse<PermissionResponse> createPermission(@RequestBody @Valid PermissionRequest permissionRequest) {
 		return ApiResponse.<PermissionResponse>builder()
 				.result(permissionService.createPermission(permissionRequest))
 				.build();
@@ -27,7 +28,7 @@ public class PermissionController {
 
 	@PutMapping("/{id}")
 	public ApiResponse<PermissionResponse> updatePermission(
-			@RequestBody PermissionRequest permissionRequest,
+			@RequestBody @Valid PermissionRequest permissionRequest,
 			@PathVariable int id
 	) {
 		return ApiResponse.<PermissionResponse>builder()

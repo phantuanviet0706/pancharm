@@ -1,5 +1,6 @@
 package com.example.pancharm.dto.request.role;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleRequest {
-	@NotNull(message = "Role name cannot be empty")
+	@NotBlank(message = "ROLE_EMPTY")
 	String name;
 	String description;
 	Set<String> permissions;
