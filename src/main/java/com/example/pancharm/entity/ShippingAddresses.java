@@ -47,10 +47,6 @@ public class ShippingAddresses extends BaseEntity {
 	String config;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	Users user;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "order_id", nullable = false)
-	Orders order;
 }

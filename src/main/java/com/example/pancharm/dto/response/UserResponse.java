@@ -25,6 +25,5 @@ public class UserResponse {
 	UserStatus status;
 	short softDeleted;
 	Set<RoleResponse> roles;
-	Set<CompanyInfoResponse> companyInfos;
 //	Set<ShippingAddresses>  shippingAddresses;
 }

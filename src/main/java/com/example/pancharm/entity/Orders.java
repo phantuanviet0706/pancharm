@@ -36,11 +36,12 @@ public class Orders extends BaseEntity {
 	String config;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	Users user;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-	Set<ShippingAddresses> shippingAddresses;
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "shipping_address_id", nullable = false)
+	ShippingAddresses shippingAddress;
 
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
 	Set<OrderItems>  orderItems;
