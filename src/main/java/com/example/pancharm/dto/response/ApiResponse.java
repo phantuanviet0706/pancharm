@@ -15,7 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-	int code;
+	@Builder.Default
+	int code = 1;
 	String message;
 	T result;
 }

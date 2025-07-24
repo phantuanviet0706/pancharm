@@ -60,6 +60,12 @@ public class RoleService {
 				() -> new AppException(ErrorCode.ROLE_NOT_FOUND)
 		);
 
+		boolean containDefaultRole = FIXED_ROLES.contains(role.getName());
+
+		if (!role.getName().equals(request.getName()) && containDefaultRole) {
+			throw new AppException(ErrorCode.ROLE_UPDATION_DENIED);
+		}
+
 		roleMapper.updateRole(role, request);
 		setPermission(role, request.getPermissions());
 
@@ -77,8 +83,12 @@ public class RoleService {
 	}
 
 	public void deleteRole(int roleId) {
-		if (!roleRepository.existsById(String.valueOf(roleId))) {
-			return;
+		var role = roleRepository.findById(String.valueOf(roleId)).orElseThrow(
+				() -> new AppException(ErrorCode.ROLE_NOT_FOUND)
+		);
+
+		if (FIXED_ROLES.contains(role.getName())) {
+			throw new AppException(ErrorCode.ROLE_DELETION_DENIED);
 		}
 
 		roleRepository.deleteById(String.valueOf(roleId));

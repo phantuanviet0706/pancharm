@@ -1,5 +1,6 @@
 package com.example.pancharm.entity;
 
+import com.example.pancharm.constant.MembershipLevel;
 import com.example.pancharm.constant.UserStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -55,6 +56,16 @@ public class Users extends BaseEntity{
 	@Builder.Default
 	@Column(name = "soft_deleted")
 	short softDeleted = 0;
+
+	@Builder.Default
+	@Enumerated(EnumType.STRING)
+	@Column(name = "membership_level", nullable = false)
+	MembershipLevel memberShipLevel = MembershipLevel.MEMBER;
+
+	@Column(name = "total_spent")
+	int totalSpent;
+
+	double points;
 
 	@Column(columnDefinition = "TEXT")
 	String config;

@@ -1,6 +1,7 @@
 package com.example.pancharm.configuration;
 
 import com.example.pancharm.constant.ErrorCode;
+import com.example.pancharm.constant.UserStatus;
 import com.example.pancharm.entity.Company;
 import com.example.pancharm.entity.CompanyInfos;
 import com.example.pancharm.entity.Roles;
@@ -79,6 +80,7 @@ public class ApplicationInitConfig {
 				user = Users.builder()
 						.username(SUPER_ADMIN_USERNAME)
 						.password(passwordEncoder.encode(SUPER_ADMIN_PASSWORD))
+						.status(UserStatus.ACTIVE)
 						.roles(roles)
 						.build();
 

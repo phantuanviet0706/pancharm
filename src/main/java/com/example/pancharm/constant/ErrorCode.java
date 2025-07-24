@@ -23,13 +23,15 @@ public enum ErrorCode {
 
 	ROLE_EXISTED(1002, "Role already exists", HttpStatus.BAD_REQUEST),
 	ROLE_NOT_FOUND(1002, "Role not found", HttpStatus.NOT_FOUND),
-	ROLE_DELETION_DENIED(1002, "This role cannot be deleted", HttpStatus.BAD_REQUEST),
 	ROLE_EMPTY(1002, "Please fill role name", HttpStatus.BAD_REQUEST),
+	ROLE_UPDATION_DENIED(1002, "Cannot update default role's name", HttpStatus.BAD_REQUEST),
+	ROLE_DELETION_DENIED(1002, "This role cannot be deleted", HttpStatus.BAD_REQUEST),
 
 	USER_EXISTED(1003, "User already exists", HttpStatus.BAD_REQUEST),
 	USER_NOT_FOUND(1003, "User not found", HttpStatus.NOT_FOUND),
 	USER_EMAIL_EXISTED(1003, "This email has already registered, please check and try again", HttpStatus.BAD_REQUEST),
 	USER_NOT_NULL(1003, "User cannot be null", HttpStatus.BAD_REQUEST),
+	USER_REQUIRED(1003, "Please select user", HttpStatus.BAD_REQUEST),
 	USERNAME_SIZE_ERROR(1003, "Username must be at least {min} characters", HttpStatus.BAD_REQUEST),
 	USERNAME_PATTERN_ERROR(1003, "Username can contain only letters and numbers",  HttpStatus.BAD_REQUEST),
 	USERNAME_EMPTY(1003, "Username cannot be empty", HttpStatus.BAD_REQUEST),
@@ -47,6 +49,7 @@ public enum ErrorCode {
 	FIRST_NAME_REQUIRED(1003, "Please fill first name", HttpStatus.BAD_REQUEST),
 	LAST_NAME_REQUIRED(1003, "Please fill last name", HttpStatus.BAD_REQUEST),
 
+	COMPANY_ID_REQUIRED(1003, "Please select company", HttpStatus.BAD_REQUEST),
 	COMPANY_NOT_FOUND(1004, "Company not found", HttpStatus.NOT_FOUND),
 	COMPANY_NOT_NULL(1004, "Company cannot be null", HttpStatus.BAD_REQUEST),
 	COMPANY_NAME_REQUIRED(1004, "Please fill the company name", HttpStatus.BAD_REQUEST),

@@ -4,9 +4,7 @@ import com.example.pancharm.entity.Company;
 import com.example.pancharm.entity.Users;
 import com.example.pancharm.validator.annotation.PhoneConstraint;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +24,11 @@ public class CompanyInfoRequest {
 	@Email
 	String email;
 
-	@NotNull(message = "USER_NOT_NULL")
-	@Valid
-	Users user;
+	@NotBlank(message = "USER_REQUIRED")
+	@Min(value = 1, message = "USER_REQUIRED")
+	int userId;
 
-	@NotNull(message = "COMPANY_NOT_NULL")
-	@Valid
-	Company company;
+	@NotBlank(message = "COMPANY_ID_REQUIRED")
+	@Min(value = 1, message = "COMPANY_ID_REQUIRED")
+	int companyId;
 }
