@@ -24,6 +24,11 @@ public class PermissionService {
 	PermissionRepository permissionRepository;
 	PermissionMapper permissionMapper;
 
+	/**
+	 * @desc Create new permission
+	 * @param request
+	 * @return PermissionResponse
+	 */
 	public PermissionResponse createPermission(PermissionRequest request) {
 		if (permissionRepository.existsByName(request.getName())) {
 			throw new AppException(ErrorCode.PERMISSION_EXISTED);
@@ -39,6 +44,12 @@ public class PermissionService {
 		return permissionMapper.toPermissionResponse(permission);
 	}
 
+	/**
+	 * @desc Update existing permission
+	 * @param request
+	 * @param permissionId
+	 * @return PermissionResponse
+	 */
 	public PermissionResponse updatePermission(PermissionRequest request, int permissionId) {
 		Permissions permission = permissionRepository.findById(String.valueOf(permissionId)).orElseThrow(
 				() -> new AppException(ErrorCode.PERMISSION_NOT_FOUND)
@@ -55,10 +66,18 @@ public class PermissionService {
 		return permissionMapper.toPermissionResponse(permission);
 	}
 
+	/**
+	 * @desc Get all existing permissions
+	 * @return List<PermissionResponse>
+	 */
 	public List<PermissionResponse> findAll() {
 		return permissionRepository.findAll().stream().map(permissionMapper::toPermissionResponse).toList();
 	}
 
+	/**
+	 * @desc Delete existing permission
+	 * @param permissionId
+	 */
 	public void deletePermission(int permissionId) {
 		if (!permissionRepository.existsById(String.valueOf(permissionId))) {
 			return;

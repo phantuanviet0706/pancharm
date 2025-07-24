@@ -21,10 +21,9 @@ public class Categories extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	@Column(unique = true)
 	String name;
 
-	@Column(length = 63)
+	@Column(length = 63, unique = true)
 	String slug;
 
 	@ManyToOne(fetch = FetchType.LAZY)

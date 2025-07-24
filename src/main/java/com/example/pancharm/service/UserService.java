@@ -1,5 +1,6 @@
 package com.example.pancharm.service;
 
+import com.example.pancharm.constant.PredefineRole;
 import com.example.pancharm.dto.request.user.UserCreationRequest;
 import com.example.pancharm.dto.request.user.UserUpdateRequest;
 import com.example.pancharm.dto.response.UserResponse;
@@ -31,6 +32,11 @@ public class UserService {
 	PasswordEncoder passwordEncoder;
 	private final RoleRepository roleRepository;
 
+	/**
+	 * @desc Create new user - by Super Admin role
+	 * @param request
+	 * @return UserResponse
+	 */
 	public UserResponse createUser(UserCreationRequest request) {
 		if (userRepository.existsByUsername(request.getUsername())) {
 			throw new AppException(ErrorCode.USER_EXISTED);
@@ -47,6 +53,12 @@ public class UserService {
 		return userMapper.toUserResponse(user);
 	}
 
+	/**
+	 * @desc Update existing user
+	 * @param request
+	 * @param id
+	 * @return UserResponse
+	 */
 	public UserResponse updateUser(UserUpdateRequest request, int id) {
 		Users user = userRepository.findById(String.valueOf(id)).orElseThrow(() ->
 				new AppException(ErrorCode.USER_NOT_FOUND));
@@ -65,10 +77,19 @@ public class UserService {
 		return userMapper.toUserResponse(user);
 	}
 
+	/**
+	 * @desc Get all users
+	 * @return List<UserResponse>
+	 */
 	public List<UserResponse> getUsers() {
 		return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
 	}
 
+	/**
+	 * @desc Get single user's information
+	 * @param id
+	 * @return Users
+	 */
 	public Users getUser(int id) {
 		return userRepository.findById(String.valueOf(id))
 				.orElseThrow(() -> {
@@ -76,10 +97,26 @@ public class UserService {
 				});
 	}
 
+	/**
+	 * @desc Delete existing user
+	 * @param id
+	 */
 	public void deleteUser(int id) {
+		Users user = userRepository.findById(String.valueOf(id)).orElseThrow(
+				() -> new AppException(ErrorCode.USER_NOT_FOUND)
+		);
+		if (user.getRoles().contains(PredefineRole.SUPER_ADMIN)) {
+			throw new AppException(ErrorCode.MASTER_USER_DELETE_ERROR);
+		}
+
 		userRepository.deleteById(String.valueOf(id));
 	}
 
+	/**
+	 * @desc Set roles for specific user
+	 * @param user
+	 * @param roleNames
+	 */
 	private void setRoles(Users user, Set<String> roleNames) {
 		var roles = roleRepository.findAllByNameIn(roleNames);
 		user.setRoles(new HashSet<>(roles));

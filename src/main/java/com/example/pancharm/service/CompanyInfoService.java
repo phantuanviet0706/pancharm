@@ -30,6 +30,11 @@ public class CompanyInfoService {
 	CompanyRepository companyRepository;
 	UserRepository userRepository;
 
+	/**
+	 * @desc Create new company info
+	 * @param request
+	 * @return CompanyInfoResponse
+	 */
 	@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 	public CompanyInfoResponse createCompanyInfo(CompanyInfoRequest request) {
 		var companyInfo = companyInfoMapper.toCompanyInfos(request);
@@ -52,6 +57,12 @@ public class CompanyInfoService {
 		return companyInfoMapper.toCompanyInfoResponse(companyInfo);
 	}
 
+	/**
+	 * @desc Update existing company info
+	 * @param request
+	 * @param companyInfoId
+	 * @return CompanyInfoResponse
+	 */
 	@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 	public CompanyInfoResponse updateCompanyInfo(CompanyInfoRequest request, int companyInfoId){
 		var companyInfo = companyInfoRepository.findById(String.valueOf(companyInfoId)).orElseThrow(
@@ -69,6 +80,10 @@ public class CompanyInfoService {
 		return companyInfoMapper.toCompanyInfoResponse(companyInfo);
 	}
 
+	/**
+	 * @desc Delete existing Company Info
+	 * @param companyInfoId
+	 */
 	@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 	public void deleteCompanyInfo(int companyInfoId){
 		if (!companyInfoRepository.existsById(String.valueOf(companyInfoId))) {
@@ -77,6 +92,11 @@ public class CompanyInfoService {
 		companyInfoRepository.deleteById(String.valueOf(companyInfoId));
 	}
 
+	/**
+	 * @desc Get company info by ID
+	 * @param companyInfoId
+	 * @return CompanyInfoResponse
+	 */
 	public CompanyInfoResponse getCompanyInfo(int companyInfoId){
 		var companyInfo = companyInfoRepository.findById(String.valueOf(companyInfoId)).orElseThrow(
 				() -> new AppException(ErrorCode.COMPANY_INFO_NOT_FOUND)
@@ -85,6 +105,10 @@ public class CompanyInfoService {
 		return companyInfoMapper.toCompanyInfoResponse(companyInfo);
 	}
 
+	/**
+	 * @desc Get all company info
+	 * @return List<CompanyInfoResponse>
+	 */
 	public List<CompanyInfoResponse> getCompanyInfos(){
 		return companyInfoRepository.findAll().stream().map(companyInfoMapper::toCompanyInfoResponse).toList();
 	}

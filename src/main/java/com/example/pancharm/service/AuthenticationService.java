@@ -56,6 +56,13 @@ public class AuthenticationService {
 	@Value("${jwt.refreshable-duration}")
 	protected Long REFRESHABLE_DURATION;
 
+	/**
+	 * @desc Introspect a token to verify if is valid or not
+	 * @param request
+	 * @return
+	 * @throws ParseException
+	 * @throws JOSEException
+	 */
 	public IntrospectResponse introspect(IntrospectRequest request) throws ParseException, JOSEException {
 		var token = request.getToken();
 		boolean isValid = true;
@@ -70,6 +77,11 @@ public class AuthenticationService {
 				.build();
 	}
 
+	/**
+	 * @desc Authenticate a login request
+	 * @param request
+	 * @return AuthenticationResponse
+	 */
 	public AuthenticationResponse authenticate(AuthenticationRequest request) {
 		var user = userRepository.findByUsername(request.getUsername())
 				.orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
@@ -88,6 +100,12 @@ public class AuthenticationService {
 				.build();
 	}
 
+	/**
+	 * @desc Logout user from the system
+	 * @param request
+	 * @throws ParseException
+	 * @throws JOSEException
+	 */
 	public void logout(LogoutRequest request) throws ParseException, JOSEException {
 		try {
 			var signedToken = verifyToken(request.getToken(), false);
@@ -111,6 +129,14 @@ public class AuthenticationService {
 		}
 	}
 
+	/**
+	 * @desc Verify a token to check if it's valid
+	 * @param token
+	 * @param isRefreshable
+	 * @return SignedJWT
+	 * @throws JOSEException
+	 * @throws ParseException
+	 */
 	private SignedJWT verifyToken(String token, boolean isRefreshable)
 			throws JOSEException, ParseException {
 		JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
@@ -136,6 +162,11 @@ public class AuthenticationService {
 		return signedJWT;
 	}
 
+	/**
+	 * @desc Generate new token
+	 * @param user
+	 * @return String
+	 */
 	private String generateToken(Users user) {
 		JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
@@ -162,6 +193,11 @@ public class AuthenticationService {
 		}
 	}
 
+	/**
+	 * @desc Build scope for token (including Roles & Permissions)
+	 * @param user
+	 * @return String
+	 */
 	private String buildScope(Users user) {
 		StringJoiner joiner = new StringJoiner(" ");
 		if (CollectionUtils.isEmpty(user.getRoles())) {
@@ -180,6 +216,13 @@ public class AuthenticationService {
 		return joiner.toString();
 	}
 
+	/**
+	 * @desc Refresh a token
+	 * @param request
+	 * @return AuthenticationResponse
+	 * @throws ParseException
+	 * @throws JOSEException
+	 */
 	public AuthenticationResponse refreshToken(RefreshRequest request)
 			throws ParseException, JOSEException {
 		var signedToken = verifyToken(request.getToken(), true);

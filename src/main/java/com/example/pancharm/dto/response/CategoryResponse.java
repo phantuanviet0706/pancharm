@@ -1,5 +1,6 @@
 package com.example.pancharm.dto.response;
 
+import com.example.pancharm.entity.Categories;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,9 @@ import java.util.Set;
 public class CategoryResponse {
 	String name;
 	String slug;
-	int parent_id;
+	int parentCategoryId;
+	String parentCategoryName;
 	String config;
-	Set<ProductResponse> product_ids;
-	Set<CategoryResponse> category_ids;
+	Set<ProductResponse> products;
+	Set<CategoryResponse> categories;
 }

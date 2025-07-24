@@ -27,6 +27,12 @@ public class EmailService {
 
 	SendGrid sendGrid;
 
+	/**
+	 * @desc Config to send email
+	 * @param toEmail
+	 * @param subject
+	 * @param body
+	 */
 	public void sendEmail(String toEmail, String subject, String body) {
 		Email from = new Email(fromEmail);
 		Email to = new Email(toEmail);

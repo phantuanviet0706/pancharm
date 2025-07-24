@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,7 +21,8 @@ public class ForgotPasswordService {
 	EmailService emailService;
 
 	@NonFinal
-	static String resetPasswordLink = "https://facebook.com";
+	@Value("${pancharm.reset-password.base-url}")
+	static String resetPasswordLink;
 
 	@NonFinal
 	static String subjectResetPwd = "Reset Your Pancharm Password \uD83D\uDD12";
@@ -45,6 +47,11 @@ public class ForgotPasswordService {
 			"</body>\n" +
 			"</html>";
 
+	/**
+	 * @desc Forgot Password verification, then send email to get link to change password
+	 * @param request
+	 * @return ForgotPasswordResponse
+	 */
 	public ForgotPasswordResponse forgotPassword(@RequestBody ForgotPasswordRequest request) {
 		if (!userRepository.existsByEmail(request.getEmail())) {
 			return ForgotPasswordResponse.builder()

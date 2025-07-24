@@ -39,6 +39,12 @@ public class CompanyService {
 	@Value("${appInfo.masterUsername}")
 	static String SUPER_ADMIN_USERNAME;
 
+	/**
+	 * @desc Update existing company
+	 * @param companyRequest
+	 * @param companyId
+	 * @return CompanyResponse
+	 */
 	@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 	public CompanyResponse updateCompany(CompanyRequest companyRequest, int companyId) {
 		Company company = companyRepository.findById(String.valueOf(companyId)).orElseThrow(
@@ -56,6 +62,10 @@ public class CompanyService {
 		return companyMapper.toCompanyResponse(company);
 	}
 
+	/**
+	 * @desc Get Default Company
+	 * @return CompanyResponse
+	 */
 	public CompanyResponse getCompany() {
 		var company = companyRepository.findAll().getFirst();
 		if (company != null) {

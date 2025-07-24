@@ -30,20 +30,15 @@ public class RegisterService {
 	static String verificationLink;
 
 	@NonFinal
-	static String subjectVerification = "Welcome to Pancharm – Verify Your Email to Begin Your Journey \uD83C\uDF3F";
+	static String subjectVerification = "Welcome to Pancharm – Your Healing Journey Begins \uD83C\uDF3F";
 
 	@NonFinal
 	static String bodyVerification = "<html>\n" +
 			"<body style=\"font-family: Arial, sans-serif; line-height: 1.6;\">\n" +
-			"    <h2>Welcome to Pancharm \uD83C\uDF38</h2>\n" +
+			"    <h2>Welcome to Pancharm 🌸</h2>\n" +
 			"    <p>Thank you for joining the Pancharm community.</p>\n" +
-			"    <p>Your journey towards balance, energy, and inner peace begins here. To complete your registration, please verify your email address:</p>\n" +
-			"    <p style=\"margin: 24px 0;\">\n" +
-			"        <a href=\""
-			+ verificationLink +
-			"\" style=\"padding: 12px 20px; background-color: #8B5CF6; color: white; text-decoration: none; border-radius: 6px;\">Verify My Email</a>\n" +
-			"    </p>\n" +
-			"    <p>If you didn't sign up for Pancharm, you can safely ignore this message.</p>\n" +
+			"    <p>Your journey toward balance, energy, and inner peace begins here.</p>\n" +
+			"    <p>We’re so glad to have you with us.</p>\n" +
 			"    <br>\n" +
 			"    <p>Warm wishes,</p>\n" +
 			"    <p><strong>Pancharm Team</strong></p>\n" +
@@ -52,6 +47,11 @@ public class RegisterService {
 			"</body>\n" +
 			"</html>";
 
+	/**
+	 * @desc Register new User, then send email to notify to that user
+	 * @param registerRequest
+	 * @return RegisterResponse
+	 */
 	public RegisterResponse register(@RequestBody RegisterRequest registerRequest) {
 		if (userRepository.existsByUsername(registerRequest.getUsername())) {
 			throw new AppException(ErrorCode.USER_EXISTED);

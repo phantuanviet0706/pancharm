@@ -29,7 +29,6 @@ import java.util.Set;
 public class RoleService {
 	RoleRepository roleRepository;
 	RoleMapper roleMapper;
-
 	PermissionRepository permissionRepository;
 
 	static final Set<String> FIXED_ROLES = Set.of(
@@ -38,6 +37,11 @@ public class RoleService {
 			PredefineRole.USER.getName()
 	);
 
+	/**
+	 * @desc Create new role
+	 * @param request
+	 * @return RoleResponse
+	 */
 	public RoleResponse createRole(RoleRequest request) {
 		if (roleRepository.existsByName(request.getName())) {
 			throw new AppException(ErrorCode.ROLE_EXISTED);
@@ -55,6 +59,12 @@ public class RoleService {
 		return roleMapper.toRoleResponse(role);
 	}
 
+	/**
+	 * @desc Update existing role
+	 * @param request
+	 * @param roleId
+	 * @return RoleResponse
+	 */
 	public RoleResponse updateRole(RoleRequest request, int roleId) {
 		Roles role =  roleRepository.findById(String.valueOf(roleId)).orElseThrow(
 				() -> new AppException(ErrorCode.ROLE_NOT_FOUND)
@@ -78,10 +88,18 @@ public class RoleService {
 		return roleMapper.toRoleResponse(role);
 	}
 
+	/**
+	 * @desc Get all existing roles
+	 * @return List<RoleResponse>
+	 */
 	public List<RoleResponse> findAll() {
 		return roleRepository.findAll().stream().map(roleMapper::toRoleResponse).toList();
 	}
 
+	/**
+	 * @desc Delete existing role
+	 * @param roleId
+	 */
 	public void deleteRole(int roleId) {
 		var role = roleRepository.findById(String.valueOf(roleId)).orElseThrow(
 				() -> new AppException(ErrorCode.ROLE_NOT_FOUND)
@@ -94,6 +112,11 @@ public class RoleService {
 		roleRepository.deleteById(String.valueOf(roleId));
 	}
 
+	/**
+	 * @desc Set permissions for specific role
+	 * @param role
+	 * @param permissionNames
+	 */
 	private void setPermission(Roles role, Set<String> permissionNames) {
 		var permissions = permissionRepository.findAllByNameIn(permissionNames);
 		role.setPermissions(new HashSet<>(permissions));
