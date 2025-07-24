@@ -24,11 +24,9 @@ public class CompanyInfoRequest {
 	@Email
 	String email;
 
-	@NotBlank(message = "USER_REQUIRED")
 	@Min(value = 1, message = "USER_REQUIRED")
 	int userId;
 
-	@NotBlank(message = "COMPANY_ID_REQUIRED")
 	@Min(value = 1, message = "COMPANY_ID_REQUIRED")
 	int companyId;
 }

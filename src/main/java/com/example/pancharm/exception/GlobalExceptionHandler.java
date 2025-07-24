@@ -3,6 +3,10 @@ package com.example.pancharm.exception;
 import com.example.pancharm.dto.response.ApiResponse;
 import com.example.pancharm.constant.ErrorCode;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.UnexpectedTypeException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,6 +16,7 @@ import java.nio.file.AccessDeniedException;
 import java.util.Map;
 import java.util.Objects;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	@ExceptionHandler(value = RuntimeException.class)
@@ -86,5 +91,15 @@ public class GlobalExceptionHandler {
 		}
 
 		return message;
+	}
+
+	@ExceptionHandler(value = UnexpectedTypeException.class)
+	ResponseEntity<ApiResponse> handleUnexpectedTypeException(UnexpectedTypeException exception) {
+		log.info(exception.toString());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+				ApiResponse.builder()
+						.message(exception.getLocalizedMessage())
+						.build()
+		);
 	}
 }

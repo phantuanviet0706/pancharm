@@ -9,8 +9,8 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface CompanyInfoMapper {
-	@Mapping(source = "company.name", target = "companyName")
-	@Mapping(source = "personInCharge.username", target = "username")
+	@Mapping(target = "company", ignore = true)
+	@Mapping(target = "user", ignore = true)
 	CompanyInfoResponse toCompanyInfoResponse(CompanyInfos companyInfos);
 
 	CompanyInfos toCompanyInfos(CompanyInfoRequest request);

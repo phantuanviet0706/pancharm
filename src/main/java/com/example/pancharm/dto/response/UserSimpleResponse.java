@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponse {
+public class UserSimpleResponse {
 	String username;
 	String email;
 	String fullname;
@@ -24,7 +24,4 @@ public class UserResponse {
 	String phone;
 	UserStatus status;
 	short softDeleted;
-	Set<RoleResponse> roles;
-	Set<CompanyInfoResponse> companyInfos;
-//	Set<ShippingAddresses>  shippingAddresses;
 }

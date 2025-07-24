@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 public class CompanyService {
 	CompanyRepository companyRepository;
 	CompanyMapper companyMapper;
@@ -40,6 +39,7 @@ public class CompanyService {
 	@Value("${appInfo.masterUsername}")
 	static String SUPER_ADMIN_USERNAME;
 
+	@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 	public CompanyResponse updateCompany(CompanyRequest companyRequest, int companyId) {
 		Company company = companyRepository.findById(String.valueOf(companyId)).orElseThrow(
 				() -> new AppException(ErrorCode.COMPANY_NOT_FOUND)
