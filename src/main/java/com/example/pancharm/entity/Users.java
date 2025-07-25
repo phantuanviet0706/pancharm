@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 import com.example.pancharm.constant.MembershipLevel;
 import com.example.pancharm.constant.UserStatus;

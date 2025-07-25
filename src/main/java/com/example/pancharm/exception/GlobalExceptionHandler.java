@@ -105,7 +105,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = SQLIntegrityConstraintViolationException.class)
-    ResponseEntity<ApiResponse> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception) {
+    ResponseEntity<ApiResponse> handleSQLIntegrityConstraintViolationException(
+            SQLIntegrityConstraintViolationException exception) {
 
         return ResponseEntity.status(exception.getErrorCode())
                 .body(ApiResponse.builder()
