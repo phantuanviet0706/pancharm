@@ -28,9 +28,9 @@ public class SecurityConfig {
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
 
-    private final String[] PUBLIC_GET_ENDPOINTS = {"/", "/company", "/company/info"};
+    private static final String[] PUBLIC_GET_ENDPOINTS = {"/", "/company", "/company/info"};
 
-    private final String[] PUBLIC_POST_ENDPOINTS = {
+    private static final String[] PUBLIC_POST_ENDPOINTS = {
         "/users",
         "/auth/login",
         "/auth/introspect",
@@ -40,9 +40,9 @@ public class SecurityConfig {
         "/auth/refresh"
     };
 
-    private final String[] PUBLIC_PUT_ENDPOINTS = {};
+    private static final String[] PUBLIC_PUT_ENDPOINTS = {};
 
-    private final String[] PUBLIC_DELETE_ENDPOINTS = {};
+    private static final String[] PUBLIC_DELETE_ENDPOINTS = {};
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
@@ -55,6 +55,10 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers(HttpMethod.GET, "/users")
                 .hasAuthority(PredefineRole.SUPER_ADMIN.getName())
+                .requestMatchers(HttpMethod.PUT, PUBLIC_PUT_ENDPOINTS)
+                .permitAll()
+                .requestMatchers(HttpMethod.DELETE, PUBLIC_DELETE_ENDPOINTS)
+                .permitAll()
                 .anyRequest()
                 .authenticated());
 

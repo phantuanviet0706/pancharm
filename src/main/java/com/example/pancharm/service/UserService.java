@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.example.pancharm.entity.Roles;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,15 +40,17 @@ public class UserService {
      * @return UserResponse
      */
     public UserResponse createUser(UserCreationRequest request) {
-        if (userRepository.existsByUsername(request.getUsername())) {
-            throw new AppException(ErrorCode.USER_EXISTED);
-        }
         Users user = userMapper.toUsers(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+        HashSet<Roles> roles = new HashSet<>();
+        roleRepository.findById(PredefineRole.USER.getName()).ifPresent(roles::add);
+
+        user.setRoles(roles);
+
         try {
             user = userRepository.save(user);
-        } catch (DataIntegrityViolationException exception) {
+        } catch (DataIntegrityViolationException _) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
@@ -72,7 +75,7 @@ public class UserService {
 
         try {
             user = userRepository.save(user);
-        } catch (DataIntegrityViolationException exception) {
+        } catch (DataIntegrityViolationException _) {
             throw new AppException(ErrorCode.UPDATE_ERROR);
         }
 
@@ -93,9 +96,7 @@ public class UserService {
      * @return Users
      */
     public Users getUser(int id) {
-        return userRepository.findById(String.valueOf(id)).orElseThrow(() -> {
-            return new AppException(ErrorCode.USER_NOT_FOUND);
-        });
+        return userRepository.findById(String.valueOf(id)).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     }
 
     /**

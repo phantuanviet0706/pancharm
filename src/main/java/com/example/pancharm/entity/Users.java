@@ -26,11 +26,9 @@ public class Users extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @NotBlank(message = "USERNAME_REQUIRED")
-    @Column(length = 63, unique = true)
+    @Column(length = 63, unique = true, columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String username;
 
-    @NotBlank(message = "PASSWORD_REQUIRED")
     String password;
 
     @Column(unique = true)

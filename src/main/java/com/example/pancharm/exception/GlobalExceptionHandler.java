@@ -1,6 +1,7 @@
 package com.example.pancharm.exception;
 
 import java.nio.file.AccessDeniedException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -100,6 +101,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.builder()
                         .message(exception.getLocalizedMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = SQLIntegrityConstraintViolationException.class)
+    ResponseEntity<ApiResponse> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception) {
+
+        return ResponseEntity.status(exception.getErrorCode())
+                .body(ApiResponse.builder()
+                        .result(exception.getLocalizedMessage())
                         .build());
     }
 }
