@@ -1,11 +1,12 @@
 package com.example.pancharm.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Set;
 
 @Getter
 @Setter
@@ -15,17 +16,17 @@ import java.util.Set;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Roles extends BaseEntity{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+public class Roles extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
 
-	@Column(unique = true)
-	String name;
+    @Column(unique = true)
+    String name;
 
-	@Column(columnDefinition = "TEXT")
-	String description;
+    @Column(columnDefinition = "TEXT")
+    String description;
 
-	@ManyToMany
-	Set<Permissions> permissions;
+    @ManyToMany
+    Set<Permissions> permissions;
 }

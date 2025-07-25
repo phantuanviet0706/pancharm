@@ -1,6 +1,7 @@
 package com.example.pancharm.entity;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -14,13 +15,13 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class Permissions extends BaseEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
 
-	@Column(unique = true)
-	String name;
+    @Column(unique = true)
+    String name;
 
-	@Column(columnDefinition = "TEXT")
-	String description;
+    @Column(columnDefinition = "TEXT")
+    String description;
 }

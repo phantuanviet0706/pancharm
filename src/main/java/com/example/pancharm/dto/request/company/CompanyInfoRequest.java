@@ -1,10 +1,9 @@
 package com.example.pancharm.dto.request.company;
 
-import com.example.pancharm.entity.Company;
-import com.example.pancharm.entity.Users;
-import com.example.pancharm.validator.annotation.PhoneConstraint;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+
+import com.example.pancharm.validator.annotation.PhoneConstraint;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -16,17 +15,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CompanyInfoRequest {
-	String address;
+    String address;
 
-	@PhoneConstraint
-	String phone;
+    @PhoneConstraint
+    String phone;
 
-	@Email
-	String email;
+    @Email
+    String email;
 
-	@Min(value = 1, message = "USER_REQUIRED")
-	int userId;
+    @Min(value = 1, message = "USER_REQUIRED")
+    int userId;
 
-	@Min(value = 1, message = "COMPANY_ID_REQUIRED")
-	int companyId;
+    @Min(value = 1, message = "COMPANY_ID_REQUIRED")
+    int companyId;
 }

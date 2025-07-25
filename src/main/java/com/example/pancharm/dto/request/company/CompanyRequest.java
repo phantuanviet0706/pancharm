@@ -1,12 +1,13 @@
 package com.example.pancharm.dto.request.company;
 
+import java.util.Set;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -15,15 +16,16 @@ import java.util.Set;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CompanyRequest {
-	@NotBlank(message = "COMPANY_NAME_REQUIRED")
-	String name;
-	String address;
-	String avatar;
+    @NotBlank(message = "COMPANY_NAME_REQUIRED")
+    String name;
 
-	@Size(min = 10, max = 30)
-	String taxcode;
+    String address;
+    String avatar;
 
-	String bankAttachment;
-	String config;
-	Set<String> companyInfos;
+    @Size(min = 10, max = 30)
+    String taxcode;
+
+    String bankAttachment;
+    String config;
+    Set<String> companyInfos;
 }

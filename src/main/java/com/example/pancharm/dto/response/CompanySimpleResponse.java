@@ -4,8 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Set;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,8 +11,8 @@ import java.util.Set;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CompanySimpleResponse {
-	String name;
-	String address;
-	String avatar;
-	String taxcode;
+    String name;
+    String address;
+    String avatar;
+    String taxcode;
 }

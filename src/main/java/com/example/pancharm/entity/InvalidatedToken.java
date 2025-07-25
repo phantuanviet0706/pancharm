@@ -1,12 +1,13 @@
 package com.example.pancharm.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Date;
 
 @Getter
 @Setter
@@ -17,8 +18,8 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class InvalidatedToken {
-	@Id
-	String id;
+    @Id
+    String id;
 
-	Date expiryTime;
+    Date expiryTime;
 }

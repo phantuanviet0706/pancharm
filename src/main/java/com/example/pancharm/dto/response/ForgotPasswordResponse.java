@@ -11,5 +11,5 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ForgotPasswordResponse {
-	String message;
+    String message;
 }

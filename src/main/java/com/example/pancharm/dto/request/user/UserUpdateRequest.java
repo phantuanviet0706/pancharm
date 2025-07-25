@@ -1,15 +1,16 @@
 package com.example.pancharm.dto.request.user;
 
+import java.time.LocalDate;
+import java.util.Set;
+
+import jakarta.validation.constraints.*;
+
 import com.example.pancharm.validator.annotation.DobConstraint;
 import com.example.pancharm.validator.annotation.PhoneConstraint;
-import jakarta.validation.constraints.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -18,25 +19,25 @@ import java.util.Set;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-	@NotBlank(message = "PASSWORD_EMPTY")
-	@Size(min = 8, message = "PASSWORD_SIZE_ERROR")
-	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$", message = "PASSWORD_PATTERN_ERROR")
-	String password;
+    @NotBlank(message = "PASSWORD_EMPTY")
+    @Size(min = 8, message = "PASSWORD_SIZE_ERROR")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$", message = "PASSWORD_PATTERN_ERROR")
+    String password;
 
-	@Email
-	String email;
+    @Email
+    String email;
 
-	String fullname;
+    String fullname;
 
-	@DobConstraint(min = 18, message = "INVALID_DOB")
-	LocalDate dob;
+    @DobConstraint(min = 18, message = "INVALID_DOB")
+    LocalDate dob;
 
-	String avatar;
+    String avatar;
 
-	String address;
+    String address;
 
-	@PhoneConstraint
-	String phone;
+    @PhoneConstraint
+    String phone;
 
-	Set<String> roles;
+    Set<String> roles;
 }

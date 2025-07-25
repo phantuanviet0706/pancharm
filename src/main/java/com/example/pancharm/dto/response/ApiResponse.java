@@ -1,7 +1,7 @@
 package com.example.pancharm.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.Entity;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-	@Builder.Default
-	int code = 1;
-	String message;
-	T result;
+    @Builder.Default
+    int code = 1;
+
+    String message;
+    T result;
 }

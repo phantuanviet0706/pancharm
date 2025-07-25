@@ -1,13 +1,15 @@
 package com.example.pancharm.entity;
 
-import com.example.pancharm.constant.ProductStatus;
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
+
+import com.example.pancharm.constant.ProductStatus;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -18,53 +20,52 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class Products extends BaseEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
 
-	String name;
+    String name;
 
-	@Column(length = 63)
-	String slug;
+    @Column(length = 63)
+    String slug;
 
-	int quantity;
+    int quantity;
 
-	@Column(name = "unit_price")
-	int unitPrice;
+    @Column(name = "unit_price")
+    int unitPrice;
 
-	@Column(length = 10)
-	String color;
+    @Column(length = 10)
+    String color;
 
-	@Builder.Default
-	@Enumerated(EnumType.STRING)
-	@Column(name = "status", nullable = false)
-	ProductStatus status = ProductStatus.ACTIVE;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    ProductStatus status = ProductStatus.ACTIVE;
 
-	@Column(columnDefinition = "TEXT")
-	String description;
+    @Column(columnDefinition = "TEXT")
+    String description;
 
-	@Builder.Default
-	@Column(name = "soft_deleted")
-	short softDeleted = 0;
+    @Builder.Default
+    @Column(name = "soft_deleted")
+    short softDeleted = 0;
 
-	@Column(columnDefinition = "TEXT")
-	String config;
+    @Column(columnDefinition = "TEXT")
+    String config;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id")
-	Categories category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    Categories category;
 
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-	Set<ProductImages> images = new HashSet<>();
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    Set<ProductImages> images = new HashSet<>();
 
-	@ManyToMany
-	@JoinTable(
-			name = "product_collections",
-			joinColumns = @JoinColumn(name = "product_id"),
-			inverseJoinColumns = @JoinColumn(name = "collection_id")
-	)
-	Set<Collections> collections = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "product_collections",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "collection_id"))
+    Set<Collections> collections = new HashSet<>();
 
-	@OneToOne(mappedBy = "product")
-	OrderItems orderItems;
+    @OneToOne(mappedBy = "product")
+    OrderItems orderItems;
 }

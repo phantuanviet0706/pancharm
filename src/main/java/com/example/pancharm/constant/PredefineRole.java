@@ -11,10 +11,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum PredefineRole {
-	SUPER_ADMIN("SUPER_ADMIN", "Super admin role - Grant all access."),
-	ADMIN("ADMIN", "Admin role - Grant access from super admin, can access to admin page."),
-	USER("USER", "User role - Normal User, can manage profile, view and order from website.");
+    SUPER_ADMIN("SUPER_ADMIN", "Super admin role - Grant all access."),
+    ADMIN("ADMIN", "Admin role - Grant access from super admin, can access to admin page."),
+    USER("USER", "User role - Normal User, can manage profile, view and order from website.");
 
-	String name;
-	String description;
+    String name;
+    String description;
 }

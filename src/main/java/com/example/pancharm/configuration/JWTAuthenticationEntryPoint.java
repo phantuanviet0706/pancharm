@@ -1,35 +1,38 @@
 package com.example.pancharm.configuration;
 
-import com.example.pancharm.constant.ErrorCode;
-import com.example.pancharm.dto.response.ApiResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import java.io.IOException;
+import com.example.pancharm.constant.ErrorCode;
+import com.example.pancharm.dto.response.ApiResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
-	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-			throws IOException, ServletException {
-		ErrorCode errorCode = ErrorCode.UNAUTHENTICATED;
+    @Override
+    public void commence(
+            HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
+        ErrorCode errorCode = ErrorCode.UNAUTHENTICATED;
 
-		response.setStatus(errorCode.getStatusCode().value());
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setCharacterEncoding("UTF-8");
+        response.setStatus(errorCode.getStatusCode().value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
 
-		ApiResponse<?> apiResponse = ApiResponse.builder()
-				.code(errorCode.getCode())
-				.message(errorCode.getMessage())
-				.build();
+        ApiResponse<?> apiResponse = ApiResponse.builder()
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .build();
 
-		ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
 
-		response.getWriter().write(mapper.writeValueAsString(apiResponse));
-		response.flushBuffer();
-	}
+        response.getWriter().write(mapper.writeValueAsString(apiResponse));
+        response.flushBuffer();
+    }
 }

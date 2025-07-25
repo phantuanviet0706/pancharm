@@ -1,6 +1,7 @@
 package com.example.pancharm.entity;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -14,39 +15,39 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class ShippingAddresses extends BaseEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
 
-	@Column(name = "recipient_name", length = 100)
-	String recipientName;
+    @Column(name = "recipient_name", length = 100)
+    String recipientName;
 
-	@Column(columnDefinition = "TEXT")
-	String address;
+    @Column(columnDefinition = "TEXT")
+    String address;
 
-	@Column(length = 100)
-	String ward;
+    @Column(length = 100)
+    String ward;
 
-	@Column(length = 100)
-	String district;
+    @Column(length = 100)
+    String district;
 
-	@Column(length = 100)
-	String province;
+    @Column(length = 100)
+    String province;
 
-	@Column(name = "phone_number", length = 35)
-	String phoneNumber;
+    @Column(name = "phone_number", length = 35)
+    String phoneNumber;
 
-	@Column(name = "zip_code", length = 100)
-	String zipCode;
+    @Column(name = "zip_code", length = 100)
+    String zipCode;
 
-	@Builder.Default
-	@Column(name = "is_default")
-	short isDefault = 0;
+    @Builder.Default
+    @Column(name = "is_default")
+    short isDefault = 0;
 
-	@Column(columnDefinition = "TEXT")
-	String config;
+    @Column(columnDefinition = "TEXT")
+    String config;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	Users user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    Users user;
 }

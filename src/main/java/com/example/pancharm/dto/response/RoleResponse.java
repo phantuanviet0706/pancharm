@@ -1,10 +1,10 @@
 package com.example.pancharm.dto.response;
 
+import java.util.Set;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +13,7 @@ import java.util.Set;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleResponse {
-	String name;
-	String description;
-	Set<PermissionResponse> permissions;
+    String name;
+    String description;
+    Set<PermissionResponse> permissions;
 }

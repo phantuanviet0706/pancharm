@@ -1,6 +1,7 @@
 package com.example.pancharm.entity;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -14,17 +15,17 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class CollectionImages extends BaseEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
 
-	String path;
+    String path;
 
-	@Builder.Default
-	@Column(name = "is_default")
-	short isDefault = 0;
+    @Builder.Default
+    @Column(name = "is_default")
+    short isDefault = 0;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "collection_id", nullable = false)
-	Collections collection;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "collection_id", nullable = false)
+    Collections collection;
 }
