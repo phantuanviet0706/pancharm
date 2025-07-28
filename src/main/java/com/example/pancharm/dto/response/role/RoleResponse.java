@@ -1,7 +1,8 @@
-package com.example.pancharm.dto.response;
+package com.example.pancharm.dto.response.role;
 
 import java.util.Set;
 
+import com.example.pancharm.dto.response.permission.PermissionResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CompanyResponse {
+public class RoleResponse {
     String name;
-    String address;
-    String avatar;
-    String taxcode;
-    String bankAttachment;
-    String config;
-    Set<CompanyInfoResponse> companyInfos;
+    String description;
+    Set<PermissionResponse> permissions;
 }

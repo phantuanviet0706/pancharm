@@ -1,8 +1,10 @@
-package com.example.pancharm.dto.response;
+package com.example.pancharm.dto.response.product;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -10,7 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PermissionResponse {
+public class ProductResponse {
     String name;
+    String slug;
+    int quantity;
+    int unitPrice;
+    String color;
+    String status;
     String description;
+    Set<ProductImageResponse> productImages;
 }

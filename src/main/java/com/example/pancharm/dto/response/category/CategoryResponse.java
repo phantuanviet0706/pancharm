@@ -1,7 +1,8 @@
-package com.example.pancharm.dto.response;
+package com.example.pancharm.dto.response.category;
 
 import java.util.Set;
 
+import com.example.pancharm.dto.response.product.ProductResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.constant.PredefineRole;
 import com.example.pancharm.dto.request.role.RoleRequest;
-import com.example.pancharm.dto.response.RoleResponse;
+import com.example.pancharm.dto.response.role.RoleResponse;
 import com.example.pancharm.entity.Roles;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.RoleMapper;

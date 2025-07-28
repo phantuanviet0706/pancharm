@@ -10,9 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.constant.PredefineRole;
-import com.example.pancharm.dto.request.user.UserCreationRequest;
-import com.example.pancharm.dto.request.user.UserUpdateRequest;
-import com.example.pancharm.dto.response.UserResponse;
+import com.example.pancharm.dto.request.user.UserRequest;
+import com.example.pancharm.dto.response.user.UserResponse;
 import com.example.pancharm.entity.Roles;
 import com.example.pancharm.entity.Users;
 import com.example.pancharm.exception.AppException;
@@ -39,7 +38,7 @@ public class UserService {
      * @param request
      * @return UserResponse
      */
-    public UserResponse createUser(UserCreationRequest request) {
+    public UserResponse createUser(UserRequest request) {
         Users user = userMapper.toUsers(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -63,7 +62,7 @@ public class UserService {
      * @param id
      * @return UserResponse
      */
-    public UserResponse updateUser(UserUpdateRequest request, int id) {
+    public UserResponse updateUser(UserRequest request, int id) {
         Users user = userRepository
                 .findById(String.valueOf(id))
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));

@@ -2,6 +2,7 @@ package com.example.pancharm.controller;
 
 import java.text.ParseException;
 
+import com.example.pancharm.dto.response.auth.*;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.pancharm.dto.request.auth.*;
-import com.example.pancharm.dto.response.*;
 import com.example.pancharm.service.AuthenticationService;
 import com.example.pancharm.service.ForgotPasswordService;
 import com.example.pancharm.service.RegisterService;
@@ -30,7 +30,7 @@ public class AuthController {
     ForgotPasswordService forgotPasswordService;
 
     @PostMapping("/login")
-    ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
+	ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(authenticationService.authenticate(request))
                 .build();

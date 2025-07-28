@@ -18,7 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserUpdateRequest {
+public class UserRequest {
+    @NotBlank(message = "USERNAME_EMPTY")
+    @Size(min = 8, message = "USERNAME_SIZE_ERROR")
+    @Pattern(regexp = "^[A-Za-z\\d]+$", message = "USERNAME_PATTERN_ERROR")
+    String username;
+
     @NotBlank(message = "PASSWORD_EMPTY")
     @Size(min = 8, message = "PASSWORD_SIZE_ERROR")
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$", message = "PASSWORD_PATTERN_ERROR")

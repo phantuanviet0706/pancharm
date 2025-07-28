@@ -1,4 +1,4 @@
-package com.example.pancharm.dto.response;
+package com.example.pancharm.dto.response.company;
 
 import com.example.pancharm.entity.Company;
 import com.example.pancharm.entity.Users;

@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.example.pancharm.dto.request.role.RoleRequest;
-import com.example.pancharm.dto.response.RoleResponse;
+import com.example.pancharm.dto.response.role.RoleResponse;
 import com.example.pancharm.entity.Roles;
 
 @Mapper(componentModel = "spring")

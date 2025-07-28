@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.example.pancharm.dto.request.company.CompanyInfoRequest;
-import com.example.pancharm.dto.response.CompanyInfoResponse;
+import com.example.pancharm.dto.response.company.CompanyInfoResponse;
 import com.example.pancharm.entity.CompanyInfos;
 
 @Mapper(componentModel = "spring")

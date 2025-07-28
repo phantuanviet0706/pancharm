@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.dto.request.auth.RegisterRequest;
-import com.example.pancharm.dto.response.RegisterResponse;
+import com.example.pancharm.dto.response.auth.RegisterResponse;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.RegisterMapper;
 import com.example.pancharm.repository.UserRepository;

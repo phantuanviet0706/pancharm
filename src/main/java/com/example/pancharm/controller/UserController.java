@@ -6,10 +6,9 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.example.pancharm.dto.request.user.UserCreationRequest;
-import com.example.pancharm.dto.request.user.UserUpdateRequest;
-import com.example.pancharm.dto.response.ApiResponse;
-import com.example.pancharm.dto.response.UserResponse;
+import com.example.pancharm.dto.request.user.UserRequest;
+import com.example.pancharm.dto.response.auth.ApiResponse;
+import com.example.pancharm.dto.response.user.UserResponse;
 import com.example.pancharm.service.UserService;
 
 import lombok.AccessLevel;
@@ -24,14 +23,14 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
+    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserRequest request) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
                 .build();
     }
 
     @PutMapping("/{id}")
-    ApiResponse<UserResponse> updateUser(@RequestBody @Valid UserUpdateRequest request, @PathVariable int id) {
+    ApiResponse<UserResponse> updateUser(@RequestBody @Valid UserRequest request, @PathVariable int id) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.updateUser(request, id))
                 .build();

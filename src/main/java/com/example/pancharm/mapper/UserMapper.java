@@ -4,17 +4,18 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.example.pancharm.dto.request.user.UserCreationRequest;
-import com.example.pancharm.dto.request.user.UserUpdateRequest;
-import com.example.pancharm.dto.response.UserResponse;
+import com.example.pancharm.dto.request.user.UserRequest;
+import com.example.pancharm.dto.response.user.UserResponse;
 import com.example.pancharm.entity.Users;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    Users toUsers(UserCreationRequest request);
+    @Mapping(target = "roles", ignore = true)
+    Users toUsers(UserRequest request);
 
     UserResponse toUserResponse(Users user);
 
     @Mapping(target = "roles", ignore = true)
-    void updateUser(@MappingTarget Users user, UserUpdateRequest request);
+    @Mapping(target = "password", ignore = true)
+    void updateUser(@MappingTarget Users user, UserRequest request);
 }

@@ -7,8 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.pancharm.dto.request.role.RoleRequest;
-import com.example.pancharm.dto.response.ApiResponse;
-import com.example.pancharm.dto.response.RoleResponse;
+import com.example.pancharm.dto.response.auth.ApiResponse;
+import com.example.pancharm.dto.response.role.RoleResponse;
 import com.example.pancharm.service.RoleService;
 
 import lombok.AccessLevel;

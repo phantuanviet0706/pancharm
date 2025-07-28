@@ -5,8 +5,8 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.pancharm.dto.request.company.CompanyRequest;
-import com.example.pancharm.dto.response.ApiResponse;
-import com.example.pancharm.dto.response.CompanyResponse;
+import com.example.pancharm.dto.response.auth.ApiResponse;
+import com.example.pancharm.dto.response.company.CompanyResponse;
 import com.example.pancharm.service.CompanyService;
 
 import lombok.AccessLevel;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.example.pancharm.constant.ErrorCode;
-import com.example.pancharm.dto.response.ApiResponse;
+import com.example.pancharm.dto.response.auth.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

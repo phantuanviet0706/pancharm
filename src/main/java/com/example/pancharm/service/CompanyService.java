@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.dto.request.company.CompanyRequest;
-import com.example.pancharm.dto.response.CompanyResponse;
+import com.example.pancharm.dto.response.company.CompanyResponse;
 import com.example.pancharm.entity.Company;
 import com.example.pancharm.entity.CompanyInfos;
 import com.example.pancharm.entity.Users;

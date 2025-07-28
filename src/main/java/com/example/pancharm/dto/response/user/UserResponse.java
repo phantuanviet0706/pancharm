@@ -1,9 +1,10 @@
-package com.example.pancharm.dto.response;
+package com.example.pancharm.dto.response.user;
 
 import java.time.LocalDate;
 import java.util.Set;
 
 import com.example.pancharm.constant.UserStatus;
+import com.example.pancharm.dto.response.role.RoleResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.*;

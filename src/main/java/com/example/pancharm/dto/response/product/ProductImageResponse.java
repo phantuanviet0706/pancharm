@@ -1,4 +1,4 @@
-package com.example.pancharm.dto.response;
+package com.example.pancharm.dto.response.product;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ForgotPasswordResponse {
-    String message;
+public class ProductImageResponse {
+	String path;
+	short isDefault;
 }

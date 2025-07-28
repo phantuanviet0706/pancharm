@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.dto.request.permission.PermissionRequest;
-import com.example.pancharm.dto.response.PermissionResponse;
+import com.example.pancharm.dto.response.permission.PermissionResponse;
 import com.example.pancharm.entity.Permissions;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.PermissionMapper;

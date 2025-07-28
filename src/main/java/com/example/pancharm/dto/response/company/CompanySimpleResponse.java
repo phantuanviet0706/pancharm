@@ -1,4 +1,4 @@
-package com.example.pancharm.dto.response;
+package com.example.pancharm.dto.response.company;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,12 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductResponse {
+public class CompanySimpleResponse {
     String name;
-    String slug;
-    int quantity;
-    int unitPrice;
-    String color;
-    String status;
-    String description;
+    String address;
+    String avatar;
+    String taxcode;
 }

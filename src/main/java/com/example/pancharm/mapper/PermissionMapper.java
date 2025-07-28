@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 import com.example.pancharm.dto.request.permission.PermissionRequest;
-import com.example.pancharm.dto.response.PermissionResponse;
+import com.example.pancharm.dto.response.permission.PermissionResponse;
 import com.example.pancharm.entity.Permissions;
 
 @Mapper(componentModel = "spring")

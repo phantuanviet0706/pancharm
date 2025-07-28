@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.dto.request.category.CategoryRequest;
-import com.example.pancharm.dto.response.CategoryResponse;
+import com.example.pancharm.dto.response.category.CategoryResponse;
 import com.example.pancharm.entity.Categories;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.CategoryMapper;

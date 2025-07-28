@@ -1,4 +1,4 @@
-package com.example.pancharm.dto.response;
+package com.example.pancharm.dto.response.auth;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RegisterResponse {
-    String fullname;
-    String email;
-    String phone;
+public class IntrospectResponse {
+    boolean valid;
 }

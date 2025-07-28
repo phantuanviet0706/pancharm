@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.pancharm.dto.request.auth.ForgotPasswordRequest;
-import com.example.pancharm.dto.response.ForgotPasswordResponse;
+import com.example.pancharm.dto.response.auth.ForgotPasswordResponse;
 import com.example.pancharm.repository.UserRepository;
 
 import lombok.AccessLevel;

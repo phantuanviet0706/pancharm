@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.dto.request.company.CompanyInfoRequest;
-import com.example.pancharm.dto.response.CompanyInfoResponse;
+import com.example.pancharm.dto.response.company.CompanyInfoResponse;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.CompanyInfoMapper;
 import com.example.pancharm.repository.CompanyInfoRepository;
