@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.pancharm.dto.request.permission.PermissionRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 import com.example.pancharm.dto.response.permission.PermissionResponse;
-import com.example.pancharm.service.PermissionService;
+import com.example.pancharm.service.permission.PermissionService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

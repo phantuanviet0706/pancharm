@@ -1,5 +1,6 @@
-package com.example.pancharm.service;
+package com.example.pancharm.service.auth;
 
+import com.example.pancharm.service.base.EmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Component;
 
 import com.example.pancharm.dto.request.auth.IntrospectRequest;
-import com.example.pancharm.service.AuthenticationService;
+import com.example.pancharm.service.auth.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 
 @Component

@@ -1,4 +1,4 @@
-package com.example.pancharm.service;
+package com.example.pancharm.service.category;
 
 import java.util.List;
 

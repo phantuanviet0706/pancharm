@@ -36,13 +36,16 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 jwt:
   signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
   valid-duration: 3600
   refreshable-duration: 360000
-
-appInfo:
-  masterUsername: "admin"
 
 sendgrid:
 #  api-key: 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
@@ -52,3 +55,19 @@ sendgrid:
 pancharm:
   reset-password:
     base-url: http://localhost:3000/reset-password
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-1
+    stack:
+      auto: false
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+
+appInfo:
+  masterUsername: "admin"
+  aws:
+    s3:
+      bucket-name: pancharm

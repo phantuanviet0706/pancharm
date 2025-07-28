@@ -1,4 +1,4 @@
-package com.example.pancharm.service;
+package com.example.pancharm.service.company;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;

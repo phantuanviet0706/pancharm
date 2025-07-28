@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.pancharm.dto.request.user.UserRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 import com.example.pancharm.dto.response.user.UserResponse;
-import com.example.pancharm.service.UserService;
+import com.example.pancharm.service.user.UserService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

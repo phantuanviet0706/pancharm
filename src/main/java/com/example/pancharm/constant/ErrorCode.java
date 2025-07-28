@@ -67,11 +67,18 @@ public enum ErrorCode {
             "Cannot delete this category because it has subcategories. Please delete the subcategories first.",
             HttpStatus.BAD_REQUEST),
 
+    PRODUCT_NOT_FOUND(1006, "Product not found", HttpStatus.NOT_FOUND),
+    PRODUCT_NAME_REQUIRED(1006, "Please fill the product name", HttpStatus.BAD_REQUEST),
+    PRODUCT_QUANTITY_REQUIRED(1006, "Please fill the product quantity", HttpStatus.BAD_REQUEST),
+    PRODUCT_QUANTITY_MINIMUM(1006, "The product quantity must be greater than {min}", HttpStatus.BAD_REQUEST),
+    PRODUCT_UNIT_PRICE_REQUIRED(1006, "Please fill the product price", HttpStatus.BAD_REQUEST),
+
     SLUG_EXISTED(1111, "Input slug already exists, please check and try again!", HttpStatus.BAD_REQUEST),
     SLUG_REQUIRED(1111, "Please fill the slug", HttpStatus.BAD_REQUEST),
 
     SEND_EMAIL_ERROR(1997, "Failed to send email", HttpStatus.BAD_REQUEST),
     SEND_EMAIL_SENDGRID_ERROR(1997, "Error sending email with SendGrid", HttpStatus.BAD_REQUEST),
+    AWS_S3_UPLOAD_ERROR(1997, "Upload file to AWS Cloud S3 failed", HttpStatus.BAD_REQUEST),
 
     UPDATE_ERROR(1998, "Cannot update object, please check and try again", HttpStatus.BAD_REQUEST),
 

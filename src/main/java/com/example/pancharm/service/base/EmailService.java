@@ -1,4 +1,4 @@
-package com.example.pancharm.service;
+package com.example.pancharm.service.base;
 
 import java.io.IOException;
 

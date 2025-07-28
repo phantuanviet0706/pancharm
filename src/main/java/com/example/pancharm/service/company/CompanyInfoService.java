@@ -1,4 +1,4 @@
-package com.example.pancharm.service;
+package com.example.pancharm.service.company;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.pancharm.service;
+package com.example.pancharm.service.auth;
 
 import java.text.ParseException;
 import java.time.Instant;
