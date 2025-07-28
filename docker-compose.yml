@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.42-debian
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DBMS_PASSWORD}
+      - MYSQL_DATABASE=${DBMS_DB_NAME}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - pancharm
+
+  springboot:
+    image: phantuanviet0706/pancharm:0.9.0
+    container_name: pancharm
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      - DBMS_CONNECTION=${DBMS_CONNECTION}
+      - DBMS_USERNAME=${DBMS_USERNAME}
+      - DBMS_PASSWORD=${DBMS_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=develop
+
+networks:
+  app-net:
+
+volumes:
+  mysql-data:
