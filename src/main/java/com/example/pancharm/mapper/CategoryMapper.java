@@ -12,7 +12,6 @@ import com.example.pancharm.entity.Categories;
 public interface CategoryMapper {
     Categories toCategories(CategoryRequest request);
 
-    @Mapping(target = "products", ignore = true)
     @Mapping(target = "categories", ignore = true)
     @Mapping(target = "parentCategoryId", source = "parent.id")
     @Mapping(target = "parentCategoryName", source = "parent.name")

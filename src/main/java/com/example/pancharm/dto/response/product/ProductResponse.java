@@ -1,5 +1,6 @@
 package com.example.pancharm.dto.response.product;
 
+import com.example.pancharm.dto.response.category.CategoryResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -20,5 +21,6 @@ public class ProductResponse {
     String color;
     String status;
     String description;
+    CategoryResponse category;
     Set<ProductImageResponse> productImages;
 }

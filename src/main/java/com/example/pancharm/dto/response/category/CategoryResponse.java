@@ -19,6 +19,5 @@ public class CategoryResponse {
     int parentCategoryId;
     String parentCategoryName;
     String config;
-    Set<ProductResponse> products;
     Set<CategoryResponse> categories;
 }
