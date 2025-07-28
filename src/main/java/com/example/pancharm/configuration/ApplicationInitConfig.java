@@ -1,7 +1,12 @@
 package com.example.pancharm.configuration;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import com.example.pancharm.constant.ConfigurationName;
+import com.example.pancharm.entity.*;
+import com.example.pancharm.repository.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,21 +18,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.constant.PredefineRole;
 import com.example.pancharm.constant.UserStatus;
-import com.example.pancharm.entity.Company;
-import com.example.pancharm.entity.CompanyInfos;
-import com.example.pancharm.entity.Roles;
-import com.example.pancharm.entity.Users;
 import com.example.pancharm.exception.AppException;
-import com.example.pancharm.repository.CompanyInfoRepository;
-import com.example.pancharm.repository.CompanyRepository;
-import com.example.pancharm.repository.RoleRepository;
-import com.example.pancharm.repository.UserRepository;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Configuration
@@ -37,14 +35,13 @@ public class ApplicationInitConfig {
     PasswordEncoder passwordEncoder;
 
     @NonFinal
-    @Value("${appInfo.masterUsername}")
-    static String SUPER_ADMIN_USERNAME = "admin";
+    static String superAdminUsername = "admin";
 
     @NonFinal
-    static String SUPER_ADMIN_PASSWORD = "admin";
+    static String superAdminPassword = "admin";
 
     @NonFinal
-    static String COMPANY_NAME = "Pancharm";
+    static String companyName = "Pancharm";
 
     @Bean
     @ConditionalOnProperty(
@@ -55,67 +52,57 @@ public class ApplicationInitConfig {
             UserRepository userRepository,
             RoleRepository roleRepository,
             CompanyRepository companyRepository,
-            CompanyInfoRepository companyInfoRepository) {
+            CompanyInfoRepository companyInfoRepository,
+            ConfigurationRepository configurationRepository) {
         return args -> {
-            Users user = null;
-            boolean isEmptyUser =
-                    userRepository.findByUsername(SUPER_ADMIN_USERNAME).isEmpty();
-            if (isEmptyUser) {
-                Roles superAdminRole = roleRepository.save(Roles.builder()
-                        .name(PredefineRole.SUPER_ADMIN.getName())
-                        .description(PredefineRole.SUPER_ADMIN.getDescription())
-                        .build());
-
-                roleRepository.save(Roles.builder()
-                        .name(PredefineRole.ADMIN.getName())
-                        .description(PredefineRole.ADMIN.getDescription())
-                        .build());
-
-                roleRepository.save(Roles.builder()
-                        .name(PredefineRole.USER.getName())
-                        .description(PredefineRole.USER.getDescription())
-                        .build());
-
-                var roles = new HashSet<Roles>();
-                roles.add(superAdminRole);
-
-                user = Users.builder()
-                        .username(SUPER_ADMIN_USERNAME)
-                        .password(passwordEncoder.encode(SUPER_ADMIN_PASSWORD))
-                        .status(UserStatus.ACTIVE)
-                        .roles(roles)
-                        .build();
-
-                userRepository.save(user);
-                log.warn("The super admin user has been created with default password: admin, please change it");
-            }
-
-            var companies = companyRepository.findAll();
-            if (companies.isEmpty()) {
-                if (isEmptyUser) {
-                    user = userRepository
-                            .findByUsername(SUPER_ADMIN_USERNAME)
-                            .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-                }
-
-                Company company = Company.builder().name(COMPANY_NAME).build();
-
-                try {
-                    company = companyRepository.save(company);
-                } catch (DataIntegrityViolationException exception) {
-                    throw new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION);
-                }
-
-                CompanyInfos companyInfos = CompanyInfos.builder()
-                        .company(company)
-                        .personInCharge(user)
-                        .build();
-
-                companyInfoRepository.save(companyInfos);
-                log.warn("Company Infos has been created successfully. You can now add or edit the company info");
-            }
-
+            initRolesAndSuperAdmin(userRepository, roleRepository);
+            initCompany(userRepository, companyRepository, companyInfoRepository);
+            initConfigurations(configurationRepository);
             log.warn("Application initialization completed .......");
         };
+    }
+
+    @Transactional
+    void initRolesAndSuperAdmin(UserRepository userRepository, RoleRepository roleRepository) {
+        if (userRepository.findByUsername(superAdminUsername).isEmpty()) {
+            Roles superAdminRole = roleRepository.save(Roles.builder()
+                    .name(PredefineRole.SUPER_ADMIN.getName())
+                    .description(PredefineRole.SUPER_ADMIN.getDescription())
+                    .build());
+
+            roleRepository.saveAll(List.of(
+                    Roles.builder().name(PredefineRole.ADMIN.getName()).description(PredefineRole.ADMIN.getDescription()).build(),
+                    Roles.builder().name(PredefineRole.USER.getName()).description(PredefineRole.USER.getDescription()).build()
+            ));
+
+            Users user = Users.builder()
+                    .username(superAdminUsername)
+                    .password(passwordEncoder.encode(superAdminPassword))
+                    .status(UserStatus.ACTIVE)
+                    .roles(Set.of(superAdminRole))
+                    .build();
+            userRepository.save(user);
+
+            log.warn("Super admin created with default password. Please change it immediately!");
+        }
+    }
+
+    @Transactional
+    void initCompany(UserRepository userRepository, CompanyRepository companyRepository, CompanyInfoRepository companyInfoRepository) {
+        if (companyRepository.findAll().isEmpty()) {
+            Users admin = userRepository.findByUsername(superAdminUsername)
+                    .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+            Company company = companyRepository.save(Company.builder().name(companyName).build());
+            companyInfoRepository.save(CompanyInfos.builder().company(company).personInCharge(admin).build());
+            log.warn("Default company created. Update details as needed.");
+        }
+    }
+
+    @Transactional
+    void initConfigurations(ConfigurationRepository configurationRepository) {
+        if (!configurationRepository.existsByName(ConfigurationName.COMPANY_CONFIG)) {
+            configurationRepository.save(Configurations.builder().build());
+        }
     }
 }

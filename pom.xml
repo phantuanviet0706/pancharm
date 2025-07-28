@@ -198,7 +198,7 @@
 						<phase>compile</phase>
 						<goals>
 							<goal>
-								check
+								apply
 							</goal>
 						</goals>
 					</execution>
