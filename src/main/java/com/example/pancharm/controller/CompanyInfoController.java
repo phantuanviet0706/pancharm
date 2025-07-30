@@ -2,6 +2,8 @@ package com.example.pancharm.controller;
 
 import java.util.List;
 
+import com.example.pancharm.dto.request.base.PageDefaultRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -45,9 +47,9 @@ public class CompanyInfoController {
     }
 
     @GetMapping
-    public ApiResponse<List<CompanyInfoResponse>> getCompanyInfos() {
-        return ApiResponse.<List<CompanyInfoResponse>>builder()
-                .result(companyInfoService.getCompanyInfos())
+    public ApiResponse<PageResponse<CompanyInfoResponse>> getCompanyInfos(PageDefaultRequest request) {
+        return ApiResponse.<PageResponse<CompanyInfoResponse>>builder()
+                .result(companyInfoService.getCompanyInfos(request))
                 .build();
     }
 

@@ -20,11 +20,11 @@ import lombok.experimental.FieldDefaults;
 public class CompanyController {
     CompanyService companyService;
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ApiResponse<CompanyResponse> updateCompany(
-            @RequestBody @Valid CompanyRequest companyRequest, @PathVariable int id) {
+            @RequestBody @Valid CompanyRequest companyRequest) {
         return ApiResponse.<CompanyResponse>builder()
-                .result(companyService.updateCompany(companyRequest, id))
+                .result(companyService.updateCompany(companyRequest))
                 .build();
     }
 

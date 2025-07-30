@@ -1,5 +1,6 @@
 package com.example.pancharm.service.company;
 
+import com.example.pancharm.dto.request.base.PageDefaultRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -7,7 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
-import com.example.pancharm.dto.request.company.CompanyInfoFilterRequest;
 import com.example.pancharm.dto.request.company.CompanyInfoRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.company.CompanyInfoResponse;
@@ -113,7 +113,7 @@ public class CompanyInfoService {
      * @desc Get all company info
      * @return PageResponse<CompanyInfoResponse>
      */
-    public PageResponse<CompanyInfoResponse> getCompanyInfos(CompanyInfoFilterRequest request) {
+    public PageResponse<CompanyInfoResponse> getCompanyInfos(PageDefaultRequest request) {
         Pageable pageable = PageRequestUtil.from(request);
 
         Specification<CompanyInfos> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();

@@ -2,6 +2,8 @@ package com.example.pancharm.controller;
 
 import java.util.List;
 
+import com.example.pancharm.dto.request.category.CategoryFilterRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,9 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping
-    public ApiResponse<List<CategoryResponse>> getCategories() {
-        return ApiResponse.<List<CategoryResponse>>builder()
-                .result(categoryService.findAll())
+    public ApiResponse<PageResponse<CategoryResponse>> getCategories(CategoryFilterRequest request) {
+        return ApiResponse.<PageResponse<CategoryResponse>>builder()
+                .result(categoryService.findAll(request))
                 .build();
     }
 
