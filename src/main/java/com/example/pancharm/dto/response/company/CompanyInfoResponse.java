@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CompanyInfoResponse {
+    int id;
     String address;
     String phone;
     String email;

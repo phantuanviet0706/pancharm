@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CategoryResponse {
+    int id;
     String name;
     String slug;
     int parentCategoryId;

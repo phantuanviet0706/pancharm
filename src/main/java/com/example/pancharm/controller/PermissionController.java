@@ -2,8 +2,13 @@ package com.example.pancharm.controller;
 
 import java.util.List;
 
+import com.example.pancharm.dto.request.permission.PermissionFilterRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.pancharm.dto.request.permission.PermissionRequest;
@@ -44,9 +49,9 @@ public class PermissionController {
     }
 
     @GetMapping
-    public ApiResponse<List<PermissionResponse>> findAllPermission() {
-        return ApiResponse.<List<PermissionResponse>>builder()
-                .result(permissionService.findAll())
+    public ApiResponse<PageResponse<PermissionResponse>> findAllPermission(PermissionFilterRequest request) {
+        return ApiResponse.<PageResponse<PermissionResponse>>builder()
+                .result(permissionService.findAll(request))
                 .build();
     }
 }

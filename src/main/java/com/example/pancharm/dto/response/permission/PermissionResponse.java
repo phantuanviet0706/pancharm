@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PermissionResponse {
+    int id;
     String name;
     String description;
 }

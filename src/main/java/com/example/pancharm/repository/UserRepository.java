@@ -3,12 +3,14 @@ package com.example.pancharm.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.example.pancharm.entity.Users;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, String> {
+public interface UserRepository
+        extends JpaRepository<Users, String>, JpaSpecificationExecutor<Users> {
     boolean existsByUsername(String username);
 
     Optional<Users> findByUsername(String username);

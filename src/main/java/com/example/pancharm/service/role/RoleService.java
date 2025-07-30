@@ -1,10 +1,15 @@
 package com.example.pancharm.service.role;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import com.example.pancharm.dto.request.role.RoleFilterRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
+import com.example.pancharm.mapper.PageMapper;
+import com.example.pancharm.util.PageRequestUtil;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +35,7 @@ public class RoleService {
     RoleRepository roleRepository;
     RoleMapper roleMapper;
     PermissionRepository permissionRepository;
+    PageMapper pageMapper;
 
     static final Set<String> FIXED_ROLES =
             Set.of(PredefineRole.SUPER_ADMIN.getName(), PredefineRole.ADMIN.getName(), PredefineRole.USER.getName());
@@ -87,10 +93,19 @@ public class RoleService {
 
     /**
      * @desc Get all existing roles
-     * @return List<RoleResponse>
+     * @return PageResponse<RoleResponse>
      */
-    public List<RoleResponse> findAll() {
-        return roleRepository.findAll().stream().map(roleMapper::toRoleResponse).toList();
+    public PageResponse<RoleResponse> findAll(RoleFilterRequest request) {
+        Pageable pageable = PageRequestUtil.from(request);
+
+        Specification<Roles> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+
+        if (!request.getKeyword().isEmpty() && request.getKeyword() != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("name").as(String.class), "%" + request.getKeyword() + "%"));
+        }
+
+        return pageMapper.toPageResponse(roleRepository.findAll(spec, pageable).map(roleMapper::toRoleResponse));
     }
 
     /**

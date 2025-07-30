@@ -2,6 +2,8 @@ package com.example.pancharm.controller;
 
 import java.util.List;
 
+import com.example.pancharm.dto.request.role.RoleFilterRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -43,9 +45,9 @@ public class RoleController {
     }
 
     @GetMapping
-    public ApiResponse<List<RoleResponse>> getRoles() {
-        return ApiResponse.<List<RoleResponse>>builder()
-                .result(roleService.findAll())
+    public ApiResponse<PageResponse<RoleResponse>> getRoles(RoleFilterRequest request) {
+        return ApiResponse.<PageResponse<RoleResponse>>builder()
+                .result(roleService.findAll(request))
                 .build();
     }
 }
