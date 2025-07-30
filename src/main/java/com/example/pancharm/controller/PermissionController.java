@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/permissions")
 @RequiredArgsConstructor

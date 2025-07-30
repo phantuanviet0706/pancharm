@@ -28,7 +28,7 @@ public class SecurityConfig {
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
 
-    private static final String[] PUBLIC_GET_ENDPOINTS = {"/", "/company", "/company/info", "/permissions"};
+    private static final String[] PUBLIC_GET_ENDPOINTS = {"/", "/company", "/company/info"};
 
     private static final String[] PUBLIC_POST_ENDPOINTS = {
         "/users",
@@ -72,6 +72,7 @@ public class SecurityConfig {
         });
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.cors(cors -> {});
 
         return httpSecurity.build();
     }
