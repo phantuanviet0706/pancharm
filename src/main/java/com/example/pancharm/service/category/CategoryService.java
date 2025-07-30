@@ -1,18 +1,22 @@
 package com.example.pancharm.service.category;
 
-import java.util.List;
-
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
+import com.example.pancharm.dto.request.category.CategoryFilterRequest;
 import com.example.pancharm.dto.request.category.CategoryRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.category.CategoryResponse;
 import com.example.pancharm.entity.Categories;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.CategoryMapper;
+import com.example.pancharm.mapper.PageMapper;
 import com.example.pancharm.repository.CategoryRepository;
+import com.example.pancharm.util.PageRequestUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -26,15 +30,29 @@ import lombok.experimental.FieldDefaults;
 public class CategoryService {
     CategoryRepository categoryRepository;
     CategoryMapper categoryMapper;
+    PageMapper pageMapper;
 
     /**
      * @desc Find all categories
-     * @return List<CategoryResponse>
+     * @return PageResponse<CategoryResponse>
      */
-    public List<CategoryResponse> findAll() {
-        return categoryRepository.findAll().stream()
-                .map(categoryMapper::toCategoryResponse)
-                .toList();
+    public PageResponse<CategoryResponse> findAll(CategoryFilterRequest request) {
+        Pageable pageable = PageRequestUtil.from(request);
+
+        Specification<Categories> spec = ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
+
+        if (request.getKeyword() != null && !request.getKeyword().isEmpty()) {
+            spec = spec.and(((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("name").as(String.class), "%" + request.getKeyword() + "%")));
+        }
+
+        if (request.getSlug() != null && !request.getSlug().isEmpty()) {
+            spec = spec.and(((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("slug").as(String.class), "%" + request.getSlug() + "%")));
+        }
+
+        return pageMapper.toPageResponse(
+                categoryRepository.findAll(spec, pageable).map(categoryMapper::toCategoryResponse));
     }
 
     /**

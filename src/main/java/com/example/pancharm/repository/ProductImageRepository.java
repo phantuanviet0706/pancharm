@@ -1,9 +1,9 @@
 package com.example.pancharm.repository;
 
-import com.example.pancharm.entity.ProductImages;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import com.example.pancharm.entity.ProductImages;
+
 public interface ProductImageRepository
-		extends JpaRepository<ProductImages, Integer>, JpaSpecificationExecutor<ProductImages> {
-}
+        extends JpaRepository<ProductImages, Integer>, JpaSpecificationExecutor<ProductImages> {}

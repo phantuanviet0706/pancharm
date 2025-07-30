@@ -11,6 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductImageResponse {
-	String path;
-	short isDefault;
+    String path;
+    short isDefault;
 }

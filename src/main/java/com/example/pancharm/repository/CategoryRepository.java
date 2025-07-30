@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.example.pancharm.entity.Categories;
 
 @Repository
-public interface CategoryRepository
-        extends JpaRepository<Categories, String>, JpaSpecificationExecutor<Categories> {
+public interface CategoryRepository extends JpaRepository<Categories, String>, JpaSpecificationExecutor<Categories> {
     boolean existsBySlug(String slug);
 
     List<Categories> findAllByParentId(int id);

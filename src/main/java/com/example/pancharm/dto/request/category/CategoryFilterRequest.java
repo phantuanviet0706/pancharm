@@ -1,18 +1,18 @@
-package com.example.pancharm.dto.request.permission;
+package com.example.pancharm.dto.request.category;
 
 import com.example.pancharm.dto.request.base.PageDefaultRequest;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
+@Builder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PermissionFilterRequest extends PageDefaultRequest {
+public class CategoryFilterRequest extends PageDefaultRequest {
     String keyword;
+    String slug;
 }

@@ -43,14 +43,14 @@ public class CompanyService {
     /**
      * @desc Update existing company
      * @param companyRequest
-     * @param companyId
      * @return CompanyResponse
      */
     @PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
-    public CompanyResponse updateCompany(CompanyRequest companyRequest, int companyId) {
-        Company company = companyRepository
-                .findById(String.valueOf(companyId))
-                .orElseThrow(() -> new AppException(ErrorCode.COMPANY_NOT_FOUND));
+    public CompanyResponse updateCompany(CompanyRequest companyRequest) {
+        Company company = companyRepository.findAll().getFirst();
+        if (company != null) {
+            throw new AppException(ErrorCode.COMPANY_NOT_FOUND);
+        }
 
         companyMapper.updateCompany(companyRequest, company);
 

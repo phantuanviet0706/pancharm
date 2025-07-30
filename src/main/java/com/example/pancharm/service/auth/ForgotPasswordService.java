@@ -1,6 +1,5 @@
 package com.example.pancharm.service.auth;
 
-import com.example.pancharm.service.base.EmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.example.pancharm.dto.request.auth.ForgotPasswordRequest;
 import com.example.pancharm.dto.response.auth.ForgotPasswordResponse;
 import com.example.pancharm.repository.UserRepository;
+import com.example.pancharm.service.base.EmailService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

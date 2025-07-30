@@ -1,31 +1,28 @@
 package com.example.pancharm.configuration;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.example.pancharm.constant.ConfigurationName;
-import com.example.pancharm.entity.*;
-import com.example.pancharm.repository.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.pancharm.constant.ConfigurationName;
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.constant.PredefineRole;
 import com.example.pancharm.constant.UserStatus;
+import com.example.pancharm.entity.*;
 import com.example.pancharm.exception.AppException;
+import com.example.pancharm.repository.*;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Configuration
@@ -71,9 +68,14 @@ public class ApplicationInitConfig {
                     .build());
 
             roleRepository.saveAll(List.of(
-                    Roles.builder().name(PredefineRole.ADMIN.getName()).description(PredefineRole.ADMIN.getDescription()).build(),
-                    Roles.builder().name(PredefineRole.USER.getName()).description(PredefineRole.USER.getDescription()).build()
-            ));
+                    Roles.builder()
+                            .name(PredefineRole.ADMIN.getName())
+                            .description(PredefineRole.ADMIN.getDescription())
+                            .build(),
+                    Roles.builder()
+                            .name(PredefineRole.USER.getName())
+                            .description(PredefineRole.USER.getDescription())
+                            .build()));
 
             Users user = Users.builder()
                     .username(superAdminUsername)
@@ -88,13 +90,21 @@ public class ApplicationInitConfig {
     }
 
     @Transactional
-    void initCompany(UserRepository userRepository, CompanyRepository companyRepository, CompanyInfoRepository companyInfoRepository) {
+    void initCompany(
+            UserRepository userRepository,
+            CompanyRepository companyRepository,
+            CompanyInfoRepository companyInfoRepository) {
         if (companyRepository.findAll().isEmpty()) {
-            Users admin = userRepository.findByUsername(superAdminUsername)
+            Users admin = userRepository
+                    .findByUsername(superAdminUsername)
                     .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-            Company company = companyRepository.save(Company.builder().name(companyName).build());
-            companyInfoRepository.save(CompanyInfos.builder().company(company).personInCharge(admin).build());
+            Company company =
+                    companyRepository.save(Company.builder().name(companyName).build());
+            companyInfoRepository.save(CompanyInfos.builder()
+                    .company(company)
+                    .personInCharge(admin)
+                    .build());
             log.warn("Default company created. Update details as needed.");
         }
     }

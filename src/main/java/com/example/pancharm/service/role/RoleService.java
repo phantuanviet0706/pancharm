@@ -3,10 +3,6 @@ package com.example.pancharm.service.role;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.example.pancharm.dto.request.role.RoleFilterRequest;
-import com.example.pancharm.dto.response.base.PageResponse;
-import com.example.pancharm.mapper.PageMapper;
-import com.example.pancharm.util.PageRequestUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,13 +11,17 @@ import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.constant.PredefineRole;
+import com.example.pancharm.dto.request.role.RoleFilterRequest;
 import com.example.pancharm.dto.request.role.RoleRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.role.RoleResponse;
 import com.example.pancharm.entity.Roles;
 import com.example.pancharm.exception.AppException;
+import com.example.pancharm.mapper.PageMapper;
 import com.example.pancharm.mapper.RoleMapper;
 import com.example.pancharm.repository.PermissionRepository;
 import com.example.pancharm.repository.RoleRepository;
+import com.example.pancharm.util.PageRequestUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -93,6 +93,7 @@ public class RoleService {
 
     /**
      * @desc Get all existing roles
+     * @param request
      * @return PageResponse<RoleResponse>
      */
     public PageResponse<RoleResponse> findAll(RoleFilterRequest request) {

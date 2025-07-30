@@ -8,4 +8,4 @@ import com.example.pancharm.entity.CompanyInfos;
 
 @Repository
 public interface CompanyInfoRepository
-		extends JpaRepository<CompanyInfos, String>, JpaSpecificationExecutor<CompanyInfos> {}
+        extends JpaRepository<CompanyInfos, String>, JpaSpecificationExecutor<CompanyInfos> {}

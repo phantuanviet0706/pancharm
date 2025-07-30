@@ -1,23 +1,21 @@
 package com.example.pancharm.service.permission;
 
-import com.example.pancharm.dto.request.permission.PermissionFilterRequest;
-import com.example.pancharm.dto.response.base.PageResponse;
-import com.example.pancharm.mapper.PageMapper;
-import com.example.pancharm.util.PageRequestUtil;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
+import com.example.pancharm.dto.request.permission.PermissionFilterRequest;
 import com.example.pancharm.dto.request.permission.PermissionRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.permission.PermissionResponse;
 import com.example.pancharm.entity.Permissions;
 import com.example.pancharm.exception.AppException;
+import com.example.pancharm.mapper.PageMapper;
 import com.example.pancharm.mapper.PermissionMapper;
 import com.example.pancharm.repository.PermissionRepository;
+import com.example.pancharm.util.PageRequestUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +24,7 @@ import lombok.experimental.FieldDefaults;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-//@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
+// @PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 public class PermissionService {
     PermissionRepository permissionRepository;
     PermissionMapper permissionMapper;
@@ -75,8 +73,9 @@ public class PermissionService {
     }
 
     /**
-     * @return Page<PermissionResponse>
      * @desc Get all existing permissions
+     * @param request
+     * @return PageResponse<PermissionResponse>
      */
     public PageResponse<PermissionResponse> findAll(PermissionFilterRequest request) {
         Pageable pageable = PageRequestUtil.from(request);
@@ -84,14 +83,12 @@ public class PermissionService {
         Specification<Permissions> spec = ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
 
         if (request.getKeyword() != null && !request.getKeyword().isEmpty()) {
-            spec = spec.and((root, query, cb) ->
-                    cb.like(root.get("name").as(String.class), "%" + request.getKeyword() + "%"));
+            spec = spec.and(
+                    (root, query, cb) -> cb.like(root.get("name").as(String.class), "%" + request.getKeyword() + "%"));
         }
 
         return pageMapper.toPageResponse(
-                permissionRepository.findAll(spec, pageable)
-                        .map(permissionMapper::toPermissionResponse)
-        );
+                permissionRepository.findAll(spec, pageable).map(permissionMapper::toPermissionResponse));
     }
 
     /**

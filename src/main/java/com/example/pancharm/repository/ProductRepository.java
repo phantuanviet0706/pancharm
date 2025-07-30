@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.example.pancharm.entity.Products;
 
 @Repository
-public interface ProductRepository
-		extends JpaRepository<Products, Integer>, JpaSpecificationExecutor<Products> {
-	boolean existsBySlug(String slug);
+public interface ProductRepository extends JpaRepository<Products, Integer>, JpaSpecificationExecutor<Products> {
+    boolean existsBySlug(String slug);
 }

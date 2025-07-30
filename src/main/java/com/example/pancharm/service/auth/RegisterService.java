@@ -1,6 +1,5 @@
 package com.example.pancharm.service.auth;
 
-import com.example.pancharm.service.base.EmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +12,7 @@ import com.example.pancharm.dto.response.auth.RegisterResponse;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.RegisterMapper;
 import com.example.pancharm.repository.UserRepository;
+import com.example.pancharm.service.base.EmailService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

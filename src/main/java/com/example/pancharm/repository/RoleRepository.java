@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.example.pancharm.entity.Roles;
 
 @Repository
-public interface RoleRepository
-        extends JpaRepository<Roles, String>, JpaSpecificationExecutor<Roles> {
+public interface RoleRepository extends JpaRepository<Roles, String>, JpaSpecificationExecutor<Roles> {
     boolean existsByName(String name);
 
     Set<Roles> findAllByNameIn(Set<String> names);

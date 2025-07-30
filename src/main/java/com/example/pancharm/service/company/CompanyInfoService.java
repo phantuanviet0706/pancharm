@@ -1,19 +1,24 @@
 package com.example.pancharm.service.company;
 
-import java.util.List;
-
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
+import com.example.pancharm.dto.request.company.CompanyInfoFilterRequest;
 import com.example.pancharm.dto.request.company.CompanyInfoRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.company.CompanyInfoResponse;
+import com.example.pancharm.entity.CompanyInfos;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.CompanyInfoMapper;
+import com.example.pancharm.mapper.PageMapper;
 import com.example.pancharm.repository.CompanyInfoRepository;
 import com.example.pancharm.repository.CompanyRepository;
 import com.example.pancharm.repository.UserRepository;
+import com.example.pancharm.util.PageRequestUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +32,7 @@ public class CompanyInfoService {
     CompanyInfoMapper companyInfoMapper;
     CompanyRepository companyRepository;
     UserRepository userRepository;
+    PageMapper pageMapper;
 
     /**
      * @desc Create new company info
@@ -105,11 +111,14 @@ public class CompanyInfoService {
 
     /**
      * @desc Get all company info
-     * @return List<CompanyInfoResponse>
+     * @return PageResponse<CompanyInfoResponse>
      */
-    public List<CompanyInfoResponse> getCompanyInfos() {
-        return companyInfoRepository.findAll().stream()
-                .map(companyInfoMapper::toCompanyInfoResponse)
-                .toList();
+    public PageResponse<CompanyInfoResponse> getCompanyInfos(CompanyInfoFilterRequest request) {
+        Pageable pageable = PageRequestUtil.from(request);
+
+        Specification<CompanyInfos> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+
+        return pageMapper.toPageResponse(
+                companyInfoRepository.findAll(spec, pageable).map(companyInfoMapper::toCompanyInfoResponse));
     }
 }

@@ -1,13 +1,13 @@
 package com.example.pancharm.controller;
 
-import java.util.List;
-
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.pancharm.dto.request.user.UserFilterRequest;
 import com.example.pancharm.dto.request.user.UserRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
+import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.user.UserResponse;
 import com.example.pancharm.service.user.UserService;
 
@@ -43,9 +43,9 @@ public class UserController {
     }
 
     @GetMapping
-    ApiResponse<List<UserResponse>> findAllUsers() {
-        return ApiResponse.<List<UserResponse>>builder()
-                .result(userService.getUsers())
+    ApiResponse<PageResponse<UserResponse>> findAllUsers(UserFilterRequest request) {
+        return ApiResponse.<PageResponse<UserResponse>>builder()
+                .result(userService.getUsers(request))
                 .build();
     }
 }

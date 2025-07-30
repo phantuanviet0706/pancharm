@@ -1,34 +1,36 @@
 package com.example.pancharm.service.product;
 
-import com.example.pancharm.constant.ConfigurationName;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.pancharm.constant.ErrorCode;
-import com.example.pancharm.constant.ProductStatus;
+import com.example.pancharm.dto.request.product.ProductFilterRequest;
 import com.example.pancharm.dto.request.product.ProductRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.product.ProductResponse;
 import com.example.pancharm.entity.ProductImages;
 import com.example.pancharm.entity.Products;
 import com.example.pancharm.exception.AppException;
-import com.example.pancharm.repository.ConfigurationRepository;
+import com.example.pancharm.mapper.PageMapper;
+import com.example.pancharm.mapper.ProductMapper;
+import com.example.pancharm.repository.CategoryRepository;
 import com.example.pancharm.repository.ProductImageRepository;
+import com.example.pancharm.repository.ProductRepository;
 import com.example.pancharm.service.base.S3Service;
 import com.example.pancharm.service.configuration.ConfigurationService;
 import com.example.pancharm.util.JsonConfigUtil;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
-
-import com.example.pancharm.mapper.ProductMapper;
-import com.example.pancharm.repository.CategoryRepository;
-import com.example.pancharm.repository.ProductRepository;
+import com.example.pancharm.util.PageRequestUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +45,8 @@ public class ProductService {
     //	CollectionRepository collectionRepository;
     S3Service s3Service;
 
-    ConfigurationService  configurationService;
+    ConfigurationService configurationService;
+    PageMapper pageMapper;
 
     /**
      * @desc Create new product
@@ -60,7 +63,8 @@ public class ProductService {
             product.setSlug(request.getSlug());
         }
 
-        var category = categoryRepository.findById(String.valueOf(request.getCategoryId()))
+        var category = categoryRepository
+                .findById(String.valueOf(request.getCategoryId()))
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
         product.setCategory(category);
 
@@ -91,8 +95,8 @@ public class ProductService {
      * @return ProductResponse
      */
     public ProductResponse updateProduct(int id, ProductRequest request) {
-        Products product = productRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Products product =
+                productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
         productMapper.updateProduct(request, product);
         setProductImages(request, product);
@@ -124,16 +128,46 @@ public class ProductService {
      * @return ProductResponse
      */
     public ProductResponse getProduct(int id) {
-        var product =  productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        var product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         return productMapper.toProductResponse(product);
     }
 
     /**
      * @desc Get all products
+     * @param request
      * @return List<ProductResponse>
      */
-    public List<ProductResponse> getProducts() {
-        return productRepository.findAll().stream().map(productMapper::toProductResponse).toList();
+    public PageResponse<ProductResponse> getProducts(ProductFilterRequest request) {
+        Pageable pageable = PageRequestUtil.from(request);
+
+        Specification<Products> spec = ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
+
+        if (request.getSlug() != null && !request.getSlug().isBlank()) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("slug").as(String.class), "%" + request.getSlug() + "%"));
+        }
+
+        if (request.getKeyword() != null && !request.getKeyword().isBlank()) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("keyword").as(String.class), "%" + request.getKeyword() + "%"));
+        }
+
+        if (request.getQuantityFrom() != null
+                && request.getQuantityTo() != null
+                && request.getQuantityFrom() >= 0
+                && request.getQuantityTo() >= 0) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.between(
+                    root.get("quantityFrom"), request.getQuantityFrom(), request.getQuantityTo()));
+        } else if (request.getQuantityFrom() != null && request.getQuantityFrom() >= 0) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("quantityFrom"), request.getQuantityFrom()));
+        } else if (request.getQuantityTo() != null && request.getQuantityTo() >= 0) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.lessThanOrEqualTo(root.get("quantityTo"), request.getQuantityTo()));
+        }
+
+        return pageMapper.toPageResponse(
+                productRepository.findAll(spec, pageable).map(productMapper::toProductResponse));
     }
 
     /**
@@ -145,11 +179,9 @@ public class ProductService {
         Set<ProductImages> images = request.getProductImages().stream()
                 .map(file -> {
                     String url = s3Service.uploadFile(file, "products/" + product.getId());
-                    return ProductImages.builder()
-                            .path(url)
-                            .product(product)
-                            .build();
-                }).collect(Collectors.toSet());
+                    return ProductImages.builder().path(url).product(product).build();
+                })
+                .collect(Collectors.toSet());
 
         productImagesRepository.saveAll(images);
         product.setImages(images);

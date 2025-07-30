@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.example.pancharm.entity.Company;
 
 @Repository
-public interface CompanyRepository
-        extends JpaRepository<Company, String>, JpaSpecificationExecutor<Company> {
+public interface CompanyRepository extends JpaRepository<Company, String>, JpaSpecificationExecutor<Company> {
     Optional<Company> findByName(String name);
 }

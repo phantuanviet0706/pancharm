@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.example.pancharm.entity.Users;
 
 @Repository
-public interface UserRepository
-        extends JpaRepository<Users, String>, JpaSpecificationExecutor<Users> {
+public interface UserRepository extends JpaRepository<Users, String>, JpaSpecificationExecutor<Users> {
     boolean existsByUsername(String username);
 
     Optional<Users> findByUsername(String username);

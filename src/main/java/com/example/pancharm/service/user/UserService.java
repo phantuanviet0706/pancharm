@@ -1,23 +1,28 @@
 package com.example.pancharm.service.user;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.constant.PredefineRole;
+import com.example.pancharm.dto.request.user.UserFilterRequest;
 import com.example.pancharm.dto.request.user.UserRequest;
+import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.user.UserResponse;
 import com.example.pancharm.entity.Roles;
 import com.example.pancharm.entity.Users;
 import com.example.pancharm.exception.AppException;
+import com.example.pancharm.mapper.PageMapper;
 import com.example.pancharm.mapper.UserMapper;
 import com.example.pancharm.repository.RoleRepository;
 import com.example.pancharm.repository.UserRepository;
+import com.example.pancharm.util.PageRequestUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +36,8 @@ public class UserService {
     UserMapper userMapper;
 
     PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
+    RoleRepository roleRepository;
+    PageMapper pageMapper;
 
     /**
      * @desc Create new user - by Super Admin role
@@ -83,10 +89,25 @@ public class UserService {
 
     /**
      * @desc Get all users
-     * @return List<UserResponse>
+     * @param request
+     * @return PageResponse<UserResponse>
      */
-    public List<UserResponse> getUsers() {
-        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+    public PageResponse<UserResponse> getUsers(UserFilterRequest request) {
+        Pageable pageable = PageRequestUtil.from(request);
+
+        Specification<Users> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
+
+        if (request.getKeyword() != null && !request.getKeyword().isEmpty()) {
+            spec = spec.and(((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("username").as(String.class), "%" + request.getKeyword() + "%")));
+        }
+
+        if (request.getEmail() != null && !request.getEmail().isEmpty()) {
+            spec = spec.and(((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(root.get("email").as(String.class), "%" + request.getEmail() + "%")));
+        }
+
+        return pageMapper.toPageResponse(userRepository.findAll(spec, pageable).map(userMapper::toUserResponse));
     }
 
     /**
