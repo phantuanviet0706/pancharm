@@ -36,18 +36,19 @@ public class RegisterService {
     static String subjectVerification = "Welcome to Pancharm – Your Healing Journey Begins \uD83C\uDF3F";
 
     @NonFinal
-    static String bodyVerification = "<html>\n" + "<body style=\"font-family: Arial, sans-serif; line-height: 1.6;\">\n"
-            + "    <h2>Welcome to Pancharm 🌸</h2>\n"
-            + "    <p>Thank you for joining the Pancharm community.</p>\n"
-            + "    <p>Your journey toward balance, energy, and inner peace begins here.</p>\n"
-            + "    <p>We’re so glad to have you with us.</p>\n"
-            + "    <br>\n"
-            + "    <p>Warm wishes,</p>\n"
-            + "    <p><strong>Pancharm Team</strong></p>\n"
-            + "    <hr>\n"
-            + "    <p style=\"font-size: 12px; color: #777;\">Follow us for more updates: <a href=\"https://www.facebook.com/pancharm.official\">facebook.com/pancharm.official</a></p>\n"
-            + "</body>\n"
-            + "</html>";
+    static String bodyVerification =
+            "<html>\n" + "<body style=\"font-family: Arial, sans-serif; line-height: 1.6;\">\n"
+                    + "    <h2>Welcome to Pancharm 🌸</h2>\n"
+                    + "    <p>Thank you for joining the Pancharm community.</p>\n"
+                    + "    <p>Your journey toward balance, energy, and inner peace begins here.</p>\n"
+                    + "    <p>We’re so glad to have you with us.</p>\n"
+                    + "    <br>\n"
+                    + "    <p>Warm wishes,</p>\n"
+                    + "    <p><strong>Pancharm Team</strong></p>\n"
+                    + "    <hr>\n"
+                    + "    <p style=\"font-size: 12px; color: #777;\">Follow us for more updates: <a href=\"https://www.facebook.com/pancharm.official\">facebook.com/pancharm.official</a></p>\n"
+                    + "</body>\n"
+                    + "</html>";
 
     /**
      * @desc Register new User, then send email to notify to that user
