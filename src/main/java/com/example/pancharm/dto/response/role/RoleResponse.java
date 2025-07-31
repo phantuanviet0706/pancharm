@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleResponse {
+    int id;
     String name;
     String description;
     Set<PermissionResponse> permissions;

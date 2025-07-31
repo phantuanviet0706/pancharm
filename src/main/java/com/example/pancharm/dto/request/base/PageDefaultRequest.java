@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PageDefaultRequest {
+    String search;
     int page = 0;
     int size = 50;
     String sortBy = "id";

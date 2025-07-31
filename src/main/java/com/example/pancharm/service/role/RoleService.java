@@ -30,7 +30,7 @@ import lombok.experimental.FieldDefaults;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
+//@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 public class RoleService {
     RoleRepository roleRepository;
     RoleMapper roleMapper;
@@ -101,7 +101,7 @@ public class RoleService {
 
         Specification<Roles> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
 
-        if (!request.getKeyword().isEmpty() && request.getKeyword() != null) {
+        if (request.getKeyword() != null && !request.getKeyword().isEmpty()) {
             spec = spec.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get("name").as(String.class), "%" + request.getKeyword() + "%"));
         }
