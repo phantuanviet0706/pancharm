@@ -29,12 +29,7 @@ public class SecurityConfig {
     protected String SIGNER_KEY;
 
     private static final String[] PUBLIC_GET_ENDPOINTS = {
-        "/",
-        "/company",
-        "/company/info",
-        "/roles",
-        "/permissions",
-            "/categories",
+        "/", "/company", "/company/info", "/roles", "/permissions", "/categories",
     };
 
     private static final String[] PUBLIC_POST_ENDPOINTS = {
@@ -45,8 +40,8 @@ public class SecurityConfig {
         "/auth/forgot-password",
         "/auth/logout",
         "/auth/refresh",
-            "/roles",
-            "/categories",
+        "/roles",
+        "/categories",
     };
 
     private static final String[] PUBLIC_PUT_ENDPOINTS = {"/roles/{id}", "/categories/{id}"};

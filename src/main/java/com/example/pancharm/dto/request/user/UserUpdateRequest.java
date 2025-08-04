@@ -1,17 +1,19 @@
 package com.example.pancharm.dto.request.user;
 
-import com.example.pancharm.validator.annotation.DobConstraint;
-import com.example.pancharm.validator.annotation.PhoneConstraint;
+import java.time.LocalDate;
+import java.util.Set;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import com.example.pancharm.validator.annotation.DobConstraint;
+import com.example.pancharm.validator.annotation.PhoneConstraint;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor

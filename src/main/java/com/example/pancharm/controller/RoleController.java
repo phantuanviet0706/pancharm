@@ -2,7 +2,6 @@ package com.example.pancharm.controller;
 
 import jakarta.validation.Valid;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.pancharm.dto.request.role.RoleFilterRequest;
@@ -15,6 +14,7 @@ import com.example.pancharm.service.role.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @CrossOrigin

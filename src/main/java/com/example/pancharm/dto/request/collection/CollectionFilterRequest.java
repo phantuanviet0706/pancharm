@@ -1,6 +1,7 @@
 package com.example.pancharm.dto.request.collection;
 
 import com.example.pancharm.dto.request.base.PageDefaultRequest;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -11,5 +12,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CollectionFilterRequest extends PageDefaultRequest {
-	String keyword;
+    String keyword;
 }

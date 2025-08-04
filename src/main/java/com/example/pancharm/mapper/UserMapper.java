@@ -1,10 +1,10 @@
 package com.example.pancharm.mapper;
 
-import com.example.pancharm.dto.request.user.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import com.example.pancharm.dto.request.user.*;
 import com.example.pancharm.dto.response.user.*;
 import com.example.pancharm.entity.Users;
 
@@ -14,6 +14,7 @@ public interface UserMapper {
     Users toUsers(UserCreationRequest request);
 
     UserDetailResponse toUserResponse(Users user);
+
     UserListResponse toUserListResponse(Users user);
 
     @Mapping(target = "roles", ignore = true)

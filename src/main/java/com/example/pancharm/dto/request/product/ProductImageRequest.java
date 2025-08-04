@@ -1,12 +1,13 @@
 package com.example.pancharm.dto.request.product;
 
+import java.util.Set;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -15,5 +16,5 @@ import java.util.Set;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductImageRequest {
-	Set<MultipartFile> productImages;
+    Set<MultipartFile> productImages;
 }

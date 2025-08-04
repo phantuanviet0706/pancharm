@@ -1,15 +1,13 @@
 package com.example.pancharm.controller;
 
-import java.util.List;
-
-import com.example.pancharm.dto.request.base.PageDefaultRequest;
-import com.example.pancharm.dto.response.base.PageResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.pancharm.dto.request.base.PageDefaultRequest;
 import com.example.pancharm.dto.request.company.CompanyInfoRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
+import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.company.CompanyInfoResponse;
 import com.example.pancharm.service.company.CompanyInfoService;
 

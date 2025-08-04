@@ -3,9 +3,6 @@ package com.example.pancharm.service.user;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.example.pancharm.dto.request.user.*;
-import com.example.pancharm.dto.response.user.UserDetailResponse;
-import com.example.pancharm.dto.response.user.UserListResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,8 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.constant.PredefineRole;
+import com.example.pancharm.dto.request.user.*;
 import com.example.pancharm.dto.request.user.UserFilterRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
+import com.example.pancharm.dto.response.user.UserDetailResponse;
+import com.example.pancharm.dto.response.user.UserListResponse;
 import com.example.pancharm.entity.Roles;
 import com.example.pancharm.entity.Users;
 import com.example.pancharm.exception.AppException;

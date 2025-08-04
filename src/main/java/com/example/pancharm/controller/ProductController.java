@@ -1,15 +1,15 @@
 package com.example.pancharm.controller;
 
-import com.example.pancharm.dto.request.product.*;
-import com.example.pancharm.dto.response.product.*;
 import jakarta.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.pancharm.dto.request.product.*;
 import com.example.pancharm.dto.request.product.ProductFilterRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 import com.example.pancharm.dto.response.base.PageResponse;
+import com.example.pancharm.dto.response.product.*;
 import com.example.pancharm.service.product.ProductService;
 
 import lombok.AccessLevel;
@@ -24,7 +24,8 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<ProductDetailResponse> createProduct(@ModelAttribute @Valid ProductCreationRequest productRequest) {
+    public ApiResponse<ProductDetailResponse> createProduct(
+            @ModelAttribute @Valid ProductCreationRequest productRequest) {
         return ApiResponse.<ProductDetailResponse>builder()
                 .result(productService.createProduct(productRequest))
                 .build();
