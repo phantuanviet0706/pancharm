@@ -1,5 +1,6 @@
 package com.example.pancharm.service.category;
 
+import com.example.pancharm.dto.response.category.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -10,7 +11,6 @@ import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.dto.request.category.CategoryFilterRequest;
 import com.example.pancharm.dto.request.category.CategoryRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
-import com.example.pancharm.dto.response.category.CategoryResponse;
 import com.example.pancharm.entity.Categories;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.CategoryMapper;
@@ -25,8 +25,8 @@ import lombok.experimental.FieldDefaults;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
-        + "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
+//@PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
+//        + "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
 public class CategoryService {
     CategoryRepository categoryRepository;
     CategoryMapper categoryMapper;
@@ -34,9 +34,9 @@ public class CategoryService {
 
     /**
      * @desc Find all categories
-     * @return PageResponse<CategoryResponse>
+     * @return PageResponse<CategoryListResponse>
      */
-    public PageResponse<CategoryResponse> findAll(CategoryFilterRequest request) {
+    public PageResponse<CategoryListResponse> findAll(CategoryFilterRequest request) {
         Pageable pageable = PageRequestUtil.from(request);
 
         Specification<Categories> spec = ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
@@ -52,15 +52,15 @@ public class CategoryService {
         }
 
         return pageMapper.toPageResponse(
-                categoryRepository.findAll(spec, pageable).map(categoryMapper::toCategoryResponse));
+                categoryRepository.findAll(spec, pageable).map(categoryMapper::toCategoryListResponse));
     }
 
     /**
      * @desc Get Single Category
      * @param id
-     * @return CategoryResponse
+     * @return CategoryDetailResponse
      */
-    public CategoryResponse getCategory(int id) {
+    public CategoryDetailResponse getCategory(int id) {
         var category = categoryRepository
                 .findById(String.valueOf(id))
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
@@ -71,9 +71,9 @@ public class CategoryService {
     /**
      * @desc Create new Category
      * @param request
-     * @return CategoryResponse
+     * @return CategoryDetailResponse
      */
-    public CategoryResponse createCategory(CategoryRequest request) {
+    public CategoryDetailResponse createCategory(CategoryRequest request) {
         var category = categoryMapper.toCategories(request);
         if (request.getSlug() == null || request.getSlug().isBlank()) {
             category.setSlug("");
@@ -108,9 +108,9 @@ public class CategoryService {
      * @desc Update existing category
      * @param id
      * @param request
-     * @return CategoryResponse
+     * @return CategoryDetailResponse
      */
-    public CategoryResponse updateCategory(int id, CategoryRequest request) {
+    public CategoryDetailResponse updateCategory(int id, CategoryRequest request) {
         var category = categoryRepository
                 .findById(String.valueOf(id))
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));

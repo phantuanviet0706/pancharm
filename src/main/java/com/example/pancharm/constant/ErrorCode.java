@@ -73,6 +73,9 @@ public enum ErrorCode {
     PRODUCT_QUANTITY_MINIMUM(1006, "The product quantity must be greater than {min}", HttpStatus.BAD_REQUEST),
     PRODUCT_UNIT_PRICE_REQUIRED(1006, "Please fill the product price", HttpStatus.BAD_REQUEST),
 
+    COLLECTION_NOT_FOUND(1007, "Collection not found", HttpStatus.NOT_FOUND),
+    COLLECTION_NAME_REQUIRE(1007, "Please fill the collection name", HttpStatus.BAD_REQUEST),
+
     SLUG_EXISTED(1111, "Input slug already exists, please check and try again!", HttpStatus.BAD_REQUEST),
     SLUG_REQUIRED(1111, "Please fill the slug", HttpStatus.BAD_REQUEST),
 

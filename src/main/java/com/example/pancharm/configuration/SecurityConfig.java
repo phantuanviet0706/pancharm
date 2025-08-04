@@ -28,7 +28,14 @@ public class SecurityConfig {
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
 
-    private static final String[] PUBLIC_GET_ENDPOINTS = {"/", "/company", "/company/info", "/roles", "/permissions"};
+    private static final String[] PUBLIC_GET_ENDPOINTS = {
+        "/",
+        "/company",
+        "/company/info",
+        "/roles",
+        "/permissions",
+            "/categories",
+    };
 
     private static final String[] PUBLIC_POST_ENDPOINTS = {
         "/users",
@@ -38,12 +45,13 @@ public class SecurityConfig {
         "/auth/forgot-password",
         "/auth/logout",
         "/auth/refresh",
-            "/roles"
+            "/roles",
+            "/categories",
     };
 
-    private static final String[] PUBLIC_PUT_ENDPOINTS = {"/roles/{id}"};
+    private static final String[] PUBLIC_PUT_ENDPOINTS = {"/roles/{id}", "/categories/{id}"};
 
-    private static final String[] PUBLIC_DELETE_ENDPOINTS = {"/roles/{id}"};
+    private static final String[] PUBLIC_DELETE_ENDPOINTS = {"/roles/{id}", "/categories/{id}"};
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;

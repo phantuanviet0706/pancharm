@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.example.pancharm.dto.request.category.CategoryFilterRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
+import com.example.pancharm.dto.response.category.*;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
 import com.example.pancharm.dto.request.category.CategoryRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
-import com.example.pancharm.dto.response.category.CategoryResponse;
 import com.example.pancharm.service.category.CategoryService;
 
 import lombok.AccessLevel;
@@ -25,30 +25,30 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping
-    public ApiResponse<PageResponse<CategoryResponse>> getCategories(CategoryFilterRequest request) {
-        return ApiResponse.<PageResponse<CategoryResponse>>builder()
+    public ApiResponse<PageResponse<CategoryListResponse>> getCategories(CategoryFilterRequest request) {
+        return ApiResponse.<PageResponse<CategoryListResponse>>builder()
                 .result(categoryService.findAll(request))
                 .build();
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<CategoryResponse> getCategory(@PathVariable int id) {
-        return ApiResponse.<CategoryResponse>builder()
+    public ApiResponse<CategoryDetailResponse> getCategory(@PathVariable int id) {
+        return ApiResponse.<CategoryDetailResponse>builder()
                 .result(categoryService.getCategory(id))
                 .build();
     }
 
     @PostMapping
-    public ApiResponse<CategoryResponse> createCategory(@RequestBody @Valid CategoryRequest request) {
-        return ApiResponse.<CategoryResponse>builder()
+    public ApiResponse<CategoryDetailResponse> createCategory(@RequestBody @Valid CategoryRequest request) {
+        return ApiResponse.<CategoryDetailResponse>builder()
                 .result(categoryService.createCategory(request))
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<CategoryResponse> updateCategory(
+    public ApiResponse<CategoryDetailResponse> updateCategory(
             @RequestBody @Valid CategoryRequest request, @PathVariable int id) {
-        return ApiResponse.<CategoryResponse>builder()
+        return ApiResponse.<CategoryDetailResponse>builder()
                 .result(categoryService.updateCategory(id, request))
                 .build();
     }

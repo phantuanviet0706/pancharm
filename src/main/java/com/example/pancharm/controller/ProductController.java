@@ -1,15 +1,15 @@
 package com.example.pancharm.controller;
 
+import com.example.pancharm.dto.request.product.*;
+import com.example.pancharm.dto.response.product.*;
 import jakarta.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.pancharm.dto.request.product.ProductFilterRequest;
-import com.example.pancharm.dto.request.product.ProductRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 import com.example.pancharm.dto.response.base.PageResponse;
-import com.example.pancharm.dto.response.product.ProductResponse;
 import com.example.pancharm.service.product.ProductService;
 
 import lombok.AccessLevel;
@@ -24,16 +24,16 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<ProductResponse> createProduct(@ModelAttribute @Valid ProductRequest productRequest) {
-        return ApiResponse.<ProductResponse>builder()
+    public ApiResponse<ProductDetailResponse> createProduct(@ModelAttribute @Valid ProductCreationRequest productRequest) {
+        return ApiResponse.<ProductDetailResponse>builder()
                 .result(productService.createProduct(productRequest))
                 .build();
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<ProductResponse> updateProduct(
-            @ModelAttribute @Valid ProductRequest productRequest, @PathVariable int id) {
-        return ApiResponse.<ProductResponse>builder()
+    public ApiResponse<ProductDetailResponse> updateProduct(
+            @ModelAttribute @Valid ProductUpdateRequest productRequest, @PathVariable int id) {
+        return ApiResponse.<ProductDetailResponse>builder()
                 .result(productService.updateProduct(id, productRequest))
                 .build();
     }
@@ -45,15 +45,15 @@ public class ProductController {
     }
 
     @GetMapping
-    public ApiResponse<PageResponse<ProductResponse>> getProducts(ProductFilterRequest request) {
-        return ApiResponse.<PageResponse<ProductResponse>>builder()
+    public ApiResponse<PageResponse<ProductListResponse>> getProducts(ProductFilterRequest request) {
+        return ApiResponse.<PageResponse<ProductListResponse>>builder()
                 .result(productService.getProducts(request))
                 .build();
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<ProductResponse> getProductById(@PathVariable int id) {
-        return ApiResponse.<ProductResponse>builder()
+    public ApiResponse<ProductDetailResponse> getProductById(@PathVariable int id) {
+        return ApiResponse.<ProductDetailResponse>builder()
                 .result(productService.getProduct(id))
                 .build();
     }

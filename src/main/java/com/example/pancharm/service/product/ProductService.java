@@ -3,6 +3,7 @@ package com.example.pancharm.service.product;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.example.pancharm.dto.request.product.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,9 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.dto.request.product.ProductFilterRequest;
-import com.example.pancharm.dto.request.product.ProductRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
-import com.example.pancharm.dto.response.product.ProductResponse;
+import com.example.pancharm.dto.response.product.*;
 import com.example.pancharm.entity.ProductImages;
 import com.example.pancharm.entity.Products;
 import com.example.pancharm.exception.AppException;
@@ -42,7 +42,6 @@ public class ProductService {
     ProductMapper productMapper;
     ProductImageRepository productImagesRepository;
     CategoryRepository categoryRepository;
-    //	CollectionRepository collectionRepository;
     S3Service s3Service;
 
     ConfigurationService configurationService;
@@ -51,10 +50,10 @@ public class ProductService {
     /**
      * @desc Create new product
      * @param request
-     * @return ProductResponse
+     * @return ProductDetailResponse
      */
     @Transactional
-    public ProductResponse createProduct(ProductRequest request) {
+    public ProductDetailResponse createProduct(ProductCreationRequest request) {
         Products product = productMapper.toProduct(request);
         if (request.getSlug() != null && !request.getSlug().isBlank()) {
             if (productRepository.existsBySlug(request.getSlug())) {
@@ -92,9 +91,9 @@ public class ProductService {
      * @desc Update existing product's information
      * @param id
      * @param request
-     * @return ProductResponse
+     * @return ProductDetailResponse
      */
-    public ProductResponse updateProduct(int id, ProductRequest request) {
+    public ProductDetailResponse updateProduct(int id, ProductUpdateRequest request) {
         Products product =
                 productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
@@ -125,9 +124,9 @@ public class ProductService {
     /**
      * @desc Get existing product
      * @param id
-     * @return ProductResponse
+     * @return ProductDetailResponse
      */
-    public ProductResponse getProduct(int id) {
+    public ProductDetailResponse getProduct(int id) {
         var product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         return productMapper.toProductResponse(product);
     }
@@ -135,9 +134,9 @@ public class ProductService {
     /**
      * @desc Get all products
      * @param request
-     * @return List<ProductResponse>
+     * @return List<ProductListResponse>
      */
-    public PageResponse<ProductResponse> getProducts(ProductFilterRequest request) {
+    public PageResponse<ProductListResponse> getProducts(ProductFilterRequest request) {
         Pageable pageable = PageRequestUtil.from(request);
 
         Specification<Products> spec = ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
@@ -167,7 +166,7 @@ public class ProductService {
         }
 
         return pageMapper.toPageResponse(
-                productRepository.findAll(spec, pageable).map(productMapper::toProductResponse));
+                productRepository.findAll(spec, pageable).map(productMapper::toProductListResponse));
     }
 
     /**
@@ -175,7 +174,7 @@ public class ProductService {
      * @param request
      * @param product
      */
-    private void setProductImages(ProductRequest request, Products product) {
+    private void setProductImages(ProductImageRequest request, Products product) {
         Set<ProductImages> images = request.getProductImages().stream()
                 .map(file -> {
                     String url = s3Service.uploadFile(file, "products/" + product.getId());

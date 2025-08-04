@@ -16,7 +16,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponse {
+public class UserDetailResponse {
+    int id;
     String username;
     String email;
     String fullname;
@@ -27,5 +28,4 @@ public class UserResponse {
     UserStatus status;
     short softDeleted;
     Set<RoleResponse> roles;
-    //	Set<ShippingAddresses>  shippingAddresses;
 }

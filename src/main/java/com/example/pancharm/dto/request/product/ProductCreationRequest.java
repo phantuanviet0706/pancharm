@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import lombok.experimental.SuperBuilder;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.*;
@@ -15,10 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductRequest {
+public class ProductCreationRequest extends ProductImageRequest {
     @NotBlank(message = "PRODUCT_NAME_REQUIRE")
     String name;
 
@@ -38,6 +39,4 @@ public class ProductRequest {
     String description;
 
     int categoryId;
-
-    Set<MultipartFile> productImages;
 }

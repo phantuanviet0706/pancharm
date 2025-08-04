@@ -3,6 +3,7 @@ package com.example.pancharm.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.example.pancharm.constant.CollectionStatus;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -27,7 +28,10 @@ public class Collections extends BaseEntity {
     @Column(length = 63, unique = true)
     String slug;
 
-    int status;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    CollectionStatus status = CollectionStatus.DRAFTING;
 
     @Column(columnDefinition = "TEXT")
     String description;

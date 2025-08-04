@@ -3,6 +3,9 @@ package com.example.pancharm.service.user;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.example.pancharm.dto.request.user.*;
+import com.example.pancharm.dto.response.user.UserDetailResponse;
+import com.example.pancharm.dto.response.user.UserListResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,9 +15,7 @@ import org.springframework.stereotype.Service;
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.constant.PredefineRole;
 import com.example.pancharm.dto.request.user.UserFilterRequest;
-import com.example.pancharm.dto.request.user.UserRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
-import com.example.pancharm.dto.response.user.UserResponse;
 import com.example.pancharm.entity.Roles;
 import com.example.pancharm.entity.Users;
 import com.example.pancharm.exception.AppException;
@@ -44,7 +45,7 @@ public class UserService {
      * @param request
      * @return UserResponse
      */
-    public UserResponse createUser(UserRequest request) {
+    public UserDetailResponse createUser(UserCreationRequest request) {
         Users user = userMapper.toUsers(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -68,7 +69,7 @@ public class UserService {
      * @param id
      * @return UserResponse
      */
-    public UserResponse updateUser(UserRequest request, int id) {
+    public UserDetailResponse updateUser(UserUpdateRequest request, int id) {
         Users user = userRepository
                 .findById(String.valueOf(id))
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
@@ -90,9 +91,9 @@ public class UserService {
     /**
      * @desc Get all users
      * @param request
-     * @return PageResponse<UserResponse>
+     * @return PageResponse<UserListResponse>
      */
-    public PageResponse<UserResponse> getUsers(UserFilterRequest request) {
+    public PageResponse<UserListResponse> getUsers(UserFilterRequest request) {
         Pageable pageable = PageRequestUtil.from(request);
 
         Specification<Users> spec = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
@@ -107,7 +108,7 @@ public class UserService {
                     criteriaBuilder.like(root.get("email").as(String.class), "%" + request.getEmail() + "%")));
         }
 
-        return pageMapper.toPageResponse(userRepository.findAll(spec, pageable).map(userMapper::toUserResponse));
+        return pageMapper.toPageResponse(userRepository.findAll(spec, pageable).map(userMapper::toUserListResponse));
     }
 
     /**

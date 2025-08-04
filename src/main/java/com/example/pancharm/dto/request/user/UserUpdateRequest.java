@@ -1,16 +1,17 @@
 package com.example.pancharm.dto.request.user;
 
-import java.time.LocalDate;
-import java.util.Set;
-
-import jakarta.validation.constraints.*;
-
 import com.example.pancharm.validator.annotation.DobConstraint;
 import com.example.pancharm.validator.annotation.PhoneConstraint;
-
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+
+import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -18,12 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserRequest {
-    @NotBlank(message = "USERNAME_EMPTY")
-    @Size(min = 8, message = "USERNAME_SIZE_ERROR")
-    @Pattern(regexp = "^[A-Za-z\\d]+$", message = "USERNAME_PATTERN_ERROR")
-    String username;
-
+public class UserUpdateRequest {
     @NotBlank(message = "PASSWORD_EMPTY")
     @Size(min = 8, message = "PASSWORD_SIZE_ERROR")
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$", message = "PASSWORD_PATTERN_ERROR")
