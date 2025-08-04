@@ -19,6 +19,5 @@ public interface CategoryMapper {
 
     CategoryListResponse toCategoryListResponse(Categories category);
 
-    @Mapping(target = "slug", ignore = true)
     void updateCategories(@MappingTarget Categories categories, CategoryRequest request);
 }

@@ -8,6 +8,7 @@ import com.example.pancharm.dto.response.collection.CollectionDetailResponse;
 import com.example.pancharm.dto.response.collection.CollectionListResponse;
 import com.example.pancharm.entity.Collections;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface CollectionMapper {
@@ -19,5 +20,5 @@ public interface CollectionMapper {
     CollectionListResponse toCollectionListResponse(Collections collection);
 
 	@Mapping(target = "images", ignore = true)
-	void updateCollection(Collections collection, CollectionUpdateRequest request);
+	void updateCollection(@MappingTarget Collections collection, CollectionUpdateRequest request);
 }
