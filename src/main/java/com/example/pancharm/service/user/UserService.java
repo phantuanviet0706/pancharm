@@ -43,7 +43,7 @@ public class UserService {
     /**
      * @desc Create new user - by Super Admin role
      * @param request
-     * @return UserResponse
+     * @return UserDetailResponse
      */
     public UserDetailResponse createUser(UserCreationRequest request) {
         Users user = userMapper.toUsers(request);
@@ -67,7 +67,7 @@ public class UserService {
      * @desc Update existing user
      * @param request
      * @param id
-     * @return UserResponse
+     * @return UserDetailResponse
      */
     public UserDetailResponse updateUser(UserUpdateRequest request, int id) {
         Users user = userRepository

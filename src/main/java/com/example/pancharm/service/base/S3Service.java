@@ -40,4 +40,21 @@ public class S3Service {
             throw new AppException(ErrorCode.AWS_S3_UPLOAD_ERROR);
         }
     }
+
+    public void deleteFile(String fileURL) {
+        try {
+            String objectKey = extractObjectKeyFromUrl(fileURL);
+            amazonS3.deleteObject(bucketName, objectKey);
+        } catch (Exception e) {
+            throw new AppException(ErrorCode.AWS_S3_DELETE_ERROR);
+        }
+    }
+
+    private String extractObjectKeyFromUrl(String fileUrl) {
+        String bucketUrl = amazonS3.getUrl(bucketName, "").toString();
+        if (!fileUrl.startsWith(bucketUrl)) {
+            throw new AppException(ErrorCode.AWS_S3_INVALID_URL);
+        }
+        return fileUrl.substring(bucketUrl.length());
+    }
 }

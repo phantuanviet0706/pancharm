@@ -1,8 +1,11 @@
 package com.example.pancharm.service.product;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.example.pancharm.util.GeneralUtil;
+import com.example.pancharm.util.ImageUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -42,10 +45,10 @@ public class ProductService {
     ProductMapper productMapper;
     ProductImageRepository productImagesRepository;
     CategoryRepository categoryRepository;
-    S3Service s3Service;
 
-    ConfigurationService configurationService;
     PageMapper pageMapper;
+    ImageUtil imageUtil;
+    GeneralUtil generalUtil;
 
     /**
      * @desc Create new product
@@ -74,9 +77,16 @@ public class ProductService {
         }
 
         if (product.getSlug() == null || product.getSlug().isBlank()) {
-            product.setSlug(generateSlug(product.getId()));
+            product.setSlug(generalUtil.generateSlug("product", product.getId()));
         }
-        setProductImages(request, product);
+
+        imageUtil.attachImages(
+                request.getProductImages(),
+                product,
+                "products",
+                url -> ProductImages.builder().build(),
+                productImagesRepository::saveAll
+        );
 
         try {
             product = productRepository.save(product);
@@ -98,7 +108,25 @@ public class ProductService {
                 productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
         productMapper.updateProduct(request, product);
-        setProductImages(request, product);
+
+        Set<ProductImages> oldImages = product.getImages();
+
+        imageUtil.attachImages(
+                request.getProductImages(),
+                product,
+                "products",
+                url -> ProductImages.builder().build(),
+                productImagesRepository::saveAll
+        );
+
+        Set<String> newImagePaths = product.getImages().stream()
+                .map(ProductImages::getPath).collect(Collectors.toSet());
+
+        for (ProductImages oldImage: oldImages) {
+            if (!newImagePaths.contains(oldImage.getPath())) {
+                imageUtil.deletePaths(oldImage.getPath());
+            }
+        }
 
         try {
             productRepository.save(product);
@@ -167,38 +195,5 @@ public class ProductService {
 
         return pageMapper.toPageResponse(
                 productRepository.findAll(spec, pageable).map(productMapper::toProductListResponse));
-    }
-
-    /**
-     * @desc Set product image for Product
-     * @param request
-     * @param product
-     */
-    private void setProductImages(ProductImageRequest request, Products product) {
-        Set<ProductImages> images = request.getProductImages().stream()
-                .map(file -> {
-                    String url = s3Service.uploadFile(file, "products/" + product.getId());
-                    return ProductImages.builder().path(url).product(product).build();
-                })
-                .collect(Collectors.toSet());
-
-        productImagesRepository.saveAll(images);
-        product.setImages(images);
-    }
-
-    /**
-     * @desc Generate Slug for Product
-     * @param slugId
-     * @return String
-     */
-    private String generateSlug(int slugId) {
-        var defaultSlug = "PID-";
-        var companyConfiguration = configurationService.getCompanyConfiguration();
-        var productConfig = JsonConfigUtil.getString(companyConfiguration.getConfig(), "product");
-        var productSlugConfig = (productConfig != null) ? JsonConfigUtil.getString(productConfig, "slug") : null;
-        if (productSlugConfig != null && !productSlugConfig.isBlank()) {
-            defaultSlug = productSlugConfig;
-        }
-        return defaultSlug + slugId;
     }
 }

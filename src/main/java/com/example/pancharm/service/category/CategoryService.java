@@ -1,5 +1,6 @@
 package com.example.pancharm.service.category;
 
+import com.example.pancharm.util.GeneralUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,6 +31,8 @@ public class CategoryService {
     CategoryRepository categoryRepository;
     CategoryMapper categoryMapper;
     PageMapper pageMapper;
+
+    GeneralUtil generalUtil;
 
     /**
      * @desc Find all categories
@@ -91,7 +94,7 @@ public class CategoryService {
         }
 
         if (category.getSlug() == null || category.getSlug().isBlank()) {
-            String generatedSlug = generateSlug(category.getId());
+            String generatedSlug = generalUtil.generateSlug("category", category.getId());
             category.setSlug(generatedSlug);
             try {
                 category = categoryRepository.save(category);
@@ -142,15 +145,6 @@ public class CategoryService {
         }
 
         categoryRepository.deleteById(String.valueOf(id));
-    }
-
-    /**
-     * @desc Generate slug if not exist
-     * @param slugId
-     * @return String
-     */
-    private String generateSlug(int slugId) {
-        return "CAT-" + slugId;
     }
 
     /**

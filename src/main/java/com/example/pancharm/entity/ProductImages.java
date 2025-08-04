@@ -1,5 +1,6 @@
 package com.example.pancharm.entity;
 
+import com.example.pancharm.common.contract.ImageEntity;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -14,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class ProductImages extends BaseEntity {
+public class ProductImages extends BaseEntity implements ImageEntity<Products> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -28,4 +29,9 @@ public class ProductImages extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
     Products product;
+
+    @Override
+    public void setParent(Products parent) {
+        this.product = parent;
+    }
 }

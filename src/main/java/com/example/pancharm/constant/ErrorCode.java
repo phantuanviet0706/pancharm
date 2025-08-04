@@ -82,6 +82,8 @@ public enum ErrorCode {
     SEND_EMAIL_ERROR(1997, "Failed to send email", HttpStatus.BAD_REQUEST),
     SEND_EMAIL_SENDGRID_ERROR(1997, "Error sending email with SendGrid", HttpStatus.BAD_REQUEST),
     AWS_S3_UPLOAD_ERROR(1997, "Upload file to AWS Cloud S3 failed", HttpStatus.BAD_REQUEST),
+    AWS_S3_INVALID_URL(1997, "Invalid URL attach from AWS", HttpStatus.BAD_REQUEST),
+    AWS_S3_DELETE_ERROR(1997, "Delete file from AWS Cloud S3 failed", HttpStatus.BAD_REQUEST),
 
     UPDATE_ERROR(1998, "Cannot update object, please check and try again", HttpStatus.BAD_REQUEST),
 

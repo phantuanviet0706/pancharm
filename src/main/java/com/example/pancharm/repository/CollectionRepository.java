@@ -8,4 +8,6 @@ import com.example.pancharm.entity.Collections;
 
 @Repository
 public interface CollectionRepository
-        extends JpaRepository<Collections, Integer>, JpaSpecificationExecutor<Collections> {}
+        extends JpaRepository<Collections, Integer>, JpaSpecificationExecutor<Collections> {
+	boolean existsBySlug(String slug);
+}
