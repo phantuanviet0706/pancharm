@@ -1,38 +1,28 @@
-package com.example.pancharm.service;
+ package com.example.pancharm.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+ import static org.junit.jupiter.api.Assertions.*;
 
-import com.example.pancharm.dto.request.auth.AuthenticationRequest;
-import com.example.pancharm.dto.response.auth.AuthenticationResponse;
-import com.example.pancharm.service.auth.AuthenticationService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+ import java.util.Optional;
 
-import com.example.pancharm.constant.ErrorCode;
-import com.example.pancharm.dto.request.auth.RegisterRequest;
-import com.example.pancharm.dto.response.auth.RegisterResponse;
-import com.example.pancharm.entity.Users;
-import com.example.pancharm.exception.AppException;
-import com.example.pancharm.mapper.RegisterMapper;
-import com.example.pancharm.repository.UserRepository;
-import com.example.pancharm.service.auth.RegisterService;
-import com.example.pancharm.service.base.EmailService;
+ import org.junit.jupiter.api.Test;
+ import org.junit.jupiter.api.extension.ExtendWith;
+ import org.mockito.InjectMocks;
+ import org.mockito.Mock;
+ import org.mockito.Mockito;
+ import org.mockito.junit.jupiter.MockitoExtension;
+ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Optional;
+ import com.example.pancharm.constant.ErrorCode;
+ import com.example.pancharm.dto.request.auth.AuthenticationRequest;
+ import com.example.pancharm.dto.response.auth.AuthenticationResponse;
+ import com.example.pancharm.entity.Users;
+ import com.example.pancharm.exception.AppException;
+ import com.example.pancharm.repository.UserRepository;
+ import com.example.pancharm.service.auth.AuthenticationService;
 
-//@DataJpaTest
-@ExtendWith(MockitoExtension.class)
-class LoginServiceTest {
+// @DataJpaTest
+ @ExtendWith(MockitoExtension.class)
+ class LoginServiceTest {
 
     @InjectMocks
     private AuthenticationService authenticationService;
@@ -42,8 +32,8 @@ class LoginServiceTest {
 
     @Test
     void LoginSuccess() {
-        String username = "user1";
-        String rawPassword = "password123";
+        String username = "namngn2012";
+        String rawPassword = "P@ssword123";
         String encodedPassword = new BCryptPasswordEncoder(10).encode(rawPassword);
         Users user = new Users();
         user.setUsername(username);
@@ -104,4 +94,4 @@ class LoginServiceTest {
         assertEquals(ErrorCode.UNAUTHENTICATED, ex.getErrorCode());
         Mockito.verify(userRepository).findByUsername(username);
     }
-}
+ }

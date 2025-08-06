@@ -1,4 +1,3 @@
 package com.example.pancharm.service;
 
-public class ProductServiceTest {
-}
+public class ProductServiceTest {}

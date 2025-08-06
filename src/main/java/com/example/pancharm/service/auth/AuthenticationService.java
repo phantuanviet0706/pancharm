@@ -163,7 +163,7 @@ public class AuthenticationService {
      * @param user
      * @return String
      */
-    String generateToken(Users user) {
+    private String generateToken(Users user) {
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()

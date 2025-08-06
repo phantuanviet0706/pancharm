@@ -1,4 +1,3 @@
 package com.example.pancharm.controller;
 
-public class ProductControllerTest {
-}
+public class ProductControllerTest {}

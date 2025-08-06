@@ -9,7 +9,6 @@
  import org.mockito.Mock;
  import org.mockito.Mockito;
  import org.mockito.junit.jupiter.MockitoExtension;
- import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
  import org.springframework.dao.DataIntegrityViolationException;
  import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -22,11 +21,12 @@
  import com.example.pancharm.repository.UserRepository;
  import com.example.pancharm.service.auth.RegisterService;
  import com.example.pancharm.service.base.EmailService;
-// @DataJpaTest
+
  @ExtendWith(MockitoExtension.class)
  class RegisterServiceTest {
-String subjectVerification = "Welcome to Pancharm – Your Healing Journey Begins \uD83C\uDF3F";
-String bodyVerification = "<html>...</html>";
+    String subjectVerification = "Welcome to Pancharm – Your Healing Journey Begins \uD83C\uDF3F";
+    String bodyVerification = "<html>...</html>";
+
     @InjectMocks
     private RegisterService registerService;
 
@@ -97,7 +97,7 @@ String bodyVerification = "<html>...</html>";
         assertEquals(ErrorCode.USER_EXISTED, exception.getErrorCode());
 
         Mockito.verify(userRepository).existsByUsername("existingUser");
-                Mockito.verifyNoMoreInteractions(userRepository, registerMapper, passwordEncoder, emailService);
+        Mockito.verifyNoMoreInteractions(userRepository, registerMapper, passwordEncoder, emailService);
     }
 
     @Test
@@ -116,7 +116,7 @@ String bodyVerification = "<html>...</html>";
 
         Mockito.verify(userRepository).existsByUsername("newUser");
         Mockito.verify(userRepository).existsByEmail("existingemail@example.com");
-               Mockito.verifyNoMoreInteractions(userRepository, registerMapper, passwordEncoder, emailService);
+        Mockito.verifyNoMoreInteractions(userRepository, registerMapper, passwordEncoder, emailService);
     }
 
     @Test
