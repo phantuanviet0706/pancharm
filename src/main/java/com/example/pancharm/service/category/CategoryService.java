@@ -53,6 +53,8 @@ public class CategoryService {
                     criteriaBuilder.equal(root.get("slug").as(String.class), "%" + request.getSlug() + "%")));
         }
 
+        spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
+
         return pageMapper.toPageResponse(
                 categoryRepository.findAll(spec, pageable).map(categoryMapper::toCategoryListResponse));
     }
@@ -135,16 +137,19 @@ public class CategoryService {
      * @param id
      */
     public void deleteCategory(int id) {
-        if (!categoryRepository.existsById(String.valueOf(id))) {
-            throw new AppException(ErrorCode.CATEGORY_NOT_FOUND);
-        }
+        var category = categoryRepository.findById(String.valueOf(id)).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
         var childrenCategories = categoryRepository.findAllByParentId(id);
         if (!childrenCategories.isEmpty()) {
             throw new AppException(ErrorCode.CATEGORY_DELETE_ERROR);
         }
 
-        categoryRepository.deleteById(String.valueOf(id));
+        category.setSoftDeleted((short) 1);
+        try {
+            categoryRepository.save(category);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.UPDATE_ERROR);
+        }
     }
 
     /**

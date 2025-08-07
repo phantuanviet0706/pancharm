@@ -59,7 +59,7 @@ public class ProductService {
     public ProductDetailResponse createProduct(ProductCreationRequest request) {
         Products product = productMapper.toProduct(request);
         if (request.getSlug() != null && !request.getSlug().isBlank()) {
-            if (productRepository.existsBySlug(request.getSlug())) {
+            if (productRepository.existsBySlugAndSoftDeleted(request.getSlug(), (short) 0)) {
                 throw new AppException(ErrorCode.SLUG_EXISTED);
             }
             product.setSlug(request.getSlug());
@@ -80,13 +80,15 @@ public class ProductService {
             product.setSlug(generalUtil.generateSlug("product", product.getId()));
         }
 
-        imageUtil.attachImages(
-                request.getProductImages(),
-                product,
-                "products",
-                url -> ProductImages.builder().build(),
-                productImagesRepository::saveAll
-        );
+        if (request.getProductImages() != null && !request.getProductImages().isEmpty()) {
+            imageUtil.attachImages(
+                    request.getProductImages(),
+                    product,
+                    "products",
+                    url -> ProductImages.builder().build(),
+                    productImagesRepository::saveAll
+            );
+        }
 
         try {
             product = productRepository.save(product);
@@ -142,8 +144,13 @@ public class ProductService {
      * @param id
      */
     public void deleteProduct(int id) {
-        if (!productRepository.existsById(id)) {
-            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
+        var product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        product.setSoftDeleted((short) 1);
+        try {
+            productRepository.save(product);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.UPDATE_ERROR);
         }
 
         productRepository.deleteById(id);
@@ -192,6 +199,8 @@ public class ProductService {
             spec = spec.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.lessThanOrEqualTo(root.get("quantityTo"), request.getQuantityTo()));
         }
+
+        spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
 
         return pageMapper.toPageResponse(
                 productRepository.findAll(spec, pageable).map(productMapper::toProductListResponse));

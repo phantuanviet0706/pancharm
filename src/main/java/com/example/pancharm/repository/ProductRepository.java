@@ -9,4 +9,6 @@ import com.example.pancharm.entity.Products;
 @Repository
 public interface ProductRepository extends JpaRepository<Products, Integer>, JpaSpecificationExecutor<Products> {
     boolean existsBySlug(String slug);
+
+    boolean existsBySlugAndSoftDeleted(String slug, short softDeleted);
 }

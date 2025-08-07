@@ -108,6 +108,8 @@ public class UserService {
                     criteriaBuilder.like(root.get("email").as(String.class), "%" + request.getEmail() + "%")));
         }
 
+        spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
+
         return pageMapper.toPageResponse(userRepository.findAll(spec, pageable).map(userMapper::toUserListResponse));
     }
 
@@ -134,7 +136,13 @@ public class UserService {
             throw new AppException(ErrorCode.MASTER_USER_DELETE_ERROR);
         }
 
-        userRepository.deleteById(String.valueOf(id));
+        user.setSoftDeleted((short) 1);
+        try {
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.UPDATE_ERROR);
+        }
+//        userRepository.deleteById(String.valueOf(id));
     }
 
     /**
