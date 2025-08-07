@@ -15,4 +15,5 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PermissionFilterRequest extends PageDefaultRequest {
     String keyword;
+    String names;
 }

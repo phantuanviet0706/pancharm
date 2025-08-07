@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.example.pancharm.constant.ConfigurationName;
 import com.example.pancharm.entity.Configurations;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ConfigurationRepository
         extends JpaRepository<Configurations, Integer>, JpaSpecificationExecutor<Configurations> {
     boolean existsByName(ConfigurationName name);

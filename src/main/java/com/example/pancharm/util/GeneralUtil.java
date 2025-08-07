@@ -1,11 +1,17 @@
 package com.example.pancharm.util;
 
 import com.example.pancharm.service.configuration.ConfigurationService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class GeneralUtil {
 	ConfigurationService configurationService;
 
@@ -29,5 +35,21 @@ public class GeneralUtil {
 		}
 
 		return defaultPrefix + slugId;
+	}
+
+	/**
+	 * @desc Decode a value to seperated params
+	 * @param encodedParam
+	 * @return Set<String>
+	 */
+	public Set<String> decodeToParams(String encodedParam) {
+		if (encodedParam == null || encodedParam.isBlank()) {
+			return Collections.emptySet();
+		}
+
+		return Arrays.stream(encodedParam.split(","))
+				.map(String::trim)
+				.filter(s -> !s.isEmpty())
+				.collect(Collectors.toSet());
 	}
 }

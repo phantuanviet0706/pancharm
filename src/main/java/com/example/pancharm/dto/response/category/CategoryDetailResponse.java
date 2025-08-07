@@ -16,8 +16,8 @@ public class CategoryDetailResponse {
     int id;
     String name;
     String slug;
-    int parentCategoryId;
-    String parentCategoryName;
+    int parentId;
+    String parentName;
     String config;
     Set<CategoryDetailResponse> categories;
 }

@@ -1,5 +1,7 @@
 package com.example.pancharm.service.permission;
 
+import com.example.pancharm.util.GeneralUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,6 +23,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -29,6 +35,7 @@ public class PermissionService {
     PermissionRepository permissionRepository;
     PermissionMapper permissionMapper;
     PageMapper pageMapper;
+    GeneralUtil generalUtil;
 
     /**
      * @desc Create new permission
@@ -87,6 +94,13 @@ public class PermissionService {
                     (root, query, cb) -> cb.like(root.get("name").as(String.class), "%" + request.getKeyword() + "%"));
         }
 
+        if (request.getNames() != null && !request.getNames().isEmpty()) {
+            var names = generalUtil.decodeToParams(request.getNames());
+            spec = spec.and(
+                    (root, query, cb) -> root.get("name").in(names)
+            );
+        }
+
         return pageMapper.toPageResponse(
                 permissionRepository.findAll(spec, pageable).map(permissionMapper::toPermissionResponse));
     }
@@ -100,5 +114,11 @@ public class PermissionService {
             return;
         }
         permissionRepository.deleteById(String.valueOf(permissionId));
+    }
+
+    public Set<PermissionResponse> findByNames(String name) throws Exception {
+        var permissions = permissionRepository.findAllByNameIn(generalUtil.decodeToParams(name));
+        log.info(permissions.toString());
+        return permissions.stream().map(permissionMapper::toPermissionResponse).collect(Collectors.toSet());
     }
 }

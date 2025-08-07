@@ -13,8 +13,8 @@ public interface CategoryMapper {
     Categories toCategories(CategoryRequest request);
 
     @Mapping(target = "categories", ignore = true)
-    @Mapping(target = "parentCategoryId", source = "parent.id")
-    @Mapping(target = "parentCategoryName", source = "parent.name")
+    @Mapping(target = "parentId", source = "parent.id")
+    @Mapping(target = "parentName", source = "parent.name")
     CategoryDetailResponse toCategoryResponse(Categories category);
 
     CategoryListResponse toCategoryListResponse(Categories category);

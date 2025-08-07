@@ -42,11 +42,12 @@ public class SecurityConfig {
         "/auth/refresh",
         "/roles",
         "/categories",
+        "/permissions"
     };
 
-    private static final String[] PUBLIC_PUT_ENDPOINTS = {"/roles/{id}", "/categories/{id}"};
+    private static final String[] PUBLIC_PUT_ENDPOINTS = {"/roles/{id}", "/categories/{id}", "/permissions/{id}"};
 
-    private static final String[] PUBLIC_DELETE_ENDPOINTS = {"/roles/{id}", "/categories/{id}"};
+    private static final String[] PUBLIC_DELETE_ENDPOINTS = {"/roles/{id}", "/categories/{id}", "/permissions/{id}"};
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;

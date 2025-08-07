@@ -18,6 +18,7 @@ public class ApiResponse<T> {
     @Builder.Default
     int code = 1;
 
-    String message;
+    @Builder.Default
+    String message = "Successfully!";
     T result;
 }
