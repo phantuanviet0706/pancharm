@@ -38,8 +38,8 @@ import lombok.experimental.FieldDefaults;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
-        + "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
+//@PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
+//        + "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
 public class ProductService {
     ProductRepository productRepository;
     ProductMapper productMapper;
@@ -183,7 +183,7 @@ public class ProductService {
 
         if (request.getKeyword() != null && !request.getKeyword().isBlank()) {
             spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(root.get("keyword").as(String.class), "%" + request.getKeyword() + "%"));
+                    criteriaBuilder.like(root.get("name").as(String.class), "%" + request.getKeyword() + "%"));
         }
 
         if (request.getQuantityFrom() != null

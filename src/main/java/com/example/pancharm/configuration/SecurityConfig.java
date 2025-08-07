@@ -29,7 +29,7 @@ public class SecurityConfig {
     protected String SIGNER_KEY;
 
     private static final String[] PUBLIC_GET_ENDPOINTS = {
-        "/", "/company", "/company/info", "/roles", "/permissions", "/categories",
+        "/", "/company", "/company/info", "/roles", "/permissions", "/categories", "/products", "/collections", "/users"
     };
 
     private static final String[] PUBLIC_POST_ENDPOINTS = {
@@ -42,12 +42,15 @@ public class SecurityConfig {
         "/auth/refresh",
         "/roles",
         "/categories",
-        "/permissions"
+        "/permissions",
+        "/products",
+        "/collections",
+        "/users"
     };
 
-    private static final String[] PUBLIC_PUT_ENDPOINTS = {"/roles/{id}", "/categories/{id}", "/permissions/{id}"};
+    private static final String[] PUBLIC_PUT_ENDPOINTS = {"/roles/{id}", "/categories/{id}", "/permissions/{id}", "/products/{id}", "/collections/{id}", "/users/{id}"};
 
-    private static final String[] PUBLIC_DELETE_ENDPOINTS = {"/roles/{id}", "/categories/{id}", "/permissions/{id}"};
+    private static final String[] PUBLIC_DELETE_ENDPOINTS = {"/roles/{id}", "/categories/{id}", "/permissions/{id}", "/products/{id}", "/collections/{id}", "/users/{id}"};
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;

@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductDetailResponse {
+    int id;
     String name;
     String slug;
     int quantity;
@@ -22,6 +23,7 @@ public class ProductDetailResponse {
     String color;
     String status;
     String description;
-    CategoryDetailResponse category;
+    int categoryId;
+    String categoryName;
     Set<ProductImageResponse> productImages;
 }

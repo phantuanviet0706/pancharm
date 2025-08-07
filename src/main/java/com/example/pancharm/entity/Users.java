@@ -59,7 +59,7 @@ public class Users extends BaseEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "membership_level", nullable = false)
-    MembershipLevel memberShipLevel = MembershipLevel.MEMBER;
+    MembershipLevel membershipLevel = MembershipLevel.MEMBER;
 
     @Column(name = "total_spent")
     int totalSpent;
