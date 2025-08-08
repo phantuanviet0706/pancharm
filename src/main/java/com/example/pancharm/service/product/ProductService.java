@@ -38,8 +38,6 @@ import lombok.experimental.FieldDefaults;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-//@PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
-//        + "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
 public class ProductService {
     ProductRepository productRepository;
     ProductMapper productMapper;
@@ -55,6 +53,8 @@ public class ProductService {
      * @param request
      * @return ProductDetailResponse
      */
+    @PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
+            + "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
     @Transactional
     public ProductDetailResponse createProduct(ProductCreationRequest request) {
         Products product = productMapper.toProduct(request);
@@ -105,6 +105,9 @@ public class ProductService {
      * @param request
      * @return ProductDetailResponse
      */
+    @PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
+            + "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
+    @Transactional
     public ProductDetailResponse updateProduct(int id, ProductUpdateRequest request) {
         Products product =
                 productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
@@ -143,6 +146,9 @@ public class ProductService {
      * @desc Delete existing product
      * @param id
      */
+    @PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
+            + "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
+    @Transactional
     public void deleteProduct(int id) {
         var product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 

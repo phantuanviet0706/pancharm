@@ -13,6 +13,7 @@ import com.example.pancharm.util.ImageUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.example.pancharm.dto.request.collection.CollectionFilterRequest;
@@ -27,6 +28,7 @@ import com.example.pancharm.util.PageRequestUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -68,6 +70,9 @@ public class CollectionService {
 	 * @param request
 	 * @return CollectionDetailResponse
 	 */
+	@PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
+			+ "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
+	@Transactional
 	public CollectionDetailResponse createCollection(CollectionCreationRequest request) {
 		Collections collection = collectionMapper.toCollections(request);
 		if (request.getSlug() == null || request.getSlug().isBlank()) {
@@ -111,6 +116,9 @@ public class CollectionService {
 	 * @param request
 	 * @return CollectionDetailResponse
 	 */
+	@PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
+			+ "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
+	@Transactional
 	public CollectionDetailResponse updateCollection(int id, CollectionUpdateRequest request) {
 		var collection = collectionRepository.findById(id).orElseThrow(() -> {
 			throw new AppException(ErrorCode.COLLECTION_NOT_FOUND);
@@ -151,6 +159,9 @@ public class CollectionService {
 	 * @desc Delete existing collection
 	 * @param id
 	 */
+	@PreAuthorize("hasAnyRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name(), "
+			+ "T(com.example.pancharm.constant.PredefineRole).ADMIN.name())")
+	@Transactional
 	public void deleteCollection(int id) {
 		if (!collectionRepository.existsById(id)) {
 			throw new AppException(ErrorCode.COLLECTION_NOT_FOUND);

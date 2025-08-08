@@ -10,6 +10,7 @@ import com.example.pancharm.entity.Company;
 
 @Mapper(componentModel = "spring", uses = CompanyInfoMapper.class)
 public interface CompanyMapper {
+    @Mapping(target = "companyInfos", source = "companyInfos")
     CompanyResponse toCompanyResponse(Company company);
 
     @Mapping(target = "companyInfos", ignore = true)
