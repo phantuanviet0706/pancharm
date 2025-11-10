@@ -1,11 +1,14 @@
 package com.example.pancharm.controller;
 
-import com.example.pancharm.dto.request.collection.CollectionCreationRequest;
-import com.example.pancharm.dto.request.collection.CollectionUpdateRequest;
+import com.example.pancharm.dto.request.collection.CollectionUpdateImageRequest;
 import jakarta.validation.Valid;
+
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.pancharm.dto.request.collection.CollectionCreationRequest;
 import com.example.pancharm.dto.request.collection.CollectionFilterRequest;
+import com.example.pancharm.dto.request.collection.CollectionUpdateRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.collection.*;
@@ -29,15 +32,16 @@ public class CollectionController {
                 .build();
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<CollectionDetailResponse> create(@ModelAttribute @Valid CollectionCreationRequest request) {
         return ApiResponse.<CollectionDetailResponse>builder()
                 .result(collectionService.createCollection(request))
                 .build();
     }
 
-    @PutMapping("/{id}")
-    public ApiResponse<CollectionDetailResponse> update(@PathVariable int id, @ModelAttribute @Valid CollectionUpdateRequest request) {
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<CollectionDetailResponse> update(
+            @PathVariable int id, @ModelAttribute @Valid CollectionUpdateRequest request) {
         return ApiResponse.<CollectionDetailResponse>builder()
                 .result(collectionService.updateCollection(id, request))
                 .build();
@@ -53,6 +57,14 @@ public class CollectionController {
     public ApiResponse<CollectionDetailResponse> findById(@PathVariable int id) {
         return ApiResponse.<CollectionDetailResponse>builder()
                 .result(collectionService.getById(id))
+                .build();
+    }
+
+    @PutMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<CollectionDetailResponse> updateCollectionImages(
+            @PathVariable int id, @ModelAttribute @Valid CollectionUpdateImageRequest request) {
+        return ApiResponse.<CollectionDetailResponse>builder()
+                .result(collectionService.updateCollectionImage(id, request))
                 .build();
     }
 }

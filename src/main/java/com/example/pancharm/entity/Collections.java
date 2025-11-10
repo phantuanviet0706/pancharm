@@ -3,9 +3,9 @@ package com.example.pancharm.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.example.pancharm.common.contract.ImageAttachable;
 import jakarta.persistence.*;
 
+import com.example.pancharm.common.contract.ImageAttachable;
 import com.example.pancharm.constant.CollectionStatus;
 
 import lombok.*;
@@ -40,6 +40,10 @@ public class Collections extends BaseEntity implements ImageAttachable<Collectio
 
     @Column(columnDefinition = "TEXT")
     String config;
+
+    @Builder.Default
+    @Column(name = "is_default", nullable = false)
+    short isDefault = 0;
 
     @OneToMany(mappedBy = "collection", fetch = FetchType.LAZY)
     Set<CollectionImages> images = new HashSet<>();

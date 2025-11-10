@@ -1,7 +1,6 @@
 package com.example.pancharm.dto.response.company;
 
-import com.example.pancharm.entity.Company;
-import com.example.pancharm.entity.Users;
+import com.example.pancharm.dto.response.user.UserSimpleResponse;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +17,5 @@ public class CompanyInfoResponse {
     String address;
     String phone;
     String email;
-    Users user;
-    Company company;
+    UserSimpleResponse user;
 }

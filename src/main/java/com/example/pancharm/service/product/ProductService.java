@@ -1,11 +1,8 @@
 package com.example.pancharm.service.product;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.example.pancharm.util.GeneralUtil;
-import com.example.pancharm.util.ImageUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,9 +23,8 @@ import com.example.pancharm.mapper.ProductMapper;
 import com.example.pancharm.repository.CategoryRepository;
 import com.example.pancharm.repository.ProductImageRepository;
 import com.example.pancharm.repository.ProductRepository;
-import com.example.pancharm.service.base.S3Service;
-import com.example.pancharm.service.configuration.ConfigurationService;
-import com.example.pancharm.util.JsonConfigUtil;
+import com.example.pancharm.util.GeneralUtil;
+import com.example.pancharm.util.ImageUtil;
 import com.example.pancharm.util.PageRequestUtil;
 
 import lombok.AccessLevel;
@@ -86,8 +82,7 @@ public class ProductService {
                     product,
                     "products",
                     url -> ProductImages.builder().build(),
-                    productImagesRepository::saveAll
-            );
+                    productImagesRepository::saveAll);
         }
 
         try {
@@ -121,13 +116,12 @@ public class ProductService {
                 product,
                 "products",
                 url -> ProductImages.builder().build(),
-                productImagesRepository::saveAll
-        );
+                productImagesRepository::saveAll);
 
-        Set<String> newImagePaths = product.getImages().stream()
-                .map(ProductImages::getPath).collect(Collectors.toSet());
+        Set<String> newImagePaths =
+                product.getImages().stream().map(ProductImages::getPath).collect(Collectors.toSet());
 
-        for (ProductImages oldImage: oldImages) {
+        for (ProductImages oldImage : oldImages) {
             if (!newImagePaths.contains(oldImage.getPath())) {
                 imageUtil.deletePaths(oldImage.getPath());
             }
@@ -206,7 +200,8 @@ public class ProductService {
                     criteriaBuilder.lessThanOrEqualTo(root.get("quantityTo"), request.getQuantityTo()));
         }
 
-        spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
+        spec = spec.and((root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
 
         return pageMapper.toPageResponse(
                 productRepository.findAll(spec, pageable).map(productMapper::toProductListResponse));

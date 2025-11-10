@@ -48,4 +48,18 @@ public class UserController {
                 .result(userService.getUsers(request))
                 .build();
     }
+
+    @GetMapping("/me")
+    ApiResponse<UserDetailResponse> getInfo() {
+        return ApiResponse.<UserDetailResponse>builder()
+                .result(userService.getMyInfo())
+                .build();
+    }
+
+    @PostMapping("/change-password")
+    ApiResponse<UserDetailResponse> changeUserPassword(@RequestBody @Valid UserChangePassRequest request) {
+        return ApiResponse.<UserDetailResponse>builder()
+                .result(userService.changePassword(request))
+                .build();
+    }
 }

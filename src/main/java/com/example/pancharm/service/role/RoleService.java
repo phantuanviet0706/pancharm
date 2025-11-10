@@ -30,7 +30,7 @@ import lombok.experimental.FieldDefaults;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
- @PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
+@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 public class RoleService {
     RoleRepository roleRepository;
     RoleMapper roleMapper;

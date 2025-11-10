@@ -1,5 +1,7 @@
 package com.example.pancharm.dto.response.collection;
 
+import java.util.Set;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,4 +14,6 @@ public class CollectionListResponse {
     int id;
     String name;
     String slug;
+    String description;
+    Set<CollectionImageResponse> collectionImages;
 }

@@ -34,6 +34,11 @@ public class Company extends BaseEntity {
     @Column(length = 63, unique = true)
     String taxcode;
 
+    String email;
+
+    @Column(length = 35)
+    String phone;
+
     @Column(name = "bank_attachment", columnDefinition = "TEXT")
     String bankAttachment;
 

@@ -13,6 +13,7 @@ public interface CompanyMapper {
     @Mapping(target = "companyInfos", source = "companyInfos")
     CompanyResponse toCompanyResponse(Company company);
 
-    @Mapping(target = "companyInfos", ignore = true)
+    @Mapping(target = "avatar", ignore = true)
+    @Mapping(target = "bankAttachment", ignore = true)
     void updateCompany(CompanyRequest companyRequest, @MappingTarget Company company);
 }

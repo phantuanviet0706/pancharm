@@ -1,9 +1,11 @@
 package com.example.pancharm.dto.request.company;
 
-import java.util.Set;
-
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.pancharm.validator.annotation.PhoneConstraint;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -16,16 +18,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CompanyRequest {
-    @NotBlank(message = "COMPANY_NAME_REQUIRED")
-    String name;
-
     String address;
     String avatar;
+    MultipartFile avatarFile;
 
     @Size(min = 10, max = 30)
     String taxcode;
 
+    @Email
+    String email;
+
+    @PhoneConstraint
+    String phone;
+
     String bankAttachment;
-    String config;
-    Set<String> companyInfos;
+    MultipartFile bankAttachmentFile;
 }

@@ -21,7 +21,7 @@ public class CompanyController {
     CompanyService companyService;
 
     @PutMapping
-    public ApiResponse<CompanyResponse> updateCompany(@RequestBody @Valid CompanyRequest companyRequest) {
+    public ApiResponse<CompanyResponse> updateCompany(@ModelAttribute @Valid CompanyRequest companyRequest) {
         return ApiResponse.<CompanyResponse>builder()
                 .result(companyService.updateCompany(companyRequest))
                 .build();

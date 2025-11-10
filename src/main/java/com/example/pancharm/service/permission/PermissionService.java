@@ -1,7 +1,8 @@
 package com.example.pancharm.service.permission;
 
-import com.example.pancharm.util.GeneralUtil;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,20 +19,19 @@ import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.PageMapper;
 import com.example.pancharm.mapper.PermissionMapper;
 import com.example.pancharm.repository.PermissionRepository;
+import com.example.pancharm.util.GeneralUtil;
 import com.example.pancharm.util.PageRequestUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
-import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
- @PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
+@PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
 public class PermissionService {
     PermissionRepository permissionRepository;
     PermissionMapper permissionMapper;
@@ -97,9 +97,7 @@ public class PermissionService {
 
         if (request.getNames() != null && !request.getNames().isEmpty()) {
             var names = generalUtil.decodeToParams(request.getNames());
-            spec = spec.and(
-                    (root, query, cb) -> root.get("name").in(names)
-            );
+            spec = spec.and((root, query, cb) -> root.get("name").in(names));
         }
 
         return pageMapper.toPageResponse(

@@ -48,6 +48,7 @@ public enum ErrorCode {
             "Password must include an uppercase letter, a lowercase letter, a digit, and a special character",
             HttpStatus.BAD_REQUEST),
     PASSWORD_REQUIRED(1003, "Please fill password", HttpStatus.BAD_REQUEST),
+    CONFIRM_PASSWORD_ERROR(1003, "Confirm password must match the password", HttpStatus.BAD_REQUEST),
 
     FIRST_NAME_REQUIRED(1003, "Please fill first name", HttpStatus.BAD_REQUEST),
     LAST_NAME_REQUIRED(1003, "Please fill last name", HttpStatus.BAD_REQUEST),
@@ -81,9 +82,16 @@ public enum ErrorCode {
 
     SEND_EMAIL_ERROR(1997, "Failed to send email", HttpStatus.BAD_REQUEST),
     SEND_EMAIL_SENDGRID_ERROR(1997, "Error sending email with SendGrid", HttpStatus.BAD_REQUEST),
+
+    // AWS S3 error
     AWS_S3_UPLOAD_ERROR(1997, "Upload file to AWS Cloud S3 failed", HttpStatus.BAD_REQUEST),
     AWS_S3_INVALID_URL(1997, "Invalid URL attach from AWS", HttpStatus.BAD_REQUEST),
     AWS_S3_DELETE_ERROR(1997, "Delete file from AWS Cloud S3 failed", HttpStatus.BAD_REQUEST),
+
+    // MinIO error
+    MINIO_UPLOAD_ERROR(1997, "Upload file to MinIO failed", HttpStatus.BAD_REQUEST),
+    MINIO_INVALID_URL(1997, "Invalid URL attach from MinIO", HttpStatus.BAD_REQUEST),
+    MINIO_DELETE_ERROR(1997, "Delete file from MinIO failed", HttpStatus.BAD_REQUEST),
 
     UPDATE_ERROR(1998, "Cannot update object, please check and try again", HttpStatus.BAD_REQUEST),
 

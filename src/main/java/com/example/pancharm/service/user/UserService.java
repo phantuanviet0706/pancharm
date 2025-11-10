@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -108,7 +109,8 @@ public class UserService {
                     criteriaBuilder.like(root.get("email").as(String.class), "%" + request.getEmail() + "%")));
         }
 
-        spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
+        spec = spec.and((root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
 
         return pageMapper.toPageResponse(userRepository.findAll(spec, pageable).map(userMapper::toUserListResponse));
     }
@@ -142,7 +144,7 @@ public class UserService {
         } catch (DataIntegrityViolationException exception) {
             throw new AppException(ErrorCode.UPDATE_ERROR);
         }
-//        userRepository.deleteById(String.valueOf(id));
+        //        userRepository.deleteById(String.valueOf(id));
     }
 
     /**
@@ -153,5 +155,41 @@ public class UserService {
     private void setRoles(Users user, Set<String> roleNames) {
         var roles = roleRepository.findAllByNameIn(roleNames);
         user.setRoles(new HashSet<>(roles));
+    }
+
+    /**
+     * @desc Get user detail from stored token (pass by Bearer Header)
+     * @return UserDetailResponse
+     */
+    public UserDetailResponse getMyInfo() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        Users user = userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        return userMapper.toUserResponse(user);
+    }
+
+    public UserDetailResponse changePassword(UserChangePassRequest request) {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        Users user = userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        String password = request.getPassword();
+        String confirmPassword = request.getConfirmPassword();
+        if (!password.equals(confirmPassword)) {
+            throw new AppException(ErrorCode.CONFIRM_PASSWORD_ERROR);
+        }
+
+        user.setPassword(passwordEncoder.encode(password));
+
+        try {
+            user = userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.UPDATE_ERROR);
+        }
+
+        return userMapper.toUserResponse(user);
     }
 }

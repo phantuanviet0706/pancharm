@@ -13,4 +13,6 @@ import lombok.experimental.SuperBuilder;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CollectionFilterRequest extends PageDefaultRequest {
     String keyword;
+
+    int isDefault;
 }

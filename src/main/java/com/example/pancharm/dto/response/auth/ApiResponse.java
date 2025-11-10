@@ -20,5 +20,6 @@ public class ApiResponse<T> {
 
     @Builder.Default
     String message = "Successfully!";
+
     T result;
 }

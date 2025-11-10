@@ -1,7 +1,8 @@
 package com.example.pancharm.entity;
 
-import com.example.pancharm.common.contract.ImageEntity;
 import jakarta.persistence.*;
+
+import com.example.pancharm.common.contract.ImageEntity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

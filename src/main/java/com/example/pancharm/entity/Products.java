@@ -3,9 +3,9 @@ package com.example.pancharm.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.example.pancharm.common.contract.ImageAttachable;
 import jakarta.persistence.*;
 
+import com.example.pancharm.common.contract.ImageAttachable;
 import com.example.pancharm.constant.ProductStatus;
 
 import lombok.*;

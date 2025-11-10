@@ -16,6 +16,8 @@ public class CompanyResponse {
     String name;
     String address;
     String avatar;
+    String phone;
+    String email;
     String taxcode;
     String bankAttachment;
     String config;

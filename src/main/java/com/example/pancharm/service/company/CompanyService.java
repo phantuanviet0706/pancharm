@@ -16,6 +16,7 @@ import com.example.pancharm.mapper.CompanyMapper;
 import com.example.pancharm.repository.CompanyInfoRepository;
 import com.example.pancharm.repository.CompanyRepository;
 import com.example.pancharm.repository.UserRepository;
+import com.example.pancharm.util.ImageUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,8 @@ public class CompanyService {
 
     UserRepository userRepository;
     CompanyInfoRepository companyInfoRepository;
+
+    ImageUtil imageUtil;
 
     @NonFinal
     @Value("${spring.application.name}")
@@ -48,11 +51,33 @@ public class CompanyService {
     @PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
     public CompanyResponse updateCompany(CompanyRequest companyRequest) {
         Company company = companyRepository.findAll().getFirst();
-        if (company != null) {
+        if (company == null) {
             throw new AppException(ErrorCode.COMPANY_NOT_FOUND);
         }
 
         companyMapper.updateCompany(companyRequest, company);
+
+        if (companyRequest.getAvatarFile() != null
+                && !companyRequest.getAvatarFile().isEmpty()) {
+            imageUtil.upsertSingleFile(
+                    companyRequest.getAvatarFile(),
+                    company,
+                    c -> "companies/" + c.getId() + "/avatar",
+                    company::getAvatar,
+                    company::setAvatar,
+                    false);
+        }
+
+        if (companyRequest.getBankAttachmentFile() != null
+                && !companyRequest.getBankAttachmentFile().isEmpty()) {
+            imageUtil.upsertSingleFile(
+                    companyRequest.getBankAttachmentFile(),
+                    company,
+                    c -> "companies/" + c.getId() + "/bankAttachment",
+                    company::getBankAttachment,
+                    company::setBankAttachment,
+                    false);
+        }
 
         try {
             company = companyRepository.save(company);
