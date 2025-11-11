@@ -67,7 +67,7 @@ public class ProductService {
         product.setCategory(category);
 
         try {
-            productRepository.save(product);
+            product = productRepository.save(product);
         } catch (DataIntegrityViolationException ex) {
             throw new AppException(ErrorCode.UPDATE_ERROR);
         }
@@ -109,22 +109,20 @@ public class ProductService {
 
         productMapper.updateProduct(request, product);
 
-        Set<ProductImages> oldImages = product.getImages();
+        if (request.getProductImages() != null && !request.getProductImages().isEmpty()) {
+            Set<ProductImages> oldImages = product.getImages();
 
-        imageUtil.attachImages(
-                request.getProductImages(),
-                product,
-                "products",
-                url -> ProductImages.builder().build(),
-                productImagesRepository::saveAll);
-
-        Set<String> newImagePaths =
-                product.getImages().stream().map(ProductImages::getPath).collect(Collectors.toSet());
-
-        for (ProductImages oldImage : oldImages) {
-            if (!newImagePaths.contains(oldImage.getPath())) {
+            for (ProductImages oldImage : oldImages) {
                 imageUtil.deletePaths(oldImage.getPath());
             }
+            productImagesRepository.deleteAll(oldImages);
+
+            imageUtil.attachImages(
+                    request.getProductImages(),
+                    product,
+                    "products",
+                    url -> ProductImages.builder().build(),
+                    productImagesRepository::saveAll);
         }
 
         try {
@@ -146,13 +144,14 @@ public class ProductService {
     public void deleteProduct(int id) {
         var product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        product.setSoftDeleted((short) 1);
-        try {
-            productRepository.save(product);
-        } catch (DataIntegrityViolationException exception) {
-            throw new AppException(ErrorCode.UPDATE_ERROR);
-        }
+//        product.setSoftDeleted((short) 1);
+//        try {
+//            productRepository.save(product);
+//        } catch (DataIntegrityViolationException exception) {
+//            throw new AppException(ErrorCode.UPDATE_ERROR);
+//        }
 
+        productImagesRepository.deleteAll(product.getImages());
         productRepository.deleteById(id);
     }
 

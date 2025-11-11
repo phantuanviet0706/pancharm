@@ -1,6 +1,5 @@
 package com.example.pancharm.controller;
 
-import com.example.pancharm.dto.request.collection.CollectionUpdateImageRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.http.MediaType;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.pancharm.dto.request.collection.CollectionCreationRequest;
 import com.example.pancharm.dto.request.collection.CollectionFilterRequest;
+import com.example.pancharm.dto.request.collection.CollectionUpdateImageRequest;
 import com.example.pancharm.dto.request.collection.CollectionUpdateRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 import com.example.pancharm.dto.response.base.PageResponse;

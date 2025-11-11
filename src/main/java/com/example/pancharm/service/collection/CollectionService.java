@@ -1,9 +1,7 @@
 package com.example.pancharm.service.collection;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import com.example.pancharm.dto.request.collection.CollectionUpdateImageRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.dto.request.collection.CollectionCreationRequest;
 import com.example.pancharm.dto.request.collection.CollectionFilterRequest;
+import com.example.pancharm.dto.request.collection.CollectionUpdateImageRequest;
 import com.example.pancharm.dto.request.collection.CollectionUpdateRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.collection.CollectionDetailResponse;
@@ -108,7 +107,7 @@ public class CollectionService {
         }
 
         try {
-            //            collection = collectionRepository.save(collection);
+            collection = collectionRepository.save(collection);
         } catch (DataIntegrityViolationException exception) {
             throw new AppException(ErrorCode.UPDATE_ERROR);
         }
@@ -201,9 +200,9 @@ public class CollectionService {
         var collectionImages = collection.getImages();
         collectionImages.forEach(oldImage -> {
             if (oldImage.getId() == request.getDefaultImageId()) {
-                oldImage.setIsDefault(Short.parseShort("1"));
+                oldImage.setIsDefault((short) 1);
             } else {
-                oldImage.setIsDefault(Short.parseShort("0"));
+                oldImage.setIsDefault((short) 0);
             }
         });
 

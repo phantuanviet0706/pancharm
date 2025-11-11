@@ -1,14 +1,12 @@
 // util/ImageUtil.java
 package com.example.pancharm.util;
 
-import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +15,6 @@ import com.example.pancharm.common.contract.ImageAttachable;
 import com.example.pancharm.common.contract.ImageEntity;
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.exception.AppException;
-// Đổi import từ S3Service -> MinioService
 import com.example.pancharm.service.base.MinioService;
 
 import lombok.RequiredArgsConstructor;
@@ -132,8 +129,7 @@ public class ImageUtil {
                 p -> folderPrefix + "/" + idGetter.apply(p) + "/" + (leafFolder == null ? "" : leafFolder),
                 currentPathSupplier,
                 setPath,
-                removeRequested
-        );
+                removeRequested);
     }
 
     /**

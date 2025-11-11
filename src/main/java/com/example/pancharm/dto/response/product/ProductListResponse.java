@@ -19,5 +19,6 @@ public class ProductListResponse {
     int quantity;
     int unitPrice;
     String status;
+    int categoryId;
     Set<ProductImageResponse> productImages;
 }

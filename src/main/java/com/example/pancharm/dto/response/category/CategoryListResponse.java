@@ -14,4 +14,5 @@ public class CategoryListResponse {
     int id;
     String name;
     String slug;
+    Integer parentId;
 }

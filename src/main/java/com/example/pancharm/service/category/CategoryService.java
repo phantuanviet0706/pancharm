@@ -56,8 +56,10 @@ public class CategoryService {
         spec = spec.and((root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
 
-        return pageMapper.toPageResponse(
+        var map = pageMapper.toPageResponse(
                 categoryRepository.findAll(spec, pageable).map(categoryMapper::toCategoryListResponse));
+
+        return map;
     }
 
     /**
