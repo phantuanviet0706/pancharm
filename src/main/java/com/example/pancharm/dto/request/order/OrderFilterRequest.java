@@ -1,8 +1,11 @@
-package com.example.pancharm.dto.request.product;
+package com.example.pancharm.dto.request.order;
 
 import com.example.pancharm.dto.request.base.PageDefaultRequest;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
@@ -11,12 +14,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductFilterRequest extends PageDefaultRequest {
+public class OrderFilterRequest extends PageDefaultRequest {
     String keyword;
     String slug;
-    Integer quantityFrom;
-    Integer quantityTo;
-    Integer unitPriceFrom;
-    Integer unitPriceTo;
-    String ids;
+    String status;
 }

@@ -1,7 +1,7 @@
 package com.example.pancharm.service.product;
 
+import java.util.Arrays;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
@@ -144,12 +144,12 @@ public class ProductService {
     public void deleteProduct(int id) {
         var product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
-//        product.setSoftDeleted((short) 1);
-//        try {
-//            productRepository.save(product);
-//        } catch (DataIntegrityViolationException exception) {
-//            throw new AppException(ErrorCode.UPDATE_ERROR);
-//        }
+        //        product.setSoftDeleted((short) 1);
+        //        try {
+        //            productRepository.save(product);
+        //        } catch (DataIntegrityViolationException exception) {
+        //            throw new AppException(ErrorCode.UPDATE_ERROR);
+        //        }
 
         productImagesRepository.deleteAll(product.getImages());
         productRepository.deleteById(id);
@@ -174,6 +174,14 @@ public class ProductService {
         Pageable pageable = PageRequestUtil.from(request);
 
         Specification<Products> spec = ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
+
+        if (request.getIds() != null && !request.getIds().isBlank()) {
+            var ids = Arrays.stream(request.getIds().split(","))
+                    .map(String::trim)
+                    .map(Long::parseLong)
+                    .toList();
+            spec = spec.and((root, query, cb) -> root.get("id").in(ids));
+        }
 
         if (request.getSlug() != null && !request.getSlug().isBlank()) {
             spec = spec.and((root, query, criteriaBuilder) ->
@@ -204,5 +212,32 @@ public class ProductService {
 
         return pageMapper.toPageResponse(
                 productRepository.findAll(spec, pageable).map(productMapper::toProductListResponse));
+    }
+
+    /**
+     * @desc Update default image of product
+     * @param id
+     * @param request
+     * @return
+     */
+    public ProductDetailResponse updateImage(int id, ProductUpdateImageRequest request) {
+        var product = productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        var productImages = product.getImages();
+        productImages.forEach(oldImage -> {
+            if (oldImage.getId() == request.getDefaultImageId()) {
+                oldImage.setIsDefault((short) 1);
+            } else {
+                oldImage.setIsDefault((short) 0);
+            }
+        });
+
+        try {
+            productImagesRepository.saveAll(productImages);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.UPDATE_ERROR);
+        }
+
+        return productMapper.toProductResponse(product);
     }
 }

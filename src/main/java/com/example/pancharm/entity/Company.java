@@ -42,6 +42,9 @@ public class Company extends BaseEntity {
     @Column(name = "bank_attachment", columnDefinition = "TEXT")
     String bankAttachment;
 
+    @Column(name = "bank_config", columnDefinition = "TEXT")
+    String bankConfig;
+
     @Column(columnDefinition = "TEXT")
     String config;
 

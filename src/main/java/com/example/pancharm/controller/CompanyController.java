@@ -8,6 +8,7 @@ import com.example.pancharm.dto.request.company.CompanyRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 import com.example.pancharm.dto.response.company.CompanyResponse;
 import com.example.pancharm.service.company.CompanyService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,8 @@ public class CompanyController {
     CompanyService companyService;
 
     @PutMapping
-    public ApiResponse<CompanyResponse> updateCompany(@ModelAttribute @Valid CompanyRequest companyRequest) {
+    public ApiResponse<CompanyResponse> updateCompany(@ModelAttribute @Valid CompanyRequest companyRequest)
+            throws JsonProcessingException {
         return ApiResponse.<CompanyResponse>builder()
                 .result(companyService.updateCompany(companyRequest))
                 .build();

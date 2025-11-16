@@ -2,6 +2,7 @@ package com.example.pancharm.controller;
 
 import jakarta.validation.Valid;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.pancharm.dto.request.user.*;
@@ -29,8 +30,8 @@ public class UserController {
                 .build();
     }
 
-    @PutMapping("/{id}")
-    ApiResponse<UserDetailResponse> updateUser(@RequestBody @Valid UserUpdateRequest request, @PathVariable int id) {
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ApiResponse<UserDetailResponse> updateUser(@ModelAttribute @Valid UserUpdateRequest request, @PathVariable int id) {
         return ApiResponse.<UserDetailResponse>builder()
                 .result(userService.updateUser(request, id))
                 .build();

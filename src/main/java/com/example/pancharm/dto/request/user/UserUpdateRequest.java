@@ -4,9 +4,8 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.pancharm.validator.annotation.DobConstraint;
 import com.example.pancharm.validator.annotation.PhoneConstraint;
@@ -22,10 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-    @NotBlank(message = "PASSWORD_EMPTY")
-    @Size(min = 8, message = "PASSWORD_SIZE_ERROR")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$", message = "PASSWORD_PATTERN_ERROR")
-    String password;
+    //    @NotBlank(message = "PASSWORD_EMPTY")
+    //    @Size(min = 8, message = "PASSWORD_SIZE_ERROR")
+    //    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$", message =
+    // "PASSWORD_PATTERN_ERROR")
+    //    String password;
 
     @Email
     String email;
@@ -36,6 +36,7 @@ public class UserUpdateRequest {
     LocalDate dob;
 
     String avatar;
+    MultipartFile avatarFile;
 
     String address;
 

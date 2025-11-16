@@ -58,4 +58,12 @@ public class ProductController {
                 .result(productService.getProduct(id))
                 .build();
     }
+
+    @PutMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<ProductDetailResponse> updateProductImages(
+            @PathVariable int id, @ModelAttribute @Valid ProductUpdateImageRequest request) {
+        return ApiResponse.<ProductDetailResponse>builder()
+                .result(productService.updateImage(id, request))
+                .build();
+    }
 }

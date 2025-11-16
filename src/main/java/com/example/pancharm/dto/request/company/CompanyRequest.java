@@ -33,4 +33,8 @@ public class CompanyRequest {
 
     String bankAttachment;
     MultipartFile bankAttachmentFile;
+
+    String bankName;
+    String bankAccountHolder;
+    String bankNumber;
 }

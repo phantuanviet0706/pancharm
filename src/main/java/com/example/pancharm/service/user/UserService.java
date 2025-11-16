@@ -24,6 +24,7 @@ import com.example.pancharm.mapper.PageMapper;
 import com.example.pancharm.mapper.UserMapper;
 import com.example.pancharm.repository.RoleRepository;
 import com.example.pancharm.repository.UserRepository;
+import com.example.pancharm.util.ImageUtil;
 import com.example.pancharm.util.PageRequestUtil;
 
 import lombok.AccessLevel;
@@ -40,6 +41,8 @@ public class UserService {
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
     PageMapper pageMapper;
+
+    ImageUtil imageUtil;
 
     /**
      * @desc Create new user - by Super Admin role
@@ -76,7 +79,17 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         userMapper.updateUser(user, request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        //        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        if (request.getAvatarFile() != null && !request.getAvatarFile().isEmpty()) {
+            imageUtil.upsertSingleFile(
+                    request.getAvatarFile(),
+                    user,
+                    c -> "users/" + c.getId() + "/avatar",
+                    user::getAvatar,
+                    user::setAvatar,
+                    false);
+        }
 
         setRoles(user, request.getRoles());
 

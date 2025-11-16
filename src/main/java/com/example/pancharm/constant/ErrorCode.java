@@ -73,9 +73,17 @@ public enum ErrorCode {
     PRODUCT_QUANTITY_REQUIRED(1006, "Please fill the product quantity", HttpStatus.BAD_REQUEST),
     PRODUCT_QUANTITY_MINIMUM(1006, "The product quantity must be greater than {min}", HttpStatus.BAD_REQUEST),
     PRODUCT_UNIT_PRICE_REQUIRED(1006, "Please fill the product price", HttpStatus.BAD_REQUEST),
+    PRODUCT_DELETED(1006, "Sản phẩm đã bị xóa, vui lòng chọn sản phẩm khác", HttpStatus.BAD_REQUEST),
+    PRODUCT_INVALID_STATUS(1006, "Sản phẩm không khả dụng để bán", HttpStatus.BAD_REQUEST),
+    PRODUCT_OUT_OF_STOCK(1006, "Sản phẩm đã hết hàng, vui lòng chọn sản phẩm khác", HttpStatus.BAD_REQUEST),
 
     COLLECTION_NOT_FOUND(1007, "Collection not found", HttpStatus.NOT_FOUND),
     COLLECTION_NAME_REQUIRE(1007, "Please fill the collection name", HttpStatus.BAD_REQUEST),
+
+    ORDER_RECIPIENT_NAME_REQUIRE(1008, "Vui lòng nhập tên người mua", HttpStatus.BAD_REQUEST),
+    ORDER_ADDRESS_REQUIRE(1008, "Vui lòng nhập địa chỉ", HttpStatus.BAD_REQUEST),
+    ORDER_PROVINCE_REQUIRE(1008, "Vui lòng nhập thành phố", HttpStatus.BAD_REQUEST),
+    ORDER_PHONE_NUMBER_REQUIRE(1008, "Vui lòng nhập số điện thoại người mua", HttpStatus.BAD_REQUEST),
 
     SLUG_EXISTED(1111, "Input slug already exists, please check and try again!", HttpStatus.BAD_REQUEST),
     SLUG_REQUIRED(1111, "Please fill the slug", HttpStatus.BAD_REQUEST),
@@ -93,6 +101,7 @@ public enum ErrorCode {
     MINIO_INVALID_URL(1997, "Invalid URL attach from MinIO", HttpStatus.BAD_REQUEST),
     MINIO_DELETE_ERROR(1997, "Delete file from MinIO failed", HttpStatus.BAD_REQUEST),
 
+    BAD_REQUEST(1998, "Lỗi hệ thống", HttpStatus.BAD_REQUEST),
     UPDATE_ERROR(1998, "Cannot update object, please check and try again", HttpStatus.BAD_REQUEST),
 
     UNAUTHENTICATED(1999, "Unauthenticated", HttpStatus.UNAUTHORIZED),

@@ -20,6 +20,7 @@ public class CompanyResponse {
     String email;
     String taxcode;
     String bankAttachment;
+    String bankConfig;
     String config;
     Set<CompanyInfoResponse> companyInfos;
 }

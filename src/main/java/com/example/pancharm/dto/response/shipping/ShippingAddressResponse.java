@@ -1,4 +1,4 @@
-package com.example.pancharm.dto.response.shippingaddress;
+package com.example.pancharm.dto.response.shipping;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

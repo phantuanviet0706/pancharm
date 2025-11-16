@@ -1,5 +1,7 @@
 package com.example.pancharm.dto.response.user;
 
+import java.time.LocalDate;
+
 import com.example.pancharm.constant.UserStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -17,6 +19,7 @@ public class UserListResponse {
     String username;
     String email;
     String fullname;
+    LocalDate dob;
     String avatar;
     String address;
     String phone;
