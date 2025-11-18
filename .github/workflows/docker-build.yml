@@ -3,6 +3,7 @@ name: Build & Push Docker Image for Pancharm app
 on:
   push:
     branches:
+      - main
       - develop
 
 jobs:
@@ -17,6 +18,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set image tag by branch
+        run: |
+          if [ "${GITHUB_REF##*/}" = "main" ]; then
+            echo "IMAGE_TAG=prod-latest" >> $GITHUB_ENV
+          else
+            echo "IMAGE_TAG=staging-latest" >> $GITHUB_ENV
+          fi
 
       - name: Build & Push Image
         uses: docker/build-push-action@v6
