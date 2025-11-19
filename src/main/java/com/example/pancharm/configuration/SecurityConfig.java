@@ -35,8 +35,8 @@ public class SecurityConfig {
     protected String SIGNER_KEY;
 
     @NonFinal
-    @Value("${appInfo.front-end.endpoint}")
-    protected String CORS_ENVIRONMENT;
+//    @Value("${appInfo.front-end.endpoint}")
+    protected String CORS_ENVIRONMENT = "http://localhost:5173";
 
     private static final String[] PUBLIC_GET_ENDPOINTS = {
         "/",
