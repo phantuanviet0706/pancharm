@@ -1,5 +1,6 @@
 package com.example.pancharm.configuration;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,10 @@ public class SecurityConfig {
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
 
+    @NonFinal
+    @Value("${appInfo.front-end.endpoint}")
+    protected String CORS_ENVIRONMENT;
+
     private static final String[] PUBLIC_GET_ENDPOINTS = {
         "/",
         "/company",
@@ -63,6 +68,10 @@ public class SecurityConfig {
     private static final String[] PUBLIC_PUT_ENDPOINTS = {"/users/{id}"};
 
     private static final String[] PUBLIC_DELETE_ENDPOINTS = {"/users/{id}", "/orders/{id}"};
+
+    private static final String[] CORS_METHOD_SETTINGS = {
+            "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
+    };
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
@@ -116,8 +125,8 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // DEV origin
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        config.setAllowedOrigins(List.of(CORS_ENVIRONMENT));
+        config.setAllowedMethods(Arrays.stream(CORS_METHOD_SETTINGS).toList());
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
         config.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
         config.setAllowCredentials(true); // nếu dùng cookie/session

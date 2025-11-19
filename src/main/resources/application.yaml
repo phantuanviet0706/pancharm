@@ -102,6 +102,9 @@ appInfo:
     bucket-name: pancharm
     public-base-url: http://localhost:9000
 
+  front-end:
+    endpoint: ${FRONT_END_URL}
+
 logging:
   level.org:
     apache.catalina.core: DEBUG
