@@ -35,7 +35,7 @@ public class SecurityConfig {
     protected String SIGNER_KEY;
 
     @NonFinal
-//    @Value("${appInfo.front-end.endpoint}")
+    //    @Value("${appInfo.front-end.endpoint}")
     protected String CORS_ENVIRONMENT = "http://localhost:5173";
 
     private static final String[] PUBLIC_GET_ENDPOINTS = {
@@ -69,9 +69,7 @@ public class SecurityConfig {
 
     private static final String[] PUBLIC_DELETE_ENDPOINTS = {"/users/{id}", "/orders/{id}"};
 
-    private static final String[] CORS_METHOD_SETTINGS = {
-            "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
-    };
+    private static final String[] CORS_METHOD_SETTINGS = {"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"};
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;

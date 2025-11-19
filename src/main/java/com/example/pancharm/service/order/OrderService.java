@@ -1,31 +1,31 @@
 package com.example.pancharm.service.order;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.example.pancharm.constant.ProductStatus;
-import com.example.pancharm.entity.Products;
-import com.example.pancharm.repository.ProductRepository;
 import jakarta.transaction.Transactional;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.pancharm.constant.ErrorCode;
+import com.example.pancharm.constant.ProductStatus;
 import com.example.pancharm.dto.request.order.OrderCreationRequest;
 import com.example.pancharm.dto.request.order.OrderFilterRequest;
 import com.example.pancharm.dto.request.order.OrderItemRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.order.OrderResponse;
 import com.example.pancharm.entity.Orders;
+import com.example.pancharm.entity.Products;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.OrderMapper;
 import com.example.pancharm.mapper.PageMapper;
 import com.example.pancharm.repository.OrderRepository;
+import com.example.pancharm.repository.ProductRepository;
 import com.example.pancharm.service.shipping.ShippingAddressService;
 import com.example.pancharm.util.GeneralUtil;
 import com.example.pancharm.util.PageRequestUtil;
@@ -57,14 +57,12 @@ public class OrderService {
             throw new AppException(ErrorCode.BAD_REQUEST);
         }
 
-        Set<Integer> productIds = itemRequests.stream()
-                .map(OrderItemRequest::getProductId)
-                .collect(Collectors.toSet());
+        Set<Integer> productIds =
+                itemRequests.stream().map(OrderItemRequest::getProductId).collect(Collectors.toSet());
 
         List<Products> products = productRepository.findByIdIn(productIds);
 
-        Map<Integer, Products> productMap = products.stream()
-                .collect(Collectors.toMap(Products::getId, p -> p));
+        Map<Integer, Products> productMap = products.stream().collect(Collectors.toMap(Products::getId, p -> p));
 
         for (OrderItemRequest itemReq : itemRequests) {
             int productId = itemReq.getProductId();
@@ -81,9 +79,9 @@ public class OrderService {
             }
 
             // 4. Trạng thái sản phẩm
-            if (product.getStatus() == ProductStatus.INACTIVE ||
-                    product.getStatus() == ProductStatus.COMING_SOON ||
-                    product.getStatus() == ProductStatus.OUT_OF_STOCK) {
+            if (product.getStatus() == ProductStatus.INACTIVE
+                    || product.getStatus() == ProductStatus.COMING_SOON
+                    || product.getStatus() == ProductStatus.OUT_OF_STOCK) {
 
                 throw new AppException(ErrorCode.PRODUCT_INVALID_STATUS);
             }
@@ -124,8 +122,7 @@ public class OrderService {
     public PageResponse<OrderResponse> getOrders(OrderFilterRequest request) {
         Pageable pageable = PageRequestUtil.from(request);
 
-        Specification<Orders> spec =
-                ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
+        Specification<Orders> spec = ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
 
         if (request.getSlug() != null && !request.getSlug().isBlank()) {
             spec = spec.and((root, query, criteriaBuilder) ->
@@ -137,8 +134,6 @@ public class OrderService {
                     criteriaBuilder.like(root.get("name").as(String.class), "%" + request.getKeyword() + "%"));
         }
 
-        return pageMapper.toPageResponse(
-                orderRepository.findAll(spec, pageable).map(orderMapper::toOrderResponse)
-        );
+        return pageMapper.toPageResponse(orderRepository.findAll(spec, pageable).map(orderMapper::toOrderResponse));
     }
 }

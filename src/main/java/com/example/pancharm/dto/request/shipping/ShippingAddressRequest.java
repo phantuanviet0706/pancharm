@@ -1,7 +1,7 @@
 package com.example.pancharm.dto.request.shipping;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,7 @@ public class ShippingAddressRequest {
 
     @NotBlank(message = "ORDER_ADDRESS_REQUIRE")
     String address;
+
     String ward;
     String district;
 
@@ -26,5 +27,6 @@ public class ShippingAddressRequest {
 
     @NotBlank(message = "ORDER_PHONE_NUMBER_REQUIRE")
     String phoneNumber;
+
     String zipCode;
 }

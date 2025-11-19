@@ -13,6 +13,7 @@ import com.example.pancharm.entity.OrderItems;
 public interface OrderItemRepository extends JpaRepository<OrderItems, Integer>, JpaSpecificationExecutor<OrderItems> {
 
     @Modifying
-    @Query("UPDATE Products p SET p.quantity = p.quantity - :quantity where p.id = :productId and p.quantity >= :quantity")
+    @Query(
+            "UPDATE Products p SET p.quantity = p.quantity - :quantity where p.id = :productId and p.quantity >= :quantity")
     int decreaseStockIfEnough(@Param("productId") int productId, @Param("quantity") int quantity);
 }
