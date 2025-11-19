@@ -122,6 +122,7 @@ public class SecurityConfig {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
+        System.out.println("Cors Environment setting: " + CORS_ENVIRONMENT);
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(CORS_ENVIRONMENT));
         config.setAllowedMethods(Arrays.stream(CORS_METHOD_SETTINGS).toList());
