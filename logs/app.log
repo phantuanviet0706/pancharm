@@ -667,3 +667,82 @@ Consider defining a bean of type 'org.springframework.security.crypto.password.P
 2025-11-26 11:32:43 INFO  [restartedMain] c.e.pancharm.PancharmApplication - Started PancharmApplication in 2.727 seconds (process running for 1046.524)
 2025-11-26 11:32:43 WARN  [restartedMain] c.e.p.c.ApplicationInitConfig - Application initialization completed .......
 2025-11-26 11:32:43 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-26 11:42:52 INFO  [File Watcher] o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-11-26 11:42:52 INFO  [Thread-19] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-26 11:42:52 INFO  [tomcat-shutdown] o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2025-11-26 11:42:52 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-26 11:42:52 INFO  [Thread-19] o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2025-11-26 11:42:52 INFO  [Thread-19] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-26 11:42:52 INFO  [Thread-19] com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2025-11-26 11:42:52 INFO  [Thread-19] com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2025-11-26 11:42:52 INFO  [restartedMain] c.e.pancharm.PancharmApplication - Starting PancharmApplication using Java 24.0.1 with PID 23492 (D:\project\pancharm\target\classes started by phant in D:\project\pancharm)
+2025-11-26 11:42:52 INFO  [restartedMain] c.e.pancharm.PancharmApplication - The following 1 profile is active: "prod"
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.CategoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.CollectionImageRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.CollectionRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.CompanyInfoRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.CompanyRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.ConfigurationRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.FooterGroupRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.FooterLinkRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.InvalidatedTokenRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.OrderItemRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.OrderRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.PermissionRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.ProductImageRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.ProductRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.RoleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.ShippingAddressRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.pancharm.repository.UserRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 63 ms. Found 0 JDBC repository interfaces.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 72 ms. Found 17 JPA repository interfaces.
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.cloud.context.scope.GenericScope - BeanFactory id=8d699432-7bfa-318f-ba48-dfadc4946fa7
+2025-11-26 11:42:53 DEBUG [restartedMain] o.apache.catalina.core.ContainerBase - Add container child [StandardHost[localhost]] to container [StandardEngine[Tomcat]]
+2025-11-26 11:42:53 DEBUG [restartedMain] o.apache.catalina.core.ContainerBase - Add container child [TomcatEmbeddedContext[/pancharm]] to container [StandardEngine[Tomcat].StandardHost[localhost]]
+2025-11-26 11:42:53 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-26 11:42:53 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-11-26 11:42:53 INFO  [restartedMain] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-26 11:42:53 INFO  [restartedMain] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-11-26 11:42:54 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/pancharm] - Initializing Spring embedded WebApplicationContext
+2025-11-26 11:42:54 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1212 ms
+2025-11-26 11:42:54 DEBUG [restartedMain] o.apache.catalina.core.ContainerBase - Add container child [StandardWrapper[dispatcherServlet]] to container [StandardEngine[Tomcat-2].StandardHost[localhost].TomcatEmbeddedContext[/pancharm]]
+2025-11-26 11:42:54 INFO  [restartedMain] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-26 11:42:54 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-26 11:42:54 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-26 11:42:54 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2025-11-26 11:42:54 INFO  [restartedMain] com.zaxxer.hikari.pool.HikariPool - HikariPool-6 - Added connection com.mysql.cj.jdbc.ConnectionImpl@c90408b
+2025-11-26 11:42:54 INFO  [restartedMain] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2025-11-26 11:42:54 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-26 11:42:54 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-26 11:42:54 INFO  [restartedMain] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-26 11:42:54 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-26 11:42:54 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-26 11:42:55 INFO  [restartedMain] o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: static java.lang.String com.example.pancharm.service.auth.RegisterService.verificationLink
+2025-11-26 11:42:55 INFO  [restartedMain] o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: static java.lang.String com.example.pancharm.service.auth.ForgotPasswordService.resetPasswordLink
+2025-11-26 11:42:55 INFO  [restartedMain] o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: static java.lang.String com.example.pancharm.service.company.CompanyService.COMPANY_NAME
+2025-11-26 11:42:55 INFO  [restartedMain] o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: static java.lang.String com.example.pancharm.service.company.CompanyService.SUPER_ADMIN_USERNAME
+2025-11-26 11:42:55 INFO  [restartedMain] o.s.b.f.a.AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: static java.lang.String com.example.pancharm.service.base.ConfigService.SUPER_ADMIN_USERNAME
+2025-11-26 11:42:55 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-26 11:42:55 INFO  [restartedMain] o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-11-26 11:42:56 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-11-26 11:42:56 INFO  [restartedMain] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-11-26 11:42:56 INFO  [restartedMain] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/pancharm'
+2025-11-26 11:42:56 INFO  [restartedMain] c.e.pancharm.PancharmApplication - Started PancharmApplication in 3.696 seconds (process running for 1659.333)
+2025-11-26 11:42:56 WARN  [restartedMain] c.e.p.c.ApplicationInitConfig - Application initialization completed .......
+2025-11-26 11:42:56 INFO  [restartedMain] o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2025-11-26 11:44:13 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-26 11:44:13 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-26 11:44:13 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-26 11:44:13 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2025-11-26 11:44:13 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.

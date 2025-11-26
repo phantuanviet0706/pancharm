@@ -82,3 +82,8 @@
 11:32:43.531 DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.avatar,u1_0.config,u1_0.created_at,u1_0.created_by,u1_0.dob,u1_0.email,u1_0.fullname,u1_0.membership_level,u1_0.password,u1_0.phone,u1_0.points,u1_0.soft_deleted,u1_0.status,u1_0.total_spent,u1_0.updated_at,u1_0.username from users u1_0 where u1_0.username=?
 11:32:43.539 DEBUG org.hibernate.SQL - select c1_0.id,c1_0.address,c1_0.avatar,c1_0.bank_attachment,c1_0.bank_config,c1_0.config,c1_0.created_at,c1_0.created_by,c1_0.email,c1_0.name,c1_0.phone,c1_0.taxcode,c1_0.updated_at from company c1_0
 11:32:43.546 DEBUG org.hibernate.SQL - select c1_0.id from configurations c1_0 where c1_0.name=? limit ?
+11:42:54.750 DEBUG org.hibernate.SQL - alter table payments modify column payment_method enum ('CASH','TRANSFER') not null
+11:42:54.789 DEBUG org.hibernate.SQL - alter table users modify column username VARCHAR(255) COLLATE utf8mb4_unicode_ci
+11:42:56.340 DEBUG org.hibernate.SQL - select u1_0.id,u1_0.address,u1_0.avatar,u1_0.config,u1_0.created_at,u1_0.created_by,u1_0.dob,u1_0.email,u1_0.fullname,u1_0.membership_level,u1_0.password,u1_0.phone,u1_0.points,u1_0.soft_deleted,u1_0.status,u1_0.total_spent,u1_0.updated_at,u1_0.username from users u1_0 where u1_0.username=?
+11:42:56.350 DEBUG org.hibernate.SQL - select c1_0.id,c1_0.address,c1_0.avatar,c1_0.bank_attachment,c1_0.bank_config,c1_0.config,c1_0.created_at,c1_0.created_by,c1_0.email,c1_0.name,c1_0.phone,c1_0.taxcode,c1_0.updated_at from company c1_0
+11:42:56.357 DEBUG org.hibernate.SQL - select c1_0.id from configurations c1_0 where c1_0.name=? limit ?

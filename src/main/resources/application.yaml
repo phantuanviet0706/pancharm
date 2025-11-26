@@ -96,11 +96,11 @@ appInfo:
       bucket-name: ${AWS_BUCKET_NAME:pancharm}
 
   minio:
-    endpoint: http://localhost:9000
+    endpoint: ${MINIO_URL_BASE:http://localhost:9000}
     access-key: ${MINIO_ACCESS_KEY:admin}
     secret-key: ${MINIO_SECRET_KEY:12345678}
     bucket-name: ${MINIO_BUCKET_NAME:pancharm}
-    public-base-url: http://localhost:9000
+    public-base-url: ${MINIO_URL_BASE:http://localhost:9000}
 
   front-end:
     endpoint: ${FRONT_END_URL}
