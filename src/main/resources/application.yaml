@@ -66,7 +66,7 @@ spring:
       max-request-size: 100MB
 
 jwt:
-  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  signerKey: ${JWT_SIGNER_KEY:"1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"}
   valid-duration: 3600
   refreshable-duration: 360000
 
@@ -93,7 +93,7 @@ appInfo:
   masterUsername: "admin"
   aws:
     s3:
-      bucket-name: pancharm
+      bucket-name: ${AWS_BUCKET_NAME:pancharm}
 
   minio:
     endpoint: http://localhost:9000

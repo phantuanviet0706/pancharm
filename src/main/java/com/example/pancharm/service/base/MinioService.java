@@ -33,6 +33,10 @@ public class MinioService {
 
     public String uploadFile(MultipartFile file, String folder, String objectName) {
         try {
+            System.out.println("Base URL: " + publicBaseUrl);
+            System.out.println("Folder: " + folder);
+            System.out.println("Bucket: " + bucket);
+            System.out.println("Object Name: " + objectName);
             ensureBucket();
 
             if (objectName.isEmpty()) {
