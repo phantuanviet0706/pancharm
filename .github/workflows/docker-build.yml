@@ -63,8 +63,7 @@ jobs:
           key: ${{ secrets.STAGING_SSH_KEY }}
           script: |
             cd ~/pancharm
-            docker pull phantuanviet0706/pancharm:staging-latest
-            ./redeploy-staging.sh
+            ./redeploy-staging.sh staging-latest
 
   deploy-prod:
     needs: build
@@ -79,5 +78,4 @@ jobs:
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
             cd ~/pancharm
-            docker pull phantuanviet0706/pancharm:prod-latest
-            ./redeploy-prod.sh
+            ./redeploy-prod.sh prod-latest
