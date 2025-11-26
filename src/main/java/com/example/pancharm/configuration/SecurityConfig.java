@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -99,7 +100,7 @@ public class SecurityConfig {
         });
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
-        httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        httpSecurity.cors(Customizer.withDefaults());
 
         return httpSecurity.build();
     }
@@ -128,7 +129,7 @@ public class SecurityConfig {
         config.setAllowedMethods(Arrays.stream(CORS_METHOD_SETTINGS).toList());
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
         config.setExposedHeaders(List.of("Authorization", "Content-Disposition"));
-        config.setAllowCredentials(true); // nếu dùng cookie/session
+        config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
