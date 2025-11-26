@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: phantuanviet0706/pancharm
+
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
@@ -44,12 +48,34 @@ jobs:
           push: true
           tags: phantuanviet0706/pancharm:latest
 
-#      - name: Deploy to EC2
-#        uses: appleboy/ssh-action@v1.0.0
-#        with:
-#          host: ${{ secrets.EC2_HOST }}
-#          username: ubuntu
-#          key: ${{ secrets.EC2_SSH_Key }}
-#          script: |
-#            cd ~/pancharm
-#            ./redeploy.sh
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - name: SSH to Staging Server & Redeploy
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: root
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd ~/pancharm
+            docker pull phantuanviet0706/pancharm:staging-latest
+            ./redeploy-staging.sh
+
+  deploy-prod:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: SSH to Prod Server & Redeploy
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: root
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            cd ~/pancharm
+            docker pull phantuanviet0706/pancharm:prod-latest
+            ./redeploy-prod.sh
