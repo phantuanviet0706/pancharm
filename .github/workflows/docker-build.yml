@@ -59,7 +59,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.STAGING_HOST }}
-          username: root
+          username: ubuntu
           key: ${{ secrets.STAGING_SSH_KEY }}
           script: |
             cd ~/pancharm
