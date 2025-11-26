@@ -37,6 +37,7 @@ public class MinioService {
             System.out.println("Folder: " + folder);
             System.out.println("Bucket: " + bucket);
             System.out.println("Object Name: " + objectName);
+            System.out.println("End resources");
             ensureBucket();
 
             if (objectName.isEmpty()) {
