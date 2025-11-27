@@ -61,9 +61,11 @@ jobs:
           host: ${{ secrets.STAGING_HOST }}
           username: ubuntu
           key: ${{ secrets.STAGING_SSH_KEY }}
+          debug: true
           script: |
             cd ~/pancharm
-            ./redeploy-staging.sh staging-latest
+            chmod +x redeploy-staging.sh
+            bash -x redeploy-staging.sh staging-latest
 
   deploy-prod:
     needs: build
@@ -76,6 +78,7 @@ jobs:
           host: ${{ secrets.PROD_HOST }}
           username: root
           key: ${{ secrets.PROD_SSH_KEY }}
+          debug: true
           script: |
             cd ~/pancharm
             chmod +x redeploy-prod.sh
