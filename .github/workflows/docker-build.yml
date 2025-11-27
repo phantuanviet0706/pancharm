@@ -79,4 +79,3 @@ jobs:
           script: |
             cd ~/pancharm
             ./redeploy-prod.sh prod-latest
-            
