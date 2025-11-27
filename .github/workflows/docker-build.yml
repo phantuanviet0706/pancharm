@@ -80,7 +80,16 @@ jobs:
           key: ${{ secrets.PROD_SSH_KEY }}
           debug: true
           script: |
+            echo "whoami:"
+            whoami
+            echo "hostname:"
+            hostname
+            echo "ip:"
+            curl -s ifconfig.me || echo "no curl"
+            echo "pwd:"
+            pwd
+            ls -la
             cd ~/pancharm
-            chmod +x redeploy-prod.sh
+            ls -la
             bash -x redeploy-prod.sh prod-latest
   
