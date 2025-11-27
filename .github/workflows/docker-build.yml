@@ -76,20 +76,11 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.PROD_HOST }}
-          username: root
+          username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
           debug: true
           script: |
-            echo "whoami:"
-            whoami
-            echo "hostname:"
-            hostname
-            echo "ip:"
-            curl -s ifconfig.me || echo "no curl"
-            echo "pwd:"
-            pwd
-            ls -la
             cd ~/pancharm
-            ls -la
+            chmod +x redeploy-prod.sh
             bash -x redeploy-prod.sh prod-latest
   
