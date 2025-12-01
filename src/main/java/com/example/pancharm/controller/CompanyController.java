@@ -2,6 +2,7 @@ package com.example.pancharm.controller;
 
 import jakarta.validation.Valid;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.pancharm.dto.request.company.CompanyRequest;
@@ -21,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 public class CompanyController {
     CompanyService companyService;
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<CompanyResponse> updateCompany(@ModelAttribute @Valid CompanyRequest companyRequest)
             throws JsonProcessingException {
         return ApiResponse.<CompanyResponse>builder()

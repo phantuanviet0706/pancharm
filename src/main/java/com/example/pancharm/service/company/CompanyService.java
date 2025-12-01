@@ -3,6 +3,7 @@ package com.example.pancharm.service.company;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,6 +55,7 @@ public class CompanyService {
      * @return CompanyResponse
      */
     @PreAuthorize("hasRole(T(com.example.pancharm.constant.PredefineRole).SUPER_ADMIN.name())")
+    @Transactional
     public CompanyResponse updateCompany(CompanyRequest companyRequest) throws JsonProcessingException {
         Company company = companyRepository.findAll().getFirst();
         if (company == null) {
