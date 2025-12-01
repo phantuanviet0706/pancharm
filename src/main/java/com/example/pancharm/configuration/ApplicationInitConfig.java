@@ -3,6 +3,7 @@ package com.example.pancharm.configuration;
 import java.util.List;
 import java.util.Set;
 
+import com.example.pancharm.util.CompanyUtil;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ApplicationInitConfig {
     PasswordEncoder passwordEncoder;
+
+    CompanyUtil companyUtil;
 
     @NonFinal
     static String superAdminUsername = "admin";
@@ -99,8 +102,22 @@ public class ApplicationInitConfig {
                     .findByUsername(superAdminUsername)
                     .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
+            var companyDefaultData = companyUtil.getCompanyDefaultInfo();
+            var companyData = new Company();
+            if (companyDefaultData != null) {
+                companyData = Company.builder()
+                        .name(companyDefaultData.getString("name"))
+                        .address(companyDefaultData.getString("address"))
+                        .email(companyDefaultData.getString("email"))
+                        .phone(companyDefaultData.getString("phone"))
+                        .taxcode(companyDefaultData.getString("tax_code"))
+                        .build();
+            } else {
+                companyData = Company.builder().name(companyName).build();
+            }
+
             Company company =
-                    companyRepository.save(Company.builder().name(companyName).build());
+                    companyRepository.save(companyData);
             companyInfoRepository.save(CompanyInfos.builder()
                     .company(company)
                     .personInCharge(admin)

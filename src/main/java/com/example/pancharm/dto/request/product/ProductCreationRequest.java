@@ -21,12 +21,12 @@ public class ProductCreationRequest extends ProductImageRequest {
 
     String slug;
 
-    @NotNull(message = "PRODUCT_QUANTITY_REQUIRE")
-    @Min(value = 1, message = "PRODUCT_QUANTITY_MINIMUM")
-    Integer quantity;
-
-    @Min(value = 0, message = "PRODUCT_UNIT_PRICE_REQUIRE")
-    int unitPrice;
+//    @NotNull(message = "PRODUCT_QUANTITY_REQUIRE")
+//    @Min(value = 1, message = "PRODUCT_QUANTITY_MINIMUM")
+//    Integer quantity;
+//
+//    @Min(value = 0, message = "PRODUCT_UNIT_PRICE_REQUIRE")
+//    int unitPrice;
 
     String color;
 
