@@ -1,5 +1,7 @@
 package com.example.pancharm.controller;
 
+import java.util.List;
+
 import jakarta.validation.Valid;
 
 import org.springframework.http.MediaType;
@@ -65,6 +67,13 @@ public class CollectionController {
             @PathVariable int id, @ModelAttribute @Valid CollectionUpdateImageRequest request) {
         return ApiResponse.<CollectionDetailResponse>builder()
                 .result(collectionService.updateCollectionImage(id, request))
+                .build();
+    }
+
+    @GetMapping("/default")
+    public ApiResponse<List<CollectionDetailResponse>> getDefaultCollection() {
+        return ApiResponse.<List<CollectionDetailResponse>>builder()
+                .result(collectionService.getDefaultCollections())
                 .build();
     }
 }

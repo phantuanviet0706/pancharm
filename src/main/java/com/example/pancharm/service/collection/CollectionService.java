@@ -1,5 +1,6 @@
 package com.example.pancharm.service.collection;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -213,5 +214,17 @@ public class CollectionService {
         }
 
         return collectionMapper.toCollectionDetailResponse(collection);
+    }
+
+    /**
+     * @desc Get all default collections to screen
+     * @return
+     */
+    public List<CollectionDetailResponse> getDefaultCollections() {
+        var collections = collectionRepository.findAllByIsDefault(Short.valueOf("1"));
+
+        return collections.stream()
+                .map(collectionMapper::toCollectionDetailResponse)
+                .toList();
     }
 }

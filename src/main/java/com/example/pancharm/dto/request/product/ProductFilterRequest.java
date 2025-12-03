@@ -19,4 +19,7 @@ public class ProductFilterRequest extends PageDefaultRequest {
     Integer unitPriceFrom;
     Integer unitPriceTo;
     String ids;
+    String priceRanges;
+    Integer categoryId;
+    Integer collectionId;
 }

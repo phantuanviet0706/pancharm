@@ -38,6 +38,9 @@ public class Categories extends BaseEntity {
     @Column(name = "soft_deleted")
     short softDeleted = 0;
 
+    @Builder.Default
+    short isDefault = 0;
+
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     Set<Categories> children = new HashSet<>();
 

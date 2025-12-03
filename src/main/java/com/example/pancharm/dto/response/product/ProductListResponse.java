@@ -19,6 +19,7 @@ public class ProductListResponse {
     int quantity;
     int unitPrice;
     String status;
+    String description;
     int categoryId;
     Set<ProductImageResponse> productImages;
 }

@@ -13,4 +13,8 @@ public interface CategoryRepository extends JpaRepository<Categories, String>, J
     boolean existsBySlug(String slug);
 
     List<Categories> findAllByParentId(int id);
+
+    List<Categories> findAllByIsDefault(short isDefault);
+
+    List<Categories> findTop10ByIsDefault(short isDefault);
 }

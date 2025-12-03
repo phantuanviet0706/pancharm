@@ -19,5 +19,6 @@ public class CategoryDetailResponse {
     int parentId;
     String parentName;
     String config;
+    short isDefault;
     Set<CategoryDetailResponse> categories;
 }

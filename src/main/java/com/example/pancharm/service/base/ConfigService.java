@@ -1,5 +1,6 @@
 package com.example.pancharm.service.base;
 
+import com.example.pancharm.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class ConfigService {
     CompanyService companyService;
     CompanyMapper companyMapper;
     ConfigurationService configurationService;
+    CategoryService categoryService;
 
     @NonFinal
     @Value("${appInfo.masterUsername}")
@@ -42,9 +44,12 @@ public class ConfigService {
 
         var configuration = configurationService.getCompanyConfiguration();
 
+        var categories = categoryService.getDefaultObject();
+
         return GlobalConfigResponse.builder()
                 .company(companyMapper.toCompanyResponse(company))
                 .configuration(configuration)
+                .categories(categories)
                 .build();
     }
 }

@@ -24,6 +24,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -181,5 +183,17 @@ public class CategoryService {
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
         category.setParent(parentCategory);
+    }
+
+    /**
+     * @desc Get 10 default record of categories to screen
+     * @return
+     */
+    public List<CategoryDetailResponse> getDefaultObject() {
+        var categories = categoryRepository.findTop10ByIsDefault(((Short.valueOf("1"))));
+
+        return categories.stream()
+                .map(categoryMapper::toCategoryResponse)
+                .toList();
     }
 }

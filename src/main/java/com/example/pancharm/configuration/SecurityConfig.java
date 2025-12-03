@@ -64,6 +64,7 @@ public class SecurityConfig {
         "/auth/refresh",
         "/users",
         "/orders",
+        "/upload"
     };
 
     private static final String[] PUBLIC_PUT_ENDPOINTS = {"/users/{id}"};

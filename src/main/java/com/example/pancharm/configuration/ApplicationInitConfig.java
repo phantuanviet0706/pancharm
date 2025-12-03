@@ -3,7 +3,6 @@ package com.example.pancharm.configuration;
 import java.util.List;
 import java.util.Set;
 
-import com.example.pancharm.util.CompanyUtil;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +17,7 @@ import com.example.pancharm.constant.UserStatus;
 import com.example.pancharm.entity.*;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.repository.*;
+import com.example.pancharm.util.CompanyUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -116,8 +116,7 @@ public class ApplicationInitConfig {
                 companyData = Company.builder().name(companyName).build();
             }
 
-            Company company =
-                    companyRepository.save(companyData);
+            Company company = companyRepository.save(companyData);
             companyInfoRepository.save(CompanyInfos.builder()
                     .company(company)
                     .personInCharge(admin)

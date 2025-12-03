@@ -5,5 +5,81 @@
 		"phone": "0964198663",
 		"email": "pancharmvn@gmail.com",
 		"tax_code": "0110999803"
-	}
+	},
+
+	"footer_groups": [
+		{
+			"title": "Hỗ trợ khách hàng",
+			"code": "support_customer",
+			"isActive": true
+		},
+		{
+			"title": "Về chúng tôi",
+			"code": "about_us",
+			"isActive": true
+		}
+	],
+
+	"footer_links": [
+		{
+			"name": "Điều khoản dịch vụ",
+			"code": "dieu-khoan",
+			"parent_code": "support_customer",
+			"file_content_path": "dieu_khoan"
+		},
+		{
+			"name": "Câu hỏi thường gặp",
+			"code": "faq",
+			"parent_code": "support_customer",
+			"file_content_path": "faq"
+		},
+		{
+			"name": "Chính sách vận chuyển",
+			"code": "van-chuyen",
+			"parent_code": "support_customer",
+			"file_content_path": "van_chuyen"
+		},
+		{
+			"name": "Chính sách & bảo hành",
+			"code": "bao-hanh",
+			"parent_code": "support_customer",
+			"file_content_path": "bao_hanh"
+		},
+		{
+			"name": "Chính sách thanh toán",
+			"code": "thanh-toan",
+			"parent_code": "support_customer",
+			"file_content_path": "thanh_toan"
+		},
+		{
+			"name": "Về trang sức Pancharm",
+			"code": "about-pancharm",
+			"parent_code": "about_us",
+			"file_content_path": "about_pancharm"
+		},
+		{
+			"name": "Kinh doanh bán sỉ",
+			"code": "sale-info",
+			"parent_code": "about_us",
+			"file_content_path": "sale_info"
+		},
+		{
+			"name": "Thông tin liên hệ",
+			"code": "contact-info",
+			"parent_code": "about_us",
+			"file_content_path": "contact_info"
+		},
+		{
+			"name": "Cửa hàng online & offline",
+			"code": "shop-info",
+			"parent_code": "about_us",
+			"file_content_path": "shop_info"
+		},
+		{
+			"name": "Kết nối với gian hàng",
+			"code": "connect-shop",
+			"parent_code": "about_us",
+			"file_content_path": "connect_shop"
+		}
+	]
 }

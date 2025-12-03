@@ -1,7 +1,13 @@
 package com.example.pancharm.service.product;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
+
+import com.example.pancharm.service.common.EditorImageService;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +45,7 @@ public class ProductService {
     ProductMapper productMapper;
     ProductImageRepository productImagesRepository;
     CategoryRepository categoryRepository;
+    EditorImageService editorImageService;
 
     PageMapper pageMapper;
     ImageUtil imageUtil;
@@ -76,6 +83,14 @@ public class ProductService {
             product.setSlug(generalUtil.generateSlug("product", product.getId()));
         }
 
+        String finalHtml = editorImageService.moveDraftImagesAndRewriteHtml(
+                request.getDescription(),
+                request.getDraftId(),
+                product.getId()
+        );
+
+        product.setDescription(finalHtml);
+
         if (request.getProductImages() != null && !request.getProductImages().isEmpty()) {
             imageUtil.attachImages(
                     request.getProductImages(),
@@ -108,6 +123,13 @@ public class ProductService {
                 productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
         productMapper.updateProduct(request, product);
+
+        String finalHtml = editorImageService.moveDraftImagesAndRewriteHtml(
+                request.getDescription(),
+                request.getDraftId(),
+                product.getId()
+        );
+        product.setDescription(finalHtml);
 
         if (request.getProductImages() != null && !request.getProductImages().isEmpty()) {
             Set<ProductImages> oldImages = product.getImages();
@@ -183,6 +205,18 @@ public class ProductService {
             spec = spec.and((root, query, cb) -> root.get("id").in(ids));
         }
 
+        if (request.getCategoryId() != null) {
+            spec = spec.and((root, query, cb) -> root.get("category").in(request.getCategoryId()));
+        }
+
+        if (request.getCollectionId() != null) {
+            spec = spec.and((root, query, cb) -> {
+                query.distinct(true);
+                var collectionJoin = root.join("collections", JoinType.INNER);
+                return cb.equal(collectionJoin.get("id"), request.getCollectionId());
+            });
+        }
+
         if (request.getSlug() != null && !request.getSlug().isBlank()) {
             spec = spec.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.like(root.get("slug").as(String.class), "%" + request.getSlug() + "%"));
@@ -205,6 +239,45 @@ public class ProductService {
         } else if (request.getQuantityTo() != null && request.getQuantityTo() >= 0) {
             spec = spec.and((root, query, criteriaBuilder) ->
                     criteriaBuilder.lessThanOrEqualTo(root.get("quantityTo"), request.getQuantityTo()));
+        }
+
+        if (request.getUnitPriceFrom() != null
+                && request.getUnitPriceTo() != null
+                && request.getUnitPriceFrom() >= 0
+                && request.getUnitPriceTo() >= 0) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                            criteriaBuilder.greaterThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceFrom()))
+                    .and((root, query, criteriaBuilder) ->
+                            criteriaBuilder.lessThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceTo()));
+        } else if (request.getUnitPriceFrom() != null && request.getUnitPriceFrom() >= 0) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceFrom()));
+        } else if (request.getUnitPriceTo() != null && request.getUnitPriceTo() >= 0) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.lessThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceTo()));
+        }
+
+        if (request.getPriceRanges() != null && !request.getPriceRanges().isBlank()) {
+            spec = spec.and((root, query, cb) -> {
+                String[] ranges = request.getPriceRanges().split(",");
+                List<Predicate> orPredicates = new ArrayList<>();
+
+                for (String range : ranges) {
+                    String[] prices = range.split("-");
+
+                    long min = prices.length > 0 && prices[0] != null && !prices[0].isBlank()
+                            ? Long.parseLong(prices[0])
+                            : 0;
+
+                    long max = prices.length > 1 && prices[1] != null && !prices[1].isBlank()
+                            ? Long.parseLong(prices[1])
+                            : Long.MAX_VALUE;
+
+                    orPredicates.add(cb.between(root.get("unitPrice"), min, max));
+                }
+
+                return cb.or(orPredicates.toArray(new Predicate[0]));
+            });
         }
 
         spec = spec.and((root, query, criteriaBuilder) ->

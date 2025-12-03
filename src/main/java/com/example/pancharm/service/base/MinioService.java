@@ -110,4 +110,53 @@ public class MinioService {
         minio.setBucketPolicy(
                 SetBucketPolicyArgs.builder().bucket(bucket).config(policy).build());
     }
+
+    // ================== NEW ==================
+
+    // Build base "publicBaseUrl/bucket/" để tái dùng
+    private String buildBaseBucketUrl() {
+        String base = publicBaseUrl.endsWith("/")
+                ? publicBaseUrl.substring(0, publicBaseUrl.length() - 1)
+                : publicBaseUrl;
+        return base + "/" + bucket + "/";
+    }
+
+    /** Lấy objectKey (vd: draft/uuid/xxx.png) từ fileURL public */
+    public String extractObjectKeyFromUrl(String fileURL) {
+        String base = buildBaseBucketUrl();
+        if (!fileURL.startsWith(base)) {
+            throw new AppException(ErrorCode.MINIO_INVALID_URL);
+        }
+        return fileURL.substring(base.length());
+    }
+
+    /** Build URL public từ objectKey */
+    public String buildPublicUrlFromObjectKey(String objectKey) {
+        String base = buildBaseBucketUrl(); // đã kết thúc bằng '/'
+        return base + objectKey;
+    }
+
+    /** Copy object trong cùng bucket: sourceKey -> targetKey, trả về URL mới */
+    public String copyObject(String sourceObjectKey, String targetObjectKey) {
+        try {
+            ensureBucket();
+
+            CopySource source = CopySource.builder()
+                    .bucket(bucket)
+                    .object(sourceObjectKey)
+                    .build();
+
+            CopyObjectArgs args = CopyObjectArgs.builder()
+                    .bucket(bucket)
+                    .object(targetObjectKey)
+                    .source(source)
+                    .build();
+
+            minio.copyObject(args);
+
+            return buildPublicUrlFromObjectKey(targetObjectKey);
+        } catch (Exception e) {
+            throw new AppException(ErrorCode.MINIO_UPLOAD_ERROR);
+        }
+    }
 }

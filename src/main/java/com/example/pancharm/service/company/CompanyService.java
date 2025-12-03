@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -77,6 +78,13 @@ public class CompanyService {
 
         String bankConfig = mapper.writeValueAsString(bankConfigMapper);
         company.setBankConfig(bankConfig);
+
+        var subPhone = companyRequest.getSubPhone();
+        Map<String, Object> configMapper = new HashMap<>();
+        configMapper.put("sub_phone", subPhone);
+
+        String config = mapper.writeValueAsString(configMapper);
+        company.setConfig(config);
 
         if (companyRequest.getAvatarFile() != null
                 && !companyRequest.getAvatarFile().isEmpty()) {

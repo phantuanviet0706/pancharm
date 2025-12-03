@@ -17,6 +17,7 @@ public class CollectionDetailResponse {
     String name;
     String slug;
     String description;
+    short isDefault;
     Set<CollectionImageResponse> collectionImages;
     Set<ProductListResponse> products;
 }

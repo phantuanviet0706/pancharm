@@ -14,6 +14,7 @@ public class CollectionListResponse {
     int id;
     String name;
     String slug;
+    short isDefault;
     String description;
     Set<CollectionImageResponse> collectionImages;
 }

@@ -1,6 +1,7 @@
 package com.example.pancharm.dto.request.company;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -28,8 +29,12 @@ public class CompanyRequest {
     @Email
     String email;
 
+    @NotEmpty
     @PhoneConstraint
     String phone;
+
+    @PhoneConstraint
+    String subPhone;
 
     String bankAttachment;
     MultipartFile bankAttachmentFile;
