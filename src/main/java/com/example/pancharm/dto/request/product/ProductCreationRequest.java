@@ -1,5 +1,6 @@
 package com.example.pancharm.dto.request.product;
 
+import com.example.pancharm.validator.annotation.UnitPriceConstraint;
 import jakarta.validation.constraints.*;
 
 import lombok.*;
@@ -25,8 +26,10 @@ public class ProductCreationRequest extends ProductImageRequest {
     //    @Min(value = 1, message = "PRODUCT_QUANTITY_MINIMUM")
     //    Integer quantity;
 
-    @Min(value = 0, message = "PRODUCT_UNIT_PRICE_REQUIRE")
-    int unitPrice;
+    @NotNull(message = "PRODUCT_UNIT_PRICE_REQUIRED")
+    @Min(value = 0, message = "PRODUCT_UNIT_PRICE_REQUIRED")
+    @UnitPriceConstraint(message = "PRODUCT_UNIT_PRICE_REQUIRED")
+    Integer unitPrice;
 
     String color;
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import com.example.pancharm.constant.FileConstants;
 import com.example.pancharm.service.common.EditorImageService;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -97,7 +98,8 @@ public class ProductService {
                     product,
                     "products",
                     url -> ProductImages.builder().build(),
-                    productImagesRepository::saveAll);
+                    productImagesRepository::saveAll,
+                    FileConstants.IMAGE_EXTENSION);
         }
 
         try {
@@ -144,7 +146,8 @@ public class ProductService {
                     product,
                     "products",
                     url -> ProductImages.builder().build(),
-                    productImagesRepository::saveAll);
+                    productImagesRepository::saveAll,
+                    FileConstants.IMAGE_EXTENSION);
         }
 
         try {

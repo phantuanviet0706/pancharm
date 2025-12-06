@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import com.example.pancharm.constant.FileConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,6 +45,35 @@ public class ImageUtil {
         Set<E> images = files.stream()
                 .map(file -> {
                     String url = minioService.uploadFile(file, folder + "/" + parent.getId(), "");
+                    E image = imageBuilder.apply(url);
+                    image.setPath(url);
+                    image.setParent(parent);
+                    return image;
+                })
+                .collect(Collectors.toSet());
+
+        saveAllFunc.accept(images);
+        parent.setImages(images);
+    }
+
+    public <E extends ImageEntity<T>, T extends ImageAttachable<E>> void attachImages(
+            Set<MultipartFile> files,
+            T parent,
+            String folder,
+            Function<String, E> imageBuilder,
+            Consumer<Set<E>> saveAllFunc,
+            String allowExtension) {
+
+        if (files == null || files.isEmpty()) {
+            return;
+        }
+
+        Set<E> images = files.stream()
+                .map(file -> {
+                    String url = minioService.uploadFile(file, folder + "/" + parent.getId(), "");
+                    if (!isValidFilePath(url, allowExtension)) {
+                        throw new AppException(ErrorCode.FILE_PATH_NOT_ALLOWED);
+                    }
                     E image = imageBuilder.apply(url);
                     image.setPath(url);
                     image.setParent(parent);
@@ -110,6 +140,41 @@ public class ImageUtil {
         return currentPath;
     }
 
+    public <T> String upsertSingleFile(
+            MultipartFile file,
+            T parent,
+            Function<T, String> folderResolver,
+            Supplier<String> currentPathSupplier,
+            Consumer<String> setPath,
+            boolean removeRequested,
+            String allowExtension) {
+
+        final String currentPath = currentPathSupplier.get();
+
+        if (file != null && !file.isEmpty()) {
+            if (StringUtils.hasText(currentPath)) {
+                deletePaths(currentPath);
+            }
+            final String folder = folderResolver.apply(parent);
+            final String url = minioService.uploadFile(file, folder, "");
+            if (!isValidFilePath(url, allowExtension)) {
+                throw new AppException(ErrorCode.FILE_PATH_NOT_ALLOWED);
+            }
+            setPath.accept(url);
+            return url;
+        }
+
+        if (removeRequested) {
+            if (StringUtils.hasText(currentPath)) {
+                deletePaths(currentPath);
+            }
+            setPath.accept(null);
+            return null;
+        }
+
+        return currentPath;
+    }
+
     /**
      * Overload nếu muốn truyền prefix + idGetter (vd: "companies/{id}/avatar").
      */
@@ -141,5 +206,15 @@ public class ImageUtil {
             deletePaths(currentPath);
         }
         setPath.accept(null);
+    }
+
+    private boolean isValidFilePath(String path, String allowedExtensions) {
+        if (path == null || path.isEmpty()) {
+            return false;
+        }
+
+        String regex = ".*\\.(?:" + allowedExtensions + ")$";
+
+        return path.toLowerCase().matches(regex);
     }
 }

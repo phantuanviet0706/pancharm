@@ -95,6 +95,8 @@ public enum ErrorCode {
     SLUG_EXISTED(1111, "Mã nhập không hợp lệ, vui lòng kiểm tra và thử lại!", HttpStatus.BAD_REQUEST),
     SLUG_REQUIRED(1111, "Vui lòng nhập mã", HttpStatus.BAD_REQUEST),
 
+    FILE_PATH_NOT_ALLOWED(1996, "Định dạng File không hợp lệ", HttpStatus.BAD_REQUEST),
+
     SEND_EMAIL_ERROR(1997, "Không thể gửi email", HttpStatus.BAD_REQUEST),
     SEND_EMAIL_SENDGRID_ERROR(1997, "Có lỗi xảy ra khi gửi email bằng SendGrid", HttpStatus.BAD_REQUEST),
 
