@@ -96,6 +96,7 @@ public enum ErrorCode {
     SLUG_REQUIRED(1111, "Vui lòng nhập mã", HttpStatus.BAD_REQUEST),
 
     FILE_PATH_NOT_ALLOWED(1996, "Định dạng File không hợp lệ", HttpStatus.BAD_REQUEST),
+    MULTIPART_INVALID(1996, "Có lỗi xảy ra khi tải nhiều ảnh", HttpStatus.BAD_REQUEST),
 
     SEND_EMAIL_ERROR(1997, "Không thể gửi email", HttpStatus.BAD_REQUEST),
     SEND_EMAIL_SENDGRID_ERROR(1997, "Có lỗi xảy ra khi gửi email bằng SendGrid", HttpStatus.BAD_REQUEST),
@@ -115,6 +116,7 @@ public enum ErrorCode {
 
     UNAUTHENTICATED(1999, "Chưa xác minh", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1999, "Bạn không có quyền truy cập hệ thống", HttpStatus.FORBIDDEN),
+    JWT_EXCEPTION(1999, "Có lỗi xảy ra khi xác thực", HttpStatus.BAD_REQUEST),
 
     UNCATEGORIZED_EXCEPTION(9999, "Lỗi chưa phân loại", HttpStatus.INTERNAL_SERVER_ERROR),
     ;

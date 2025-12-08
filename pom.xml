@@ -32,6 +32,8 @@
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<spotless.version>2.43.0</spotless.version>
 	</properties>
+
+	<!-- ========== Start dependency ========== -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -144,6 +146,7 @@
 			<version>20231013</version>
 		</dependency>
 	</dependencies>
+	<!-- ========== End Config Dependency ========== -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
