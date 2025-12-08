@@ -3,6 +3,8 @@ package com.example.pancharm.service.collection;
 import java.util.List;
 import java.util.Set;
 
+import com.example.pancharm.dto.request.collection.*;
+import com.example.pancharm.repository.ProductRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -11,10 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.pancharm.constant.ErrorCode;
-import com.example.pancharm.dto.request.collection.CollectionCreationRequest;
-import com.example.pancharm.dto.request.collection.CollectionFilterRequest;
-import com.example.pancharm.dto.request.collection.CollectionUpdateImageRequest;
-import com.example.pancharm.dto.request.collection.CollectionUpdateRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.collection.CollectionDetailResponse;
 import com.example.pancharm.dto.response.collection.CollectionListResponse;
@@ -44,6 +42,7 @@ public class CollectionService {
 
     ImageUtil imageUtil;
     GeneralUtil generalUtil;
+    ProductRepository productRepository;
 
     /**
      * @desc Get all Collections
@@ -226,5 +225,26 @@ public class CollectionService {
         return collections.stream()
                 .map(collectionMapper::toCollectionDetailResponse)
                 .toList();
+    }
+
+    public CollectionDetailResponse updateCollectionProducts(int id, CollectionUpdateProductRequest request) {
+        var collection = collectionRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.COLLECTION_NOT_FOUND)
+        );
+
+        var productIds = request.getProductIds();
+
+        var products = productRepository.findAllById(productIds);
+        for (int i = 0; i < products.size(); i++) {
+            var product = products.get(i);
+            if (product.getCollections().contains(collection)) {
+                throw new AppException(ErrorCode.PRODUCT_COLLECTION_EXISTED);
+            }
+
+            product.getCollections().add(collection);
+        }
+
+        productRepository.saveAll(products);
+        return collectionMapper.toCollectionDetailResponse(collection);
     }
 }

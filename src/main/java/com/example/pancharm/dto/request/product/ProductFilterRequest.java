@@ -22,4 +22,6 @@ public class ProductFilterRequest extends PageDefaultRequest {
     String priceRanges;
     Integer categoryId;
     Integer collectionId;
+
+    boolean ignoreCollection;
 }

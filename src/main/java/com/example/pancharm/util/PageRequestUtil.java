@@ -16,6 +16,6 @@ public class PageRequestUtil {
         Sort.Direction direction =
                 "asc".equalsIgnoreCase(request.getSortDirection()) ? Sort.Direction.ASC : Sort.Direction.DESC;
 
-        return PageRequest.of(request.getPage(), request.getSize(), Sort.by(direction, request.getSortBy()));
+        return PageRequest.of(request.getPage(), request.getLimit(), Sort.by(direction, request.getSortBy()));
     }
 }

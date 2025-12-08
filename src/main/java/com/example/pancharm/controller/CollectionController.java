@@ -2,15 +2,12 @@ package com.example.pancharm.controller;
 
 import java.util.List;
 
+import com.example.pancharm.dto.request.collection.*;
 import jakarta.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.pancharm.dto.request.collection.CollectionCreationRequest;
-import com.example.pancharm.dto.request.collection.CollectionFilterRequest;
-import com.example.pancharm.dto.request.collection.CollectionUpdateImageRequest;
-import com.example.pancharm.dto.request.collection.CollectionUpdateRequest;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.collection.*;
@@ -74,6 +71,13 @@ public class CollectionController {
     public ApiResponse<List<CollectionDetailResponse>> getDefaultCollection() {
         return ApiResponse.<List<CollectionDetailResponse>>builder()
                 .result(collectionService.getDefaultCollections())
+                .build();
+    }
+
+    @PutMapping(value = "/{id}/update-products")
+    public ApiResponse<CollectionDetailResponse> updateCollectionProducts(@PathVariable int id, @RequestBody CollectionUpdateProductRequest request) {
+        return ApiResponse.<CollectionDetailResponse>builder()
+                .result(collectionService.updateCollectionProducts(id, request))
                 .build();
     }
 }

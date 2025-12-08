@@ -213,11 +213,23 @@ public class ProductService {
         }
 
         if (request.getCollectionId() != null) {
-            spec = spec.and((root, query, cb) -> {
-                query.distinct(true);
-                var collectionJoin = root.join("collections", JoinType.INNER);
-                return cb.equal(collectionJoin.get("id"), request.getCollectionId());
-            });
+            if (request.isIgnoreCollection()) {
+                spec = spec.and((root, query, cb) -> {
+                    query.distinct(true);
+                    var collectionJoin = root.join("collections", JoinType.LEFT);
+
+                    return cb.or(
+                            cb.isNull(collectionJoin.get("id")),
+                            cb.notEqual(collectionJoin.get("id"), request.getCollectionId())
+                    );
+                });
+            } else {
+                spec = spec.and((root, query, cb) -> {
+                    query.distinct(true);
+                    var collectionJoin = root.join("collections", JoinType.INNER);
+                    return cb.equal(collectionJoin.get("id"), request.getCollectionId());
+                });
+            }
         }
 
         if (request.getSlug() != null && !request.getSlug().isBlank()) {

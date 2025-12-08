@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 public class PageDefaultRequest {
     String search;
     int page = 0;
-    int size = 50;
+    int limit = 50;
     String sortBy = "id";
     String sortDirection = "asc";
 }
