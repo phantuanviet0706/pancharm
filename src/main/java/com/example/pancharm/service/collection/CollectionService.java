@@ -227,6 +227,12 @@ public class CollectionService {
                 .toList();
     }
 
+    /**
+     * @desc Update add product to collections
+     * @param id
+     * @param request
+     * @return
+     */
     public CollectionDetailResponse updateCollectionProducts(int id, CollectionUpdateProductRequest request) {
         var collection = collectionRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.COLLECTION_NOT_FOUND)
@@ -245,6 +251,30 @@ public class CollectionService {
         }
 
         productRepository.saveAll(products);
+        return collectionMapper.toCollectionDetailResponse(collection);
+    }
+
+    /**
+     * @desc Remove product from collection
+     * @param id
+     * @param request
+     * @return
+     */
+    public CollectionDetailResponse removeProductFromCollection(int id, CollectionRemoveProductRequest request) {
+        var collection = collectionRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.COLLECTION_NOT_FOUND)
+        );
+
+        var product = productRepository.findById(request.getProductId()).orElseThrow(
+                () -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)
+        );
+
+        if (!collection.getProducts().contains(product)) {
+            throw new AppException(ErrorCode.PRODUCT_NOT_IN_COLLECTION);
+        }
+
+        product.getCollections().remove(collection);
+        collectionRepository.save(collection);
         return collectionMapper.toCollectionDetailResponse(collection);
     }
 }

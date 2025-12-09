@@ -82,6 +82,7 @@ public enum ErrorCode {
     PRODUCT_SLUG_MAX_255(1006, "Mã sản phẩm chỉ có thể chứa 63 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
     PRODUCT_CATEGORY_REQUIRED(1006, "Vui lòng chọn Danh mục sản phẩm", HttpStatus.BAD_REQUEST),
     PRODUCT_COLLECTION_EXISTED(1006, "Sản phẩm đã tồn tại trong Bộ sưu tập", HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_IN_COLLECTION(1006, "Sản phẩm không thuộc bộ sưu tập, vui lòng tải lại trang và thử lại",  HttpStatus.BAD_REQUEST),
 
     COLLECTION_NOT_FOUND(1007, "Không tìm thấy bộ sưu tập", HttpStatus.NOT_FOUND),
     COLLECTION_NAME_REQUIRE(1007, "Vui lòng nhập tên bộ sưu tập", HttpStatus.BAD_REQUEST),

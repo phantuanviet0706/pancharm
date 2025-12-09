@@ -80,4 +80,11 @@ public class CollectionController {
                 .result(collectionService.updateCollectionProducts(id, request))
                 .build();
     }
+
+    @PutMapping(value = "/{id}/remove-product")
+    public ApiResponse<CollectionDetailResponse> removeProductFromCollection(@PathVariable int id, @RequestBody CollectionRemoveProductRequest request) {
+        return ApiResponse.<CollectionDetailResponse>builder()
+                .result(collectionService.removeProductFromCollection(id, request))
+                .build();
+    }
 }
