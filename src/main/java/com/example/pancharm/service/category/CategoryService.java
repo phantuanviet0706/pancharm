@@ -190,7 +190,7 @@ public class CategoryService {
      * @return
      */
     public List<CategoryDetailResponse> getDefaultObject() {
-        var categories = categoryRepository.findTop10ByIsDefault(((Short.valueOf("1"))));
+        var categories = categoryRepository.findTop10ByOrderByIdDesc();
 
         return categories.stream()
                 .map(categoryMapper::toCategoryResponse)

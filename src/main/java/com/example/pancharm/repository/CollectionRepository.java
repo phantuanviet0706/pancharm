@@ -16,4 +16,7 @@ public interface CollectionRepository
     Collections findByIsDefault(short isDefault);
 
     List<Collections> findAllByIsDefault(short isDefault);
+
+    List<Collections> findTop10ByOrderByIdDesc();
+
 }

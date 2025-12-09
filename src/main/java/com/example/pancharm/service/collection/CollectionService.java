@@ -220,7 +220,7 @@ public class CollectionService {
      * @return
      */
     public List<CollectionDetailResponse> getDefaultCollections() {
-        var collections = collectionRepository.findAllByIsDefault(Short.valueOf("1"));
+        var collections = collectionRepository.findTop10ByOrderByIdDesc();
 
         return collections.stream()
                 .map(collectionMapper::toCollectionDetailResponse)

@@ -17,4 +17,6 @@ public interface CategoryRepository extends JpaRepository<Categories, String>, J
     List<Categories> findAllByIsDefault(short isDefault);
 
     List<Categories> findTop10ByIsDefault(short isDefault);
+
+    List<Categories> findTop10ByOrderByIdDesc();
 }
