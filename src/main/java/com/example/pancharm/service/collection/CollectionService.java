@@ -1,9 +1,11 @@
 package com.example.pancharm.service.collection;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.example.pancharm.dto.request.collection.*;
+import com.example.pancharm.entity.Products;
 import com.example.pancharm.repository.ProductRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
@@ -238,19 +240,33 @@ public class CollectionService {
                 () -> new AppException(ErrorCode.COLLECTION_NOT_FOUND)
         );
 
+        var existingProducts = collection.getProducts();
+        Set<Integer> existingProductIds = new HashSet<>();
+        for (Products product : existingProducts) {
+            existingProductIds.add(product.getId());
+        }
+
         var productIds = request.getProductIds();
 
         var products = productRepository.findAllById(productIds);
         for (int i = 0; i < products.size(); i++) {
             var product = products.get(i);
-            if (product.getCollections().contains(collection)) {
-                throw new AppException(ErrorCode.PRODUCT_COLLECTION_EXISTED);
+            if (existingProductIds.contains(product.getId())) {
+                existingProductIds.remove(product.getId());
+                continue;
             }
 
             product.getCollections().add(collection);
         }
 
+        var removeProducts = productRepository.findAllById(existingProductIds);
+        for (Products product : removeProducts) {
+            product.getCollections().remove(collection);
+            products.add(product);
+        }
+
         productRepository.saveAll(products);
+        collectionRepository.save(collection);
         return collectionMapper.toCollectionDetailResponse(collection);
     }
 

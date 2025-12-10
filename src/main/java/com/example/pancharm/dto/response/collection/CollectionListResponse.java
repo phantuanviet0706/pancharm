@@ -17,4 +17,5 @@ public class CollectionListResponse {
     short isDefault;
     String description;
     Set<CollectionImageResponse> collectionImages;
+    Set<Integer> productIds;
 }

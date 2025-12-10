@@ -214,19 +214,19 @@ public class ProductService {
 
         if (request.getCollectionId() != null) {
             if (request.isIgnoreCollection()) {
-                spec = spec.and((root, query, cb) -> {
-                    Subquery<Integer> sq = query.subquery(Integer.class);
-                    Root<Products> sub = sq.from(Products.class);
-                    Join<Products, Collections> j = sub.join("collections", JoinType.INNER);
-
-                    sq.select(sub.get("id"))
-                            .where(
-                                    cb.equal(sub.get("id"), root.get("id")),
-                                    cb.equal(j.get("id"), request.getCollectionId())
-                            );
-
-                    return cb.not(cb.exists(sq));
-                });
+//                spec = spec.and((root, query, cb) -> {
+//                    Subquery<Integer> sq = query.subquery(Integer.class);
+//                    Root<Products> sub = sq.from(Products.class);
+//                    Join<Products, Collections> j = sub.join("collections", JoinType.INNER);
+//
+//                    sq.select(sub.get("id"))
+//                            .where(
+//                                    cb.equal(sub.get("id"), root.get("id")),
+//                                    cb.equal(j.get("id"), request.getCollectionId())
+//                            );
+//
+//                    return cb.not(cb.exists(sq));
+//                });
             } else {
                 spec = spec.and((root, query, cb) -> {
                     query.distinct(true);
