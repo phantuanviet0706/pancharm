@@ -256,21 +256,8 @@ public class ProductService {
                     criteriaBuilder.lessThanOrEqualTo(root.get("quantityTo"), request.getQuantityTo()));
         }
 
-        if (request.getUnitPriceFrom() != null
-                && request.getUnitPriceTo() != null
-                && request.getUnitPriceFrom() >= 0
-                && request.getUnitPriceTo() >= 0) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                            criteriaBuilder.greaterThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceFrom()))
-                    .and((root, query, criteriaBuilder) ->
-                            criteriaBuilder.lessThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceTo()));
-        } else if (request.getUnitPriceFrom() != null && request.getUnitPriceFrom() >= 0) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.greaterThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceFrom()));
-        } else if (request.getUnitPriceTo() != null && request.getUnitPriceTo() >= 0) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.lessThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceTo()));
-        }
+        spec = spec.and((root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
 
         if (request.getPriceRanges() != null && !request.getPriceRanges().isBlank()) {
             spec = spec.and((root, query, cb) -> {
@@ -293,10 +280,26 @@ public class ProductService {
 
                 return cb.or(orPredicates.toArray(new Predicate[0]));
             });
+
+            return pageMapper.toPageResponse(
+                    productRepository.findAll(spec, pageable).map(productMapper::toProductListResponse));
         }
 
-        spec = spec.and((root, query, criteriaBuilder) ->
-                criteriaBuilder.equal(root.get("softDeleted").as(Boolean.class), false));
+        if (request.getUnitPriceFrom() != null
+                && request.getUnitPriceTo() != null
+                && request.getUnitPriceFrom() >= 0
+                && request.getUnitPriceTo() >= 0) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                            criteriaBuilder.greaterThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceFrom()))
+                    .and((root, query, criteriaBuilder) ->
+                            criteriaBuilder.lessThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceTo()));
+        } else if (request.getUnitPriceFrom() != null && request.getUnitPriceFrom() >= 0) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceFrom()));
+        } else if (request.getUnitPriceTo() != null && request.getUnitPriceTo() >= 0) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.lessThanOrEqualTo(root.get("unitPrice"), request.getUnitPriceTo()));
+        }
 
         return pageMapper.toPageResponse(
                 productRepository.findAll(spec, pageable).map(productMapper::toProductListResponse));
