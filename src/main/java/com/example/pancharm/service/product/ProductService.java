@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.example.pancharm.constant.FileConstants;
+import com.example.pancharm.entity.Collections;
 import com.example.pancharm.service.common.EditorImageService;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.*;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
@@ -215,13 +215,17 @@ public class ProductService {
         if (request.getCollectionId() != null) {
             if (request.isIgnoreCollection()) {
                 spec = spec.and((root, query, cb) -> {
-                    query.distinct(true);
-                    var collectionJoin = root.join("collections", JoinType.LEFT);
+                    Subquery<Integer> sq = query.subquery(Integer.class);
+                    Root<Products> sub = sq.from(Products.class);
+                    Join<Products, Collections> j = sub.join("collections", JoinType.INNER);
 
-                    return cb.or(
-                            cb.isNull(collectionJoin.get("id")),
-                            cb.notEqual(collectionJoin.get("id"), request.getCollectionId())
-                    );
+                    sq.select(sub.get("id"))
+                            .where(
+                                    cb.equal(sub.get("id"), root.get("id")),
+                                    cb.equal(j.get("id"), request.getCollectionId())
+                            );
+
+                    return cb.not(cb.exists(sq));
                 });
             } else {
                 spec = spec.and((root, query, cb) -> {
