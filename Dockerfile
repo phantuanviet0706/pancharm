@@ -18,7 +18,7 @@ FROM amazoncorretto:24
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
-COPY src/main/resources/default-data.json /app/resources/default-data.json
+COPY src/main/resources /app/resources
 
 EXPOSE 8080
 

@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CompanyUtil {
-    protected String DEFAULT_DATA_JSON_PATH = "resources/default-data.json";
+    protected String DEFAULT_DATA_JSON_PATH = "default-data.json";
 
     public JSONObject getCompanyDefaultInfo() {
         try {
