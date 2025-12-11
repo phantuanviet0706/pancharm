@@ -64,9 +64,11 @@ public class ConfigurationService {
 
     public ConfigurationResponse updateConfigSource(MultipartFile file, String type) {
         ConfigurationName name = ConfigurationName.COMPANY_CONFIG;
-        var configuration = configurationRepository.findByName(name).orElseThrow(
-                () -> new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION)
-        );
+        Configurations configuration = configurationRepository.findByName(name).orElse(null);
+        if (configuration == null) {
+            configuration = Configurations.builder().name(name).build();
+            configurationRepository.save(configuration);
+        }
 
         Set<MultipartFile> files = new HashSet<>();
         files.add(file);
