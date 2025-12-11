@@ -51,7 +51,8 @@ public class SecurityConfig {
         "/categories/**",
         "/products/**",
         "/collections/**",
-        "/users/**"
+        "/users/**",
+        "/configurations"
     };
 
     private static final String[] PUBLIC_POST_ENDPOINTS = {
