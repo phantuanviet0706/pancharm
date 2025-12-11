@@ -63,6 +63,7 @@ public class ConfigurationService {
     }
 
     public ConfigurationResponse updateConfigSource(MultipartFile file, String type) {
+        System.out.println("Multipart File:" + file.toString());
         ConfigurationName name = ConfigurationName.COMPANY_CONFIG;
         Configurations configuration = configurationRepository.findByName(name).orElse(null);
         if (configuration == null) {

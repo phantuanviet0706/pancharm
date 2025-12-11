@@ -27,6 +27,7 @@ public class ConfigurationController {
 
     @PostMapping("/{name}/update-video")
     public ApiResponse<ConfigurationResponse> updateConfigurationVideo(@PathVariable String name, @ModelAttribute MultipartFile uploadFile) {
+        System.out.println("Thực thi update video");
         return ApiResponse.<ConfigurationResponse>builder()
                 .result(configurationService.updateConfigSource(uploadFile, "video"))
                 .build();
