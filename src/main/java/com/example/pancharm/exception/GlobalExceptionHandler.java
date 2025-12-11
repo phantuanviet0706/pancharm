@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = ErrorCode.UNCATEGORIZED_EXCEPTION;
         System.out.println(exception.getMessage());
         System.out.println(exception.getStackTrace());
-        System.out.println(exception.getLocalizedMessage());
+        System.out.println(exception.toString());
 
         return ResponseEntity.status(errorCode.getStatusCode())
                 .body(ApiResponse.builder()
