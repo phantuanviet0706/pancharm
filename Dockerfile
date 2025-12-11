@@ -18,6 +18,8 @@ FROM amazoncorretto:24
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
+COPY src/main/resources/default-data.json /app/resources/default-data.json
+
 EXPOSE 8080
 
 # Command to run the application
