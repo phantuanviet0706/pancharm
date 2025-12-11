@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import com.example.pancharm.constant.FileConstants;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -118,6 +118,35 @@ public class ImageUtil {
             boolean removeRequested) {
 
         final String currentPath = currentPathSupplier.get();
+
+        if (file != null && !file.isEmpty()) {
+            if (StringUtils.hasText(currentPath)) {
+                deletePaths(currentPath);
+            }
+            final String folder = folderResolver.apply(parent);
+            final String url = minioService.uploadFile(file, folder, "");
+            setPath.accept(url);
+            return url;
+        }
+
+        if (removeRequested) {
+            if (StringUtils.hasText(currentPath)) {
+                deletePaths(currentPath);
+            }
+            setPath.accept(null);
+            return null;
+        }
+
+        return currentPath;
+    }
+
+    public <T> String upsertSingleFile(
+            MultipartFile file,
+            T parent,
+            Function<T, String> folderResolver,
+            String currentPath,
+            Consumer<String> setPath,
+            boolean removeRequested) {
 
         if (file != null && !file.isEmpty()) {
             if (StringUtils.hasText(currentPath)) {

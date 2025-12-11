@@ -1,6 +1,5 @@
 package com.example.pancharm.service.base;
 
-import com.example.pancharm.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +9,7 @@ import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.CompanyMapper;
 import com.example.pancharm.repository.CompanyRepository;
 import com.example.pancharm.repository.UserRepository;
+import com.example.pancharm.service.category.CategoryService;
 import com.example.pancharm.service.company.CompanyService;
 import com.example.pancharm.service.configuration.ConfigurationService;
 

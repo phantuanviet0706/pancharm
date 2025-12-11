@@ -115,9 +115,8 @@ public class MinioService {
 
     // Build base "publicBaseUrl/bucket/" để tái dùng
     private String buildBaseBucketUrl() {
-        String base = publicBaseUrl.endsWith("/")
-                ? publicBaseUrl.substring(0, publicBaseUrl.length() - 1)
-                : publicBaseUrl;
+        String base =
+                publicBaseUrl.endsWith("/") ? publicBaseUrl.substring(0, publicBaseUrl.length() - 1) : publicBaseUrl;
         return base + "/" + bucket + "/";
     }
 
@@ -141,10 +140,8 @@ public class MinioService {
         try {
             ensureBucket();
 
-            CopySource source = CopySource.builder()
-                    .bucket(bucket)
-                    .object(sourceObjectKey)
-                    .build();
+            CopySource source =
+                    CopySource.builder().bucket(bucket).object(sourceObjectKey).build();
 
             CopyObjectArgs args = CopyObjectArgs.builder()
                     .bucket(bucket)

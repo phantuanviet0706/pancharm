@@ -4,9 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.example.pancharm.dto.request.collection.*;
-import com.example.pancharm.entity.Products;
-import com.example.pancharm.repository.ProductRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,16 +12,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.pancharm.constant.ErrorCode;
+import com.example.pancharm.dto.request.collection.*;
 import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.collection.CollectionDetailResponse;
 import com.example.pancharm.dto.response.collection.CollectionListResponse;
 import com.example.pancharm.entity.CollectionImages;
 import com.example.pancharm.entity.Collections;
+import com.example.pancharm.entity.Products;
 import com.example.pancharm.exception.AppException;
 import com.example.pancharm.mapper.CollectionMapper;
 import com.example.pancharm.mapper.PageMapper;
 import com.example.pancharm.repository.CollectionImageRepository;
 import com.example.pancharm.repository.CollectionRepository;
+import com.example.pancharm.repository.ProductRepository;
 import com.example.pancharm.util.GeneralUtil;
 import com.example.pancharm.util.ImageUtil;
 import com.example.pancharm.util.PageRequestUtil;
@@ -236,9 +236,8 @@ public class CollectionService {
      * @return
      */
     public CollectionDetailResponse updateCollectionProducts(int id, CollectionUpdateProductRequest request) {
-        var collection = collectionRepository.findById(id).orElseThrow(
-                () -> new AppException(ErrorCode.COLLECTION_NOT_FOUND)
-        );
+        var collection =
+                collectionRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.COLLECTION_NOT_FOUND));
 
         var existingProducts = collection.getProducts();
         Set<Integer> existingProductIds = new HashSet<>();
@@ -277,13 +276,12 @@ public class CollectionService {
      * @return
      */
     public CollectionDetailResponse removeProductFromCollection(int id, CollectionRemoveProductRequest request) {
-        var collection = collectionRepository.findById(id).orElseThrow(
-                () -> new AppException(ErrorCode.COLLECTION_NOT_FOUND)
-        );
+        var collection =
+                collectionRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.COLLECTION_NOT_FOUND));
 
-        var product = productRepository.findById(request.getProductId()).orElseThrow(
-                () -> new AppException(ErrorCode.PRODUCT_NOT_FOUND)
-        );
+        var product = productRepository
+                .findById(request.getProductId())
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
 
         if (!collection.getProducts().contains(product)) {
             throw new AppException(ErrorCode.PRODUCT_NOT_IN_COLLECTION);

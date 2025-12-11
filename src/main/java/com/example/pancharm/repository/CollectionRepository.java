@@ -18,5 +18,4 @@ public interface CollectionRepository
     List<Collections> findAllByIsDefault(short isDefault);
 
     List<Collections> findTop10ByOrderByIdDesc();
-
 }

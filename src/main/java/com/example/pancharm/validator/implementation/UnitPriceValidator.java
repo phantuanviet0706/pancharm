@@ -1,9 +1,9 @@
 package com.example.pancharm.validator.implementation;
 
-import com.example.pancharm.validator.annotation.PhoneConstraint;
-import com.example.pancharm.validator.annotation.UnitPriceConstraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
+import com.example.pancharm.validator.annotation.UnitPriceConstraint;
 
 public class UnitPriceValidator implements ConstraintValidator<UnitPriceConstraint, Integer> {
     @Override

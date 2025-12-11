@@ -5,9 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import com.example.pancharm.constant.FileConstants;
-import com.example.pancharm.entity.Collections;
-import com.example.pancharm.service.common.EditorImageService;
 import jakarta.persistence.criteria.*;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.pancharm.constant.ErrorCode;
+import com.example.pancharm.constant.FileConstants;
 import com.example.pancharm.dto.request.product.*;
 import com.example.pancharm.dto.request.product.ProductFilterRequest;
 import com.example.pancharm.dto.response.base.PageResponse;
@@ -30,6 +28,7 @@ import com.example.pancharm.mapper.ProductMapper;
 import com.example.pancharm.repository.CategoryRepository;
 import com.example.pancharm.repository.ProductImageRepository;
 import com.example.pancharm.repository.ProductRepository;
+import com.example.pancharm.service.common.EditorImageService;
 import com.example.pancharm.util.GeneralUtil;
 import com.example.pancharm.util.ImageUtil;
 import com.example.pancharm.util.PageRequestUtil;
@@ -85,10 +84,7 @@ public class ProductService {
         }
 
         String finalHtml = editorImageService.moveDraftImagesAndRewriteHtml(
-                request.getDescription(),
-                request.getDraftId(),
-                product.getId()
-        );
+                request.getDescription(), request.getDraftId(), product.getId());
 
         product.setDescription(finalHtml);
 
@@ -127,10 +123,7 @@ public class ProductService {
         productMapper.updateProduct(request, product);
 
         String finalHtml = editorImageService.moveDraftImagesAndRewriteHtml(
-                request.getDescription(),
-                request.getDraftId(),
-                product.getId()
-        );
+                request.getDescription(), request.getDraftId(), product.getId());
         product.setDescription(finalHtml);
 
         if (request.getProductImages() != null && !request.getProductImages().isEmpty()) {
@@ -209,24 +202,24 @@ public class ProductService {
         }
 
         if (request.getCategoryId() != null) {
-            spec = spec.and((root, query, cb) -> root.get("category").in(request.getCategoryId()));
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("category").get("id"), request.getCategoryId()));
         }
 
         if (request.getCollectionId() != null) {
             if (request.isIgnoreCollection()) {
-//                spec = spec.and((root, query, cb) -> {
-//                    Subquery<Integer> sq = query.subquery(Integer.class);
-//                    Root<Products> sub = sq.from(Products.class);
-//                    Join<Products, Collections> j = sub.join("collections", JoinType.INNER);
-//
-//                    sq.select(sub.get("id"))
-//                            .where(
-//                                    cb.equal(sub.get("id"), root.get("id")),
-//                                    cb.equal(j.get("id"), request.getCollectionId())
-//                            );
-//
-//                    return cb.not(cb.exists(sq));
-//                });
+                //                spec = spec.and((root, query, cb) -> {
+                //                    Subquery<Integer> sq = query.subquery(Integer.class);
+                //                    Root<Products> sub = sq.from(Products.class);
+                //                    Join<Products, Collections> j = sub.join("collections", JoinType.INNER);
+                //
+                //                    sq.select(sub.get("id"))
+                //                            .where(
+                //                                    cb.equal(sub.get("id"), root.get("id")),
+                //                                    cb.equal(j.get("id"), request.getCollectionId())
+                //                            );
+                //
+                //                    return cb.not(cb.exists(sq));
+                //                });
             } else {
                 spec = spec.and((root, query, cb) -> {
                     query.distinct(true);

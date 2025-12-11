@@ -4,9 +4,10 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.example.pancharm.service.base.MinioService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.example.pancharm.service.base.MinioService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,9 +23,8 @@ public class EditorImageService {
         // folder: draft/{draftId}
         String folder = "draft/" + draftId;
 
-        String cleanName = Objects.requireNonNull(file.getOriginalFilename())
-                .trim()
-                .replaceAll("\\s+", "_");
+        String cleanName =
+                Objects.requireNonNull(file.getOriginalFilename()).trim().replaceAll("\\s+", "_");
 
         String objectName = folder + "/" + System.currentTimeMillis() + "-" + cleanName;
 

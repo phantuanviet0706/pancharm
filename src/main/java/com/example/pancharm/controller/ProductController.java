@@ -47,7 +47,7 @@ public class ProductController {
 
     @GetMapping
     public ApiResponse<PageResponse<ProductListResponse>> getProducts(ProductFilterRequest request) {
-            return ApiResponse.<PageResponse<ProductListResponse>>builder()
+        return ApiResponse.<PageResponse<ProductListResponse>>builder()
                 .result(productService.getProducts(request))
                 .build();
     }

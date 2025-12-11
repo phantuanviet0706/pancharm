@@ -1,9 +1,8 @@
 package com.example.pancharm.dto.request.category;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
-
 import jakarta.validation.constraints.Size;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -21,5 +20,6 @@ public class CategoryRequest {
 
     @Size(max = 63, message = "CATEGORY_SLUG_MAX_63")
     String slug;
+
     int parentId;
 }

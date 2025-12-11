@@ -14,12 +14,12 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MultipartException;
 
 import com.example.pancharm.constant.ErrorCode;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.multipart.MultipartException;
 
 @Slf4j
 @ControllerAdvice
@@ -122,8 +122,7 @@ public class GlobalExceptionHandler {
 
         ErrorCode errorCode = ErrorCode.MULTIPART_INVALID;
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.builder()
                         .code(errorCode.getCode())
                         .message("Yêu cầu tải tệp tin không hợp lệ hoặc bị lỗi cú pháp.")
@@ -134,8 +133,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handlingJwtException(JwtException exception) {
         ErrorCode errorCode = ErrorCode.MULTIPART_INVALID;
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.builder()
                         .code(errorCode.getCode())
                         .message("Token không hợp lệ")

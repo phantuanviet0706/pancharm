@@ -16,6 +16,10 @@ public class PageRequestUtil {
         Sort.Direction direction =
                 "asc".equalsIgnoreCase(request.getSortDirection()) ? Sort.Direction.ASC : Sort.Direction.DESC;
 
+        if (request.getLimit() == 0) {
+            return Pageable.unpaged();
+        }
+
         return PageRequest.of(request.getPage(), request.getLimit(), Sort.by(direction, request.getSortBy()));
     }
 }

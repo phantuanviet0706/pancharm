@@ -62,12 +62,14 @@ public enum ErrorCode {
 
     CATEGORY_NOT_FOUND(1005, "Không tìm thấy danh mục", HttpStatus.NOT_FOUND),
     CATEGORY_NAME_REQUIRED(1005, "Vui lòng nhập tên danh mục", HttpStatus.BAD_REQUEST),
-    INVALID_PARENT_CATEGORY(1005, "Không thể lựa chọn bản thân làm danh mục cha của chính mình!", HttpStatus.BAD_REQUEST),
+    INVALID_PARENT_CATEGORY(
+            1005, "Không thể lựa chọn bản thân làm danh mục cha của chính mình!", HttpStatus.BAD_REQUEST),
     CATEGORY_DELETE_ERROR(
             1005,
             "Không thể xóa danh mục này vì nó chứa danh mục con. Vui lòng xóa các danh mục con trước!",
             HttpStatus.BAD_REQUEST),
-    CATEGORY_NAME_MAX_255(1006, "Tên danh mục chỉ có thể chứa tối đa 255 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
+    CATEGORY_NAME_MAX_255(
+            1006, "Tên danh mục chỉ có thể chứa tối đa 255 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
     CATEGORY_SLUG_MAX_255(1006, "Mã danh mục chỉ có thể chứa 63 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
 
     PRODUCT_NOT_FOUND(1006, "Không tìm thấy sản phẩm", HttpStatus.NOT_FOUND),
@@ -78,15 +80,18 @@ public enum ErrorCode {
     PRODUCT_DELETED(1006, "Sản phẩm đã bị xóa, vui lòng chọn sản phẩm khác", HttpStatus.BAD_REQUEST),
     PRODUCT_INVALID_STATUS(1006, "Sản phẩm không khả dụng để bán", HttpStatus.BAD_REQUEST),
     PRODUCT_OUT_OF_STOCK(1006, "Sản phẩm đã hết hàng, vui lòng chọn sản phẩm khác", HttpStatus.BAD_REQUEST),
-    PRODUCT_NAME_MAX_255(1006, "Tên sản phẩm chỉ có thể chứa tối đa 255 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
+    PRODUCT_NAME_MAX_255(
+            1006, "Tên sản phẩm chỉ có thể chứa tối đa 255 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
     PRODUCT_SLUG_MAX_255(1006, "Mã sản phẩm chỉ có thể chứa 63 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
     PRODUCT_CATEGORY_REQUIRED(1006, "Vui lòng chọn Danh mục sản phẩm", HttpStatus.BAD_REQUEST),
     PRODUCT_COLLECTION_EXISTED(1006, "Sản phẩm đã tồn tại trong Bộ sưu tập", HttpStatus.BAD_REQUEST),
-    PRODUCT_NOT_IN_COLLECTION(1006, "Sản phẩm không thuộc bộ sưu tập, vui lòng tải lại trang và thử lại",  HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_IN_COLLECTION(
+            1006, "Sản phẩm không thuộc bộ sưu tập, vui lòng tải lại trang và thử lại", HttpStatus.BAD_REQUEST),
 
     COLLECTION_NOT_FOUND(1007, "Không tìm thấy bộ sưu tập", HttpStatus.NOT_FOUND),
     COLLECTION_NAME_REQUIRE(1007, "Vui lòng nhập tên bộ sưu tập", HttpStatus.BAD_REQUEST),
-    COLLECTION_NAME_MAX_255(1006, "Tên bộ sưu tập chỉ có thể chứa tối đa 255 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
+    COLLECTION_NAME_MAX_255(
+            1006, "Tên bộ sưu tập chỉ có thể chứa tối đa 255 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
     COLLECTION_SLUG_MAX_255(1006, "Mã bộ sưu tập chỉ có thể chứa 63 ký tự, vui lòng thử lại", HttpStatus.BAD_REQUEST),
 
     ORDER_RECIPIENT_NAME_REQUIRE(1008, "Vui lòng nhập tên người mua", HttpStatus.BAD_REQUEST),
@@ -113,6 +118,7 @@ public enum ErrorCode {
     MINIO_INVALID_URL(1997, "Đường dẫn MinIO không hợp lệ", HttpStatus.BAD_REQUEST),
     MINIO_DELETE_ERROR(1997, "Không thể xóa file từ MinIO", HttpStatus.BAD_REQUEST),
 
+    JSON_PROCESSING_ERROR(1998, "Có lỗi xảy ra khi xử lý định dạng JSON", HttpStatus.BAD_REQUEST),
     BAD_REQUEST(1998, "Lỗi hệ thống", HttpStatus.BAD_REQUEST),
     UPDATE_ERROR(1998, "Không thể cập nhật đối tượng, vui lòng kiểm tra và thử lại", HttpStatus.BAD_REQUEST),
 

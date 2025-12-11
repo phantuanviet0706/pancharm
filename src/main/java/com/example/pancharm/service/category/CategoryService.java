@@ -1,5 +1,7 @@
 package com.example.pancharm.service.category;
 
+import java.util.List;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,8 +25,6 @@ import com.example.pancharm.util.PageRequestUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -192,8 +192,6 @@ public class CategoryService {
     public List<CategoryDetailResponse> getDefaultObject() {
         var categories = categoryRepository.findTop10ByOrderByIdDesc();
 
-        return categories.stream()
-                .map(categoryMapper::toCategoryResponse)
-                .toList();
+        return categories.stream().map(categoryMapper::toCategoryResponse).toList();
     }
 }

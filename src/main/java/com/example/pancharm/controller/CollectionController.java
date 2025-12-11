@@ -2,12 +2,12 @@ package com.example.pancharm.controller;
 
 import java.util.List;
 
-import com.example.pancharm.dto.request.collection.*;
 import jakarta.validation.Valid;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.pancharm.dto.request.collection.*;
 import com.example.pancharm.dto.response.auth.ApiResponse;
 import com.example.pancharm.dto.response.base.PageResponse;
 import com.example.pancharm.dto.response.collection.*;
@@ -75,14 +75,16 @@ public class CollectionController {
     }
 
     @PutMapping(value = "/{id}/update-products")
-    public ApiResponse<CollectionDetailResponse> updateCollectionProducts(@PathVariable int id, @RequestBody CollectionUpdateProductRequest request) {
+    public ApiResponse<CollectionDetailResponse> updateCollectionProducts(
+            @PathVariable int id, @RequestBody CollectionUpdateProductRequest request) {
         return ApiResponse.<CollectionDetailResponse>builder()
                 .result(collectionService.updateCollectionProducts(id, request))
                 .build();
     }
 
     @PutMapping(value = "/{id}/remove-product")
-    public ApiResponse<CollectionDetailResponse> removeProductFromCollection(@PathVariable int id, @RequestBody CollectionRemoveProductRequest request) {
+    public ApiResponse<CollectionDetailResponse> removeProductFromCollection(
+            @PathVariable int id, @RequestBody CollectionRemoveProductRequest request) {
         return ApiResponse.<CollectionDetailResponse>builder()
                 .result(collectionService.removeProductFromCollection(id, request))
                 .build();
