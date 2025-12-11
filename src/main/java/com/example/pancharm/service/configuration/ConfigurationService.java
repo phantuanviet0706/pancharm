@@ -63,29 +63,27 @@ public class ConfigurationService {
     }
 
     public ConfigurationResponse updateConfigSource(MultipartFile file, String type) {
-        System.out.println("Multipart File:" + file.toString());
         ConfigurationName name = ConfigurationName.COMPANY_CONFIG;
         Configurations configuration = configurationRepository.findByName(name).orElse(null);
+        System.out.println("Lấy configuration");
         if (configuration == null) {
+            System.out.println("Lưu configuration");
             configuration = Configurations.builder().name(name).build();
             configurationRepository.save(configuration);
         }
-
-        Set<MultipartFile> files = new HashSet<>();
-        files.add(file);
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode configNode = null;
         String currentVideoPath = "";
         try {
+            System.out.println("Kiểm tra node");
             configNode = objectMapper.readTree(configuration.getConfig());
-            // Kiểm tra key có tồn tại trong config hay không
             currentVideoPath = configNode.path(type + "Url").asText();
         } catch (JsonProcessingException e) {
-            currentVideoPath = ""; // Nếu có lỗi thì khởi tạo chuỗi trống
+            currentVideoPath = "";
         }
 
-        // Lấy URL của file tải lên
+        System.out.println("Lấy URL File");
         String fileUrl = imageUtil.upsertSingleFile(
                 file,
                 configuration,
@@ -96,6 +94,7 @@ public class ConfigurationService {
         );
 
         if (fileUrl != null) {
+            System.out.println("File URL là:" + fileUrl);
             try {
                 if (configNode == null || configNode.isObject()) {
                     ((ObjectNode) configNode).put(type + "Url", fileUrl);
@@ -105,14 +104,17 @@ public class ConfigurationService {
                 }
 
                 String configJson = objectMapper.writeValueAsString(configNode);
+                System.out.println("Config Json String:" + configJson);
 
                 configuration.setConfig(configJson);
                 configurationRepository.save(configuration);
             } catch (Exception e) {
+                System.out.println("Có lỗi JSON");
                 throw new AppException(ErrorCode.JSON_PROCESSING_ERROR);
             }
         }
 
+        System.out.println("Lưu thành công");
         return configurationMapper.toConfigurationResponse(configuration);
     }
 
