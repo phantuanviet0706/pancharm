@@ -77,7 +77,11 @@ public class ConfigurationService {
         String currentVideoPath = "";
         try {
             System.out.println("Kiểm tra node");
-            configNode = objectMapper.readTree(configuration.getConfig());
+            String content = configuration.getConfig();
+            if (content == null) {
+                content = "";
+            }
+            configNode = objectMapper.readTree(content);
             currentVideoPath = configNode.path(type + "Url").asText();
         } catch (JsonProcessingException e) {
             currentVideoPath = "";
