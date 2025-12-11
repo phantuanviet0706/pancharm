@@ -3,6 +3,7 @@ package com.example.pancharm.configuration;
 import java.util.List;
 import java.util.Set;
 
+import org.json.JSONObject;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -102,9 +103,11 @@ public class ApplicationInitConfig {
                     .findByUsername(superAdminUsername)
                     .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-            var companyDefaultData = companyUtil.getCompanyDefaultInfo();
+            var defaultData = companyUtil.getCompanyDefaultInfo();
             var companyData = new Company();
-            if (companyDefaultData != null) {
+            if (defaultData != null) {
+                JSONObject companyDefaultData = defaultData.getJSONObject("company");
+
                 companyData = Company.builder()
                         .name(companyDefaultData.getString("name"))
                         .address(companyDefaultData.getString("address"))
